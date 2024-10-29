@@ -7,31 +7,27 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import com.example.frontcapstone.components.layout.BottomFiveMenu
-import com.example.frontcapstone.components.layout.MyPageTopMenu
+import com.example.frontcapstone.components.layout.WriteReviewTopMenu
 
 @Composable
-fun MyPage(
-    bottomBaronClickedActions: List<() -> Unit>,
-    moveToFindFriendPage: () -> Unit,
-    moveToSettingPage: () -> Unit
+fun ReviewPage(
+    navigationBack: () -> Unit,
+    onClickPost: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
-            MyPageTopMenu(
-                title = "My Page",
-                moveToFindFriendPage = moveToFindFriendPage,
-                moveToSettingPage = moveToSettingPage
+            WriteReviewTopMenu(
+                navigationBack = navigationBack,
+                onClickPost = onClickPost
             )
         },
-        bottomBar = { BottomFiveMenu(onClickedActions = bottomBaronClickedActions) }
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding)
         )
         {
-            Text("My Page Screen")
+            Text("Review Screen")
         }
     }
 }

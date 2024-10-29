@@ -7,11 +7,14 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.frontcapstone.presentation.screen.FindFriendPage
 import com.example.frontcapstone.presentation.screen.GroupPage
 import com.example.frontcapstone.presentation.screen.MainPage
 import com.example.frontcapstone.presentation.screen.MyPage
 import com.example.frontcapstone.presentation.screen.NoticePage
+import com.example.frontcapstone.presentation.screen.ReviewPage
 import com.example.frontcapstone.presentation.screen.SearchPage
+import com.example.frontcapstone.presentation.screen.SettingPage
 
 @Composable
 fun Navigator() {
@@ -23,6 +26,7 @@ fun Navigator() {
         { navController.navigate("NoticePage") },
         { navController.navigate("MyPage") }
     )
+    val navigationBack: () -> Unit = { navController.navigateUp() }
 
     Scaffold { innerPadding ->
         NavHost(
@@ -38,17 +42,37 @@ fun Navigator() {
                 SearchPage(bottomBaronClickedActions = bottomBaronClickedActions)
             }
             composable(route = "MainPage") {
-                MainPage(bottomBaronClickedActions = bottomBaronClickedActions)
+                MainPage(
+                    bottomBaronClickedActions = bottomBaronClickedActions,
+                    onFloatingButtonCLicked = { navController.navigate("ReviewPage") })
             }
             composable(route = "NoticePage") {
                 NoticePage(bottomBaronClickedActions = bottomBaronClickedActions)
             }
             composable(route = "MyPage") {
-                MyPage(bottomBaronClickedActions = bottomBaronClickedActions)
+                MyPage(
+                    bottomBaronClickedActions = bottomBaronClickedActions,
+                    moveToFindFriendPage = { navController.navigate("FindFriendPage") },
+                    moveToSettingPage = { navController.navigate("SettingPage") }
+                )
             }
 
 
-            //이 밑으로 상단바 혹은 어쩌구저쩌구 가독성 엔터로챙기자
+            //Review page 이동
+            composable(route = "ReviewPage") {
+                ReviewPage(
+                    navigationBack = navigationBack,
+                    onClickPost = { navController.navigate("MainPage") },
+                )
+            }
+            //SettingPage이동
+            composable(route = "SettingPage") {
+                SettingPage(navigtionBack = navigationBack)
+            }
+            //Find Friend Page 이동
+            composable(route = "FindFriendPage") {
+                FindFriendPage(navigtionBack = navigationBack)
+            }
         }
     }
 }
