@@ -14,7 +14,7 @@ import com.example.frontcapstone.ui.theme.TopAppbarBackgroundColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopMenuWithoutBack(title: String, modifier: Modifier = Modifier, navigationBack: () -> Unit) {
+fun TopMenuWithoutBack(title: String, modifier: Modifier = Modifier) {
     TopAppBar(
         modifier = Modifier.fillMaxWidth(),
         title = {

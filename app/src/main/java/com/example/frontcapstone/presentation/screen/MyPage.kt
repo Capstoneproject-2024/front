@@ -11,17 +11,17 @@ import com.example.frontcapstone.components.layout.BottomFiveMenu
 import com.example.frontcapstone.components.layout.TopMenuWithoutBack
 
 @Composable
-fun GroupPage(bottomBaronClickedActions: List<() -> Unit>) {
+fun MyPage(bottomBaronClickedActions: List<() -> Unit>) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopMenuWithoutBack(title = "Group") },
+        topBar = { TopMenuWithoutBack(title = "My Page") },
         bottomBar = { BottomFiveMenu(onClickedActions = bottomBaronClickedActions) }
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding)
         )
         {
-            Text("Group Screen")
+            Text("My Page Screen")
         }
     }
 }

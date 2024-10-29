@@ -13,17 +13,19 @@ import com.example.frontcapstone.components.layout.TopMenuWithoutBack
 
 @Preview
 @Composable
-fun MainScreen() {
+fun MainPage(bottomBaronClickedActions: List<() -> Unit>) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopMenuWithoutBack(title = "Main Screen", navigationBack = {/*Todo*/ }) },
-        bottomBar = { BottomFiveMenu() }
+        topBar = { TopMenuWithoutBack(title = "Home") },
+        bottomBar = {
+            BottomFiveMenu(onClickedActions = bottomBaronClickedActions)
+        }
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding)
         )
         {
-            Text("Main Screen")
+            Text("Main Page")
         }
     }
 }
