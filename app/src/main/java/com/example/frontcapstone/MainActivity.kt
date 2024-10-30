@@ -15,7 +15,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            FrontCapstoneTheme {
+            FrontCapstoneTheme(dynamicColor = false) {
                 Navigator()
             }
         }
