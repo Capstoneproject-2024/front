@@ -71,4 +71,8 @@ dependencies {
     val nav_version = "2.8.3"
     //navigation
     implementation(libs.androidx.navigation.compose)
+
+    //icon extension
+    implementation(libs.androidx.material.icons.extended)
+
 }

@@ -2,8 +2,8 @@ package com.example.frontcapstone.components.layout
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.PersonAdd
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -26,7 +26,7 @@ fun MyPageTopMenu(
 ) {
     TopAppBar(
         modifier = Modifier.fillMaxWidth(),
-        title = { Text("$title") },
+        title = { Text(title) },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = TopAppbarBackgroundColor,
             titleContentColor = TopAppBarTextColor,
@@ -35,13 +35,13 @@ fun MyPageTopMenu(
             IconButton(onClick = moveToFindFriendPage) {
                 androidx.compose.material3.Icon(
                     tint = Color.White,
-                    imageVector = Icons.Filled.Warning, contentDescription = "Add Friend"
+                    imageVector = Icons.Outlined.PersonAdd, contentDescription = "Add Friend"
                 )
             }
             IconButton(onClick = moveToSettingPage) {
                 androidx.compose.material3.Icon(
                     tint = Color.White,
-                    imageVector = Icons.Filled.Settings, contentDescription = "Setting"
+                    imageVector = Icons.Outlined.Settings, contentDescription = "Setting"
                 )
             }
         },
