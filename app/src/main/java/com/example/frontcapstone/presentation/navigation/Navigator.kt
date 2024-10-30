@@ -3,6 +3,10 @@ package com.example.frontcapstone.presentation.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,6 +32,9 @@ fun Navigator() {
     )
     val navigationBack: () -> Unit = { navController.navigateUp() }
 
+    //search value 나중에 api 연결하기
+    var searchText by rememberSaveable { mutableStateOf("") }
+
     Scaffold { innerPadding ->
         NavHost(
             navController = navController,
@@ -39,7 +46,10 @@ fun Navigator() {
                 GroupPage(bottomBaronClickedActions = bottomBaronClickedActions)
             }
             composable(route = "SearchPage") {
-                SearchPage(bottomBaronClickedActions = bottomBaronClickedActions)
+                SearchPage(
+                    bottomBaronClickedActions = bottomBaronClickedActions,
+                    searchText = searchText,
+                    onSearchValueChange = { searchText = it })
             }
             composable(route = "MainPage") {
                 MainPage(
