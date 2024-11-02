@@ -12,7 +12,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.frontcapstone.presentation.screen.FindFriendPage
+import com.example.frontcapstone.presentation.screen.GroupArchivePage
+import com.example.frontcapstone.presentation.screen.GroupMainPage
 import com.example.frontcapstone.presentation.screen.GroupPage
+import com.example.frontcapstone.presentation.screen.GroupQuotePage
+import com.example.frontcapstone.presentation.screen.GroupSettingPage
 import com.example.frontcapstone.presentation.screen.MainPage
 import com.example.frontcapstone.presentation.screen.MyPage
 import com.example.frontcapstone.presentation.screen.NoticePage
@@ -23,12 +27,17 @@ import com.example.frontcapstone.presentation.screen.SettingPage
 @Composable
 fun Navigator() {
     val navController = rememberNavController()
-    val bottomBaronClickedActions = listOf(
+    val bottomBar5onClickedActions = listOf(
         { navController.navigate("GroupPage") },
         { navController.navigate("SearchPage") },
         { navController.navigate("MainPage") },
         { navController.navigate("NoticePage") },
         { navController.navigate("MyPage") }
+    )
+    val bottomBar3onClickedActions = listOf(
+        { navController.navigate("GroupQuotePage") },
+        { navController.navigate("GroupMainPage") }, // Todo 이거 피그마는 member로 되어있음 메인페이지는 어디서 가야함?
+        { navController.navigate("GroupArchivePage") },
     )
     val navigationBack: () -> Unit = { navController.navigateUp() }
 
@@ -43,25 +52,28 @@ fun Navigator() {
         ) {
             //BottomBar navigation
             composable(route = "GroupPage") {
-                GroupPage(bottomBaronClickedActions = bottomBaronClickedActions)
+                GroupPage(bottomBaronClickedActions = bottomBar5onClickedActions,
+                    onCardClicked = { navController.navigate("GroupMainPage") },
+                    onEditClicked = { navController.navigate("GroupSettingPage") })
             }
             composable(route = "SearchPage") {
                 SearchPage(
-                    bottomBaronClickedActions = bottomBaronClickedActions,
+                    bottomBaronClickedActions = bottomBar5onClickedActions,
                     searchText = searchText,
                     onSearchValueChange = { searchText = it })
             }
             composable(route = "MainPage") {
                 MainPage(
-                    bottomBaronClickedActions = bottomBaronClickedActions,
-                    onFloatingButtonCLicked = { navController.navigate("ReviewPage") })
+                    bottomBaronClickedActions = bottomBar5onClickedActions,
+                    onFloatingButtonCLicked = { navController.navigate("ReviewPage") },
+                )
             }
             composable(route = "NoticePage") {
-                NoticePage(bottomBaronClickedActions = bottomBaronClickedActions)
+                NoticePage(bottomBaronClickedActions = bottomBar5onClickedActions)
             }
             composable(route = "MyPage") {
                 MyPage(
-                    bottomBaronClickedActions = bottomBaronClickedActions,
+                    bottomBaronClickedActions = bottomBar5onClickedActions,
                     moveToFindFriendPage = { navController.navigate("FindFriendPage") },
                     moveToSettingPage = { navController.navigate("SettingPage") }
                 )
@@ -83,6 +95,30 @@ fun Navigator() {
             composable(route = "FindFriendPage") {
                 FindFriendPage(navigtionBack = navigationBack)
             }
+
+            composable(route = "GroupSettingPage") {
+                GroupSettingPage(navigtionBack = navigationBack)
+            }
+
+            composable(route = "GroupMainPage") {
+                GroupMainPage(
+                    navigtionBack = navigationBack,
+                    bottomBaronClickedActions = bottomBar3onClickedActions
+                )
+            }
+            composable(route = "GroupQuotePage") {
+                GroupQuotePage(
+                    navigtionBack = navigationBack,
+                    bottomBaronClickedActions = bottomBar3onClickedActions
+                )
+            }
+            composable(route = "GroupArchivePage") {
+                GroupArchivePage(
+                    navigtionBack = navigationBack,
+                    bottomBaronClickedActions = bottomBar3onClickedActions
+                )
+            }
+
         }
     }
 }

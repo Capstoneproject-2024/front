@@ -3,6 +3,7 @@ package com.example.frontcapstone.components.layout
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChatBubbleOutline
 import androidx.compose.material.icons.outlined.Folder
@@ -19,6 +20,7 @@ fun BottomThreeMenu(modifier: Modifier = Modifier, onClickedActions: List<() -> 
         throw IllegalArgumentException("onClickedActions must contain exactly five functions.")
     }
     BottomAppBar(
+        modifier = Modifier.fillMaxWidth(),
         actions = {
             Row(
                 modifier = Modifier.fillMaxSize(),
