@@ -7,13 +7,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.frontcapstone.components.buttons.GroupCard
+import com.example.frontcapstone.components.buttons.ReviewFrame
 import com.example.frontcapstone.components.buttons.WrittingFloatingButton
 import com.example.frontcapstone.components.layout.BottomFiveMenu
 import com.example.frontcapstone.components.layout.TopMenuWithoutBack
 
 @Composable
-fun MainPage(bottomBaronClickedActions: List<() -> Unit>, onFloatingButtonCLicked: () -> Unit) {
+fun MainPage(
+    bottomBaronClickedActions: List<() -> Unit>,
+    onFloatingButtonCLicked: () -> Unit,
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { TopMenuWithoutBack(title = "Home") },
@@ -28,7 +31,7 @@ fun MainPage(bottomBaronClickedActions: List<() -> Unit>, onFloatingButtonCLicke
                 .padding(8.dp)
         )
         {
-            GroupCard()
+            ReviewFrame()
         }
     }
 }

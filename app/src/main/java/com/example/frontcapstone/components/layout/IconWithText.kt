@@ -14,7 +14,12 @@ import androidx.compose.ui.unit.dp
 
 
 @Composable
-fun IconWithText(name: String, icon: ImageVector, onClicked: () -> Unit) {
+fun IconWithText(
+    modifier: Modifier = Modifier,
+    name: String,
+    icon: ImageVector,
+    onClicked: () -> Unit
+) {
     Column(
         modifier = Modifier
             .clickable(onClick = onClicked)

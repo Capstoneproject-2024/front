@@ -22,7 +22,9 @@ import androidx.compose.ui.unit.sp
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 
 @Composable
-fun GroupCard(mainColor: Color, onEditClicked: () -> Unit, onCardClicked: () -> Unit) {
+fun GroupCard(
+    mainColor: Color, onEditClicked: () -> Unit, onCardClicked: () -> Unit
+) {
     val height = 130.dp
     val width = 240.dp
     Card(
@@ -31,7 +33,7 @@ fun GroupCard(mainColor: Color, onEditClicked: () -> Unit, onCardClicked: () -> 
             .padding(8.dp)
             .clickable { onCardClicked() },
         colors = CardDefaults.cardColors(
-            containerColor = mainColor
+            containerColor = PrimaryContainerColor
         ),
     ) {
         Row(
