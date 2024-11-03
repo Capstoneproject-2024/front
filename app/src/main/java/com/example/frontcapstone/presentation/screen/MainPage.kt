@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.frontcapstone.components.buttons.ReviewFrame
 import com.example.frontcapstone.components.buttons.WrittingFloatingButton
+import com.example.frontcapstone.components.items.Line
 import com.example.frontcapstone.components.layout.BottomFiveMenu
 import com.example.frontcapstone.components.layout.TopMenuWithoutBack
 
@@ -32,6 +33,7 @@ fun MainPage(
         )
         {
             ReviewFrame()
+            Line()
         }
     }
 }

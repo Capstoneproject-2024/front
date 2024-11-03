@@ -1,4 +1,4 @@
-package com.example.frontcapstone.components.layout
+package com.example.frontcapstone.components.items
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

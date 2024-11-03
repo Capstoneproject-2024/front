@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.frontcapstone.components.items.IconWithText
 import com.example.frontcapstone.ui.theme.BottomAppbarTextColor
 import com.example.frontcapstone.ui.theme.BottomBarBackgroundColor
 

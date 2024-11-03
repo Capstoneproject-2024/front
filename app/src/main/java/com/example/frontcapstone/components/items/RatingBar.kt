@@ -1,4 +1,4 @@
-package com.example.frontcapstone.components.buttons
+package com.example.frontcapstone.components.items
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
