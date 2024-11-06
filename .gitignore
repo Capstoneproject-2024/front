@@ -122,7 +122,6 @@ obj/
 .idea/migrations.xml
 .idea/deploymentTargetSelector.xml
 
-
 # Legacy Eclipse project files
 .classpath
 .project

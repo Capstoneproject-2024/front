@@ -12,14 +12,14 @@ import com.example.frontcapstone.components.layout.WriteReviewTopMenu
 @Composable
 fun ReviewPage(
     navigationBack: () -> Unit,
-    onClickPost: () -> Unit
+//    onClickPost: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             WriteReviewTopMenu(
                 navigationBack = navigationBack,
-                onClickPost = onClickPost
+                onClickPost = { } //onClickPost
             )
         },
     ) { innerPadding ->

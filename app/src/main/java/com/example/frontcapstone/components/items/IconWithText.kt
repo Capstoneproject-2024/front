@@ -1,6 +1,7 @@
 package com.example.frontcapstone.components.items
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
@@ -21,11 +22,12 @@ fun IconWithText(
     onClicked: () -> Unit
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .clickable(onClick = onClicked)
             .fillMaxHeight()
             .padding(4.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         IconButton(onClick = { onClicked() }) {
             androidx.compose.material3.Icon(imageVector = icon, contentDescription = name)

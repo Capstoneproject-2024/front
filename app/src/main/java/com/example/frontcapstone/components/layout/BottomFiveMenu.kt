@@ -2,7 +2,7 @@ package com.example.frontcapstone.components.layout
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Group
@@ -11,21 +11,24 @@ import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.example.frontcapstone.components.items.IconWithText
 import com.example.frontcapstone.ui.theme.BottomAppbarTextColor
 import com.example.frontcapstone.ui.theme.BottomBarBackgroundColor
 
 @Composable
-fun BottomFiveMenu(modifier: Modifier = Modifier, onClickedActions: List<() -> Unit>) {
+fun BottomFiveMenu(onClickedActions: List<() -> Unit>) {
     if (onClickedActions.size != 5) {
         throw IllegalArgumentException("onClickedActions must contain exactly five functions.")
     }
     BottomAppBar(
+        modifier = Modifier.fillMaxWidth(),
         actions = {
             Row(
-                modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 IconWithText(
                     name = "Group",
