@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -24,20 +25,25 @@ import com.example.frontcapstone.presentation.screen.ReviewPage
 import com.example.frontcapstone.presentation.screen.SearchPage
 import com.example.frontcapstone.presentation.screen.SettingPage
 
+fun navivationWithClear(navController: NavController, route: String) {
+    navController.popBackStack()
+    navController.navigate(route)
+}
+
 @Composable
 fun Navigator() {
     val navController = rememberNavController()
     val bottomBar5onClickedActions = listOf(
-        { navController.navigate("GroupPage") },
-        { navController.navigate("SearchPage") },
-        { navController.navigate("MainPage") },
-        { navController.navigate("NoticePage") },
-        { navController.navigate("MyPage") }
+        { navivationWithClear(navController = navController, route = "GroupPage") },
+        { navivationWithClear(navController = navController, route = "SearchPage") },
+        { navivationWithClear(navController = navController, route = "MainPage") },
+        { navivationWithClear(navController = navController, route = "NoticePage") },
+        { navivationWithClear(navController = navController, route = "MyPage") }
     )
     val bottomBar3onClickedActions = listOf(
-        { navController.navigate("GroupQuotePage") },
-        { navController.navigate("GroupMainPage") }, // Todo 이거 피그마는 member로 되어있음 메인페이지는 어디서 가야함?
-        { navController.navigate("GroupArchivePage") },
+        { navivationWithClear(navController = navController, route = "GroupQuotePage") },
+        { navivationWithClear(navController = navController, route = "GroupMainPage") },
+        { navivationWithClear(navController = navController, route = "GroupArchivePage") },
     )
     val navigationBack: () -> Unit = { navController.navigateUp() }
 
@@ -84,7 +90,7 @@ fun Navigator() {
             composable(route = "ReviewPage") {
                 ReviewPage(
                     navigationBack = navigationBack,
-                    onClickPost = { navController.navigate("MainPage") },
+//                    onClickPost = { navController.navigate("MainPage") },
                 )
             }
             //SettingPage이동
@@ -108,8 +114,8 @@ fun Navigator() {
             }
             composable(route = "GroupQuotePage") {
                 GroupQuotePage(
-                    navigtionBack = navigationBack,
-                    bottomBaronClickedActions = bottomBar3onClickedActions
+                    navigationBack = navigationBack,
+                    bottomBaronClickedActions = bottomBar3onClickedActions,
                 )
             }
             composable(route = "GroupArchivePage") {
@@ -122,3 +128,11 @@ fun Navigator() {
         }
     }
 }
+// // 추후 nav 분류할거면 사용
+//fun NavGraphBuilder.loginGraph(navController: NavController) {
+//    navigation(startDestination = "username", route = "login") {
+//        composable("username") { ... }
+//        composable("password") { ... }
+//        composable("registration") { ... }
+//    }
+//}
