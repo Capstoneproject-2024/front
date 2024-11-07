@@ -23,6 +23,7 @@ import com.example.frontcapstone.presentation.screen.MainPage
 import com.example.frontcapstone.presentation.screen.MyPage
 import com.example.frontcapstone.presentation.screen.NoticePage
 import com.example.frontcapstone.presentation.screen.QuoteQuestionPage
+import com.example.frontcapstone.presentation.screen.QuoteReviewPage
 import com.example.frontcapstone.presentation.screen.ReviewPage
 import com.example.frontcapstone.presentation.screen.SearchPage
 import com.example.frontcapstone.presentation.screen.SettingPage
@@ -51,7 +52,8 @@ fun Navigator() {
 
     //search value 나중에 api 연결하기
     var searchText by rememberSaveable { mutableStateOf("") }
-    var quoteText by rememberSaveable { mutableStateOf("") }
+    var quoteTextinReview by rememberSaveable { mutableStateOf("") }
+    var quoteTextinQuote by rememberSaveable { mutableStateOf("") }
     var reviewText by rememberSaveable { mutableStateOf("") }
     var findFriendText by rememberSaveable { mutableStateOf("") }
 
@@ -97,8 +99,8 @@ fun Navigator() {
                 ReviewPage(
                     navigationBack = navigationBack,
 //                    onClickPost = { navController.navigate("MainPage") },
-                    quoteText = quoteText,
-                    onQuoteTextChange = { quoteText = it },
+                    quoteText = quoteTextinReview,
+                    onQuoteTextChange = { quoteTextinReview = it },
                     reviewText = reviewText,
                     onReviewTextChange = { reviewText = it }
                 )
@@ -130,7 +132,8 @@ fun Navigator() {
                 GroupQuotePage(
                     navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
-                    onQuoteQuestionClicked = { navController.navigate("QuoteQuestionPage") }
+                    onQuoteQuestionClicked = { navController.navigate("QuoteQuestionPage") },
+                    onEditButtonClicked = { navController.navigate("QuoteReviewPage") }
                 )
             }
             composable(route = "GroupArchivePage") {
@@ -149,7 +152,16 @@ fun Navigator() {
             composable(route = "QuoteQuestionPage") {
                 QuoteQuestionPage(
                     navigationBack = navigationBack,
-                    bottomBaronClickedActions = bottomBar3onClickedActions
+                    bottomBaronClickedActions = bottomBar3onClickedActions,
+                    onEditButtonClicked = { navController.navigate("QuoteReviewPage") }
+                )
+            }
+
+            composable(route = "QuoteReviewPage") {
+                QuoteReviewPage(
+                    navigationBack = navigationBack,
+                    quoteText = quoteTextinQuote,
+                    onQuoteTextChange = { quoteTextinQuote = it }
                 )
             }
 

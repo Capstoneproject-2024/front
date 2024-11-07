@@ -30,7 +30,8 @@ import com.example.frontcapstone.ui.theme.QuoteQuestionMintTextColor
 @Composable
 fun QuestionButtonWithEdit(
     modifier: Modifier = Modifier,
-    onQuoteQuestionClicked: () -> Unit
+    onQuoteQuestionClicked: () -> Unit,
+    onEditButtonClicked: () -> Unit
 ) {
     Row(
         modifier = modifier
@@ -80,7 +81,7 @@ fun QuestionButtonWithEdit(
                 .clip(RoundedCornerShape(16.dp))
                 .background(QuoteQuestionMintTextColor)
                 .padding(4.dp),
-            onClick = {},
+            onClick = onEditButtonClicked,
         ) {
             androidx.compose.material3.Icon(
                 imageVector = Icons.Outlined.Edit,

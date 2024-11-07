@@ -21,7 +21,8 @@ import com.example.frontcapstone.components.layout.TopMenuWithBack
 fun QuoteQuestionPage(
     navigationBack: () -> Unit,
     bottomBaronClickedActions: List<() -> Unit>,
-    editPossibleOrNot: Boolean = true
+    editPossibleOrNot: Boolean = true,
+    onEditButtonClicked: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -29,7 +30,13 @@ fun QuoteQuestionPage(
         bottomBar = { BottomThreeMenu(onClickedActions = bottomBaronClickedActions) },
         floatingActionButton = {
             if (editPossibleOrNot) {
-                WrittingFloatingButton(onClicked = {})
+                WrittingFloatingButton(
+                    onClicked = {
+                        if (editPossibleOrNot) {
+                            onEditButtonClicked()
+                        }
+                    }
+                )
             }
         }
     ) { innerPadding ->

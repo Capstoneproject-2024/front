@@ -21,6 +21,7 @@ fun GroupQuotePage(
     navigationBack: () -> Unit,
     bottomBaronClickedActions: List<() -> Unit>,
     onQuoteQuestionClicked: () -> Unit,
+    onEditButtonClicked: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -37,7 +38,8 @@ fun GroupQuotePage(
             item {
                 QuestionButtonWithEdit(
                     modifier = Modifier.padding(top = 20.dp),
-                    onQuoteQuestionClicked = onQuoteQuestionClicked
+                    onQuoteQuestionClicked = onQuoteQuestionClicked,
+                    onEditButtonClicked = onEditButtonClicked
                 )
             }
 
