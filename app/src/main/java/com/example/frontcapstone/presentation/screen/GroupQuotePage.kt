@@ -20,6 +20,7 @@ import com.example.frontcapstone.components.layout.TopMenuWithBack
 fun GroupQuotePage(
     navigationBack: () -> Unit,
     bottomBaronClickedActions: List<() -> Unit>,
+    onQuoteQuestionClicked: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -34,7 +35,10 @@ fun GroupQuotePage(
             verticalArrangement = Arrangement.spacedBy(10.dp) // 각 아이템 사이에 간격 추가
         ) {
             item {
-                QuestionButtonWithEdit(modifier = Modifier.padding(top = 20.dp))
+                QuestionButtonWithEdit(
+                    modifier = Modifier.padding(top = 20.dp),
+                    onQuoteQuestionClicked = onQuoteQuestionClicked
+                )
             }
 
             // List items with ReviewFrame and Line

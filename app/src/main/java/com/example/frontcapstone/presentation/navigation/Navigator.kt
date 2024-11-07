@@ -22,6 +22,7 @@ import com.example.frontcapstone.presentation.screen.GroupSettingPage
 import com.example.frontcapstone.presentation.screen.MainPage
 import com.example.frontcapstone.presentation.screen.MyPage
 import com.example.frontcapstone.presentation.screen.NoticePage
+import com.example.frontcapstone.presentation.screen.QuoteQuestionPage
 import com.example.frontcapstone.presentation.screen.ReviewPage
 import com.example.frontcapstone.presentation.screen.SearchPage
 import com.example.frontcapstone.presentation.screen.SettingPage
@@ -129,6 +130,7 @@ fun Navigator() {
                 GroupQuotePage(
                     navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
+                    onQuoteQuestionClicked = { navController.navigate("QuoteQuestionPage") }
                 )
             }
             composable(route = "GroupArchivePage") {
@@ -141,6 +143,13 @@ fun Navigator() {
             composable(route = "FriendRequestPage") {
                 FriendRequestPage(
                     navigtionBack = navigationBack,
+                )
+            }
+
+            composable(route = "QuoteQuestionPage") {
+                QuoteQuestionPage(
+                    navigationBack = navigationBack,
+                    bottomBaronClickedActions = bottomBar3onClickedActions
                 )
             }
 

@@ -110,7 +110,7 @@ fun UserProfileCard() {
                 ) {
                     Text(
                         text = "edit",
-                        fontSize = 8.sp,
+                        fontSize = 12.sp,
                         textAlign = TextAlign.Center
                     )
                 }
