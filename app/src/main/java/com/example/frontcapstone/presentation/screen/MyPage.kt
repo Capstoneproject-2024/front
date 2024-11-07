@@ -1,12 +1,17 @@
 package com.example.frontcapstone.presentation.screen
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.example.frontcapstone.components.buttons.FriendRequestButton
+import com.example.frontcapstone.components.items.UserProfileCard
 import com.example.frontcapstone.components.layout.BottomFiveMenu
 import com.example.frontcapstone.components.layout.MyPageTopMenu
 
@@ -28,10 +33,16 @@ fun MyPage(
         bottomBar = { BottomFiveMenu(onClickedActions = bottomBaronClickedActions) }
     ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight()
+                .padding(innerPadding)
+                .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-            Text("My Page Screen")
+            UserProfileCard()
+            FriendRequestButton()
         }
     }
 }

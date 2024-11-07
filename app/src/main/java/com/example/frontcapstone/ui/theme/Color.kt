@@ -10,6 +10,7 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
+
 val TopAppBarTextColor = Color(0xFFECE5FC)
 val TopAppbarBackgroundColor = Color(0xFF424353)
 
@@ -24,3 +25,5 @@ val PrimaryContainerColor = Color(0xFF535466)
 val QuoteQuestionMintTextColor = Color(0xFF91EED2)
 
 val UnFocusedReviewContainerColor = Color(0xFF535466)
+
+val UserTextPrupleColor = Color(0xFFECE5FC)
