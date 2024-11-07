@@ -104,9 +104,7 @@ fun ReviewFrame() {
                     textAlign = TextAlign.Center,
                     fontSize = 12.sp
                 )
-
-//                Spacer(modifier = Modifier.height(4.dp))
-
+                
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "2024.05.24",

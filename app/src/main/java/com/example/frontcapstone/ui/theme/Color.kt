@@ -1,6 +1,5 @@
 package com.example.frontcapstone.ui.theme
 
-import android.provider.CalendarContract.Colors
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -24,3 +23,4 @@ val PrimaryContainerColor = Color(0xFF535466)
 
 val QuoteQuestionMintTextColor = Color(0xFF91EED2)
 
+val UnFocusedReviewContainerColor = Color(0xFF535466)

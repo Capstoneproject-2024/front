@@ -49,6 +49,8 @@ fun Navigator() {
 
     //search value 나중에 api 연결하기
     var searchText by rememberSaveable { mutableStateOf("") }
+    var quoteText by rememberSaveable { mutableStateOf("") }
+    var reviewText by rememberSaveable { mutableStateOf("") }
 
     Scaffold { innerPadding ->
         NavHost(
@@ -91,6 +93,10 @@ fun Navigator() {
                 ReviewPage(
                     navigationBack = navigationBack,
 //                    onClickPost = { navController.navigate("MainPage") },
+                    quoteText = quoteText,
+                    onQuoteTextChange = { quoteText = it },
+                    reviewText = reviewText,
+                    onReviewTextChange = { reviewText = it }
                 )
             }
             //SettingPage이동
