@@ -1,11 +1,10 @@
 package com.example.frontcapstone.presentation.screen
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -27,17 +26,22 @@ fun GroupQuotePage(
         topBar = { TopMenuWithBack(title = "Group Quote page", navigationBack = navigationBack) },
         bottomBar = { BottomThreeMenu(onClickedActions = bottomBaronClickedActions) },
     ) { innerPadding ->
-        Column(
-            modifier = Modifier.padding(innerPadding),
+        LazyColumn(
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        )
-        {
-            QuestionButtonWithEdit(modifier = Modifier.padding(top = 20.dp))
+            verticalArrangement = Arrangement.spacedBy(10.dp) // 각 아이템 사이에 간격 추가
+        ) {
+            item {
+                QuestionButtonWithEdit(modifier = Modifier.padding(top = 20.dp))
+            }
+
+            // List items with ReviewFrame and Line
             val temps: List<String> = List(10) { "$it" }
-            LazyColumn(modifier = Modifier.padding(6.dp)) {
-                items(temps) { temp ->
-                    ReviewFrame()
+            itemsIndexed(temps) { index, temp ->
+                ReviewFrame()
+                if (index < temps.size - 1) { // 마지막 아이템이 아닌 경우에만 Line 추가
                     Line()
                 }
             }

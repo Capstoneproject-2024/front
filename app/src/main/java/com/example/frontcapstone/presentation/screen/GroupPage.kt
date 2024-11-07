@@ -1,11 +1,10 @@
 package com.example.frontcapstone.presentation.screen
 
 import NewGroupButton
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,26 +26,14 @@ fun GroupPage(
         bottomBar = { BottomFiveMenu(onClickedActions = bottomBaronClickedActions) }
     ) { innerPadding ->
 
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(8.dp)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        )
-        {
+        ) {
             val temps: List<Int> = List(2) { it }
-//            LazyColumn(modifier = Modifier.padding(6.dp)) {
-//                items(temps) { temp ->
-//                    GroupCard(
-//                        mainColor = QuoteQuestionMintTextColor,
-//                        onCardClicked = onCardClicked,
-//                        onEditClicked = onEditClicked,
-//                        editPossible = (temp % 2 == 0)
-//                    )
-//                }
-//            }
-            temps.forEach { temp ->
+            items(temps) { temp ->
                 GroupCard(
                     mainColor = QuoteQuestionMintTextColor,
                     onCardClicked = onCardClicked,
@@ -54,8 +41,11 @@ fun GroupPage(
                     editPossible = (temp % 2 == 0)
                 )
             }
-            NewGroupButton()
+            item {
+                NewGroupButton()
+            }
 
         }
+
     }
 }

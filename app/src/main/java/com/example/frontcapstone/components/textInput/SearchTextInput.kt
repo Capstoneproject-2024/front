@@ -1,5 +1,6 @@
 package com.example.frontcapstone.components.textInput
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
@@ -30,7 +32,7 @@ fun SearchTextInput(
     onSearchValueChange: (String) -> Unit,
 ) {
     TopAppBar(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = TopAppbarBackgroundColor,
             titleContentColor = TopAppBarTextColor,
@@ -39,19 +41,22 @@ fun SearchTextInput(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp)
+                    .padding(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Icon(imageVector = Icons.Outlined.Search, contentDescription = "Search")
                 Spacer(modifier = Modifier.width(8.dp))
                 OutlinedTextField(
                     value = searchText,
                     onValueChange = onSearchValueChange,
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.Transparent),
                     colors = OutlinedTextFieldDefaults.colors(
-                        focusedTextColor = TopAppBarTextColor,
-                        unfocusedTextColor = TopAppBarTextColor,
-                        focusedBorderColor = Color.White,
-                        unfocusedBorderColor = Color.White,
+                        focusedTextColor = Color.White,
+                        unfocusedTextColor = Color.White,
+                        focusedBorderColor = TopAppbarBackgroundColor,
+                        unfocusedBorderColor = TopAppbarBackgroundColor,
                     ),
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done

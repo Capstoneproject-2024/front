@@ -1,8 +1,9 @@
 package com.example.frontcapstone.presentation.screen
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -26,14 +27,19 @@ fun MainPage(
         },
         floatingActionButton = { WrittingFloatingButton(onClicked = onFloatingButtonCLicked) }
     ) { innerPadding ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(8.dp)
-        )
-        {
-            ReviewFrame()
-            Line()
+        ) {
+            val temps: List<String> = List(10) { "$it" }
+            itemsIndexed(temps) { index, temp ->
+                ReviewFrame()
+                if (index < temps.size - 1) { // 마지막 아이템이 아닌 경우에만 Line 추가
+                    Line()
+                }
+            }
         }
+
     }
 }
