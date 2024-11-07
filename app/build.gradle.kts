@@ -75,4 +75,9 @@ dependencies {
     //icon extension
     implementation(libs.androidx.material.icons.extended)
 
+    //image "io.coil-kt.coil3:coil-compose:3.0.1" // "io.coil-kt.coil3:coil-network-okhttp:3.0.1"
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+
+
 }

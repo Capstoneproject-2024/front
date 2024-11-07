@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.example.frontcapstone.R
 import com.example.frontcapstone.components.items.RatingBar
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
@@ -47,8 +48,9 @@ fun ReviewFrame() {
                 .height(145.dp),
             verticalAlignment = Alignment.Top
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_launcher_background), // 책 커버 이미지 리소스
+
+            AsyncImage(
+                model = "https://shopping-phinf.pstatic.net/main_3245996/32459963667.20221019105132.jpg",
                 contentDescription = "Book Cover",
                 modifier = Modifier
                     .width(98.72.dp)
