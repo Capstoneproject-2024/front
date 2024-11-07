@@ -3,6 +3,8 @@ package com.example.frontcapstone.presentation.screen
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -23,17 +25,25 @@ fun GroupPage(
         topBar = { TopMenuWithoutBack(title = "Group") },
         bottomBar = { BottomFiveMenu(onClickedActions = bottomBaronClickedActions) }
     ) { innerPadding ->
+
         Column(
             modifier = Modifier
                 .padding(innerPadding)
                 .padding(8.dp)
         )
         {
-            GroupCard(
-                mainColor = QuoteQuestionMintTextColor,
-                onCardClicked = onCardClicked,
-                onEditClicked = onEditClicked
-            )
+            val temps: List<Int> = List(10) { it }
+            LazyColumn(modifier = Modifier.padding(6.dp)) {
+                items(temps) { temp ->
+                    GroupCard(
+                        mainColor = QuoteQuestionMintTextColor,
+                        onCardClicked = onCardClicked,
+                        onEditClicked = onEditClicked,
+                        editPossible = (temp % 2 == 0)
+                    )
+                }
+            }
+
         }
     }
 }
