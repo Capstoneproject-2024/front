@@ -21,7 +21,8 @@ fun GroupQuotePage(
     navigationBack: () -> Unit,
     bottomBaronClickedActions: List<() -> Unit>,
     onQuoteQuestionClicked: () -> Unit,
-    onEditButtonClicked: () -> Unit
+    onEditButtonClicked: () -> Unit,
+    onReviewClicked: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -46,7 +47,7 @@ fun GroupQuotePage(
             // List items with ReviewFrame and Line
             val temps: List<String> = List(10) { "$it" }
             itemsIndexed(temps) { index, temp ->
-                ReviewFrame()
+                ReviewFrame(onClicked = onReviewClicked)
                 if (index < temps.size - 1) { // 마지막 아이템이 아닌 경우에만 Line 추가
                     Line()
                 }

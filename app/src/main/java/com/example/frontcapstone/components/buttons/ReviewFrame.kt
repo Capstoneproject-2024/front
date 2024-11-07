@@ -2,10 +2,13 @@ package com.example.frontcapstone.components.buttons
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,8 +26,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -32,11 +35,14 @@ import com.example.frontcapstone.R
 import com.example.frontcapstone.components.items.RatingBar
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 
-@Preview
+//@Preview
 @Composable
-fun ReviewFrame() {
+fun ReviewFrame(
+    onClicked: () -> Unit,
+) {
     Card(
         modifier = Modifier
+            .clickable { onClicked() }
             .fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
@@ -93,18 +99,72 @@ fun ReviewFrame() {
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                Text(
-                    text = "\"Lorem ipsum dolor sit amet consectetur.\"",
-                    color = Color.Black,
+
+                Box(
                     modifier = Modifier
-                        .background(PrimaryPurpleColor, shape = RoundedCornerShape(8.dp))
-                        .height(64.dp)
-                        .padding(8.dp)
-                        .fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 12.sp
-                )
-                
+                        .fillMaxWidth()
+                        .height(65.dp)
+                        .padding(top = 8.dp, bottom = 0.dp, start = 8.dp, end = 8.dp)
+                        .background(
+                            color = PrimaryPurpleColor,
+                            shape = RoundedCornerShape(12.dp)
+                        )
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween,
+//                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        // Left quotation icon
+                        Column(
+                            modifier = Modifier.fillMaxHeight(),
+                            verticalArrangement = Arrangement.Top,
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxHeight(0.3f)
+                                    .padding(2.dp),
+                                text = "“",
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black,
+                            )
+                        }
+
+
+                        // TextField for input
+                        Text(
+                            text = "Lorem ipsum dolor sit amet sdf consectetur.",
+                            color = Color.Black,
+                            modifier = Modifier
+                                .background(PrimaryPurpleColor, shape = RoundedCornerShape(8.dp))
+                                .height(64.dp)
+                                .padding(4.dp)
+                                .fillMaxWidth(0.92f),
+                            textAlign = TextAlign.Start,
+                            fontSize = 12.sp
+                        )
+
+                        // Right quotation icon
+                        Column(
+                            modifier = Modifier.fillMaxHeight(),
+                            verticalArrangement = Arrangement.Bottom,
+                        ) {
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxHeight(0.3f)
+                                    .padding(2.dp),
+                                text = "”",
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.Black,
+                            )
+                        }
+
+                    }
+                }
+
+
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "2024.05.24",

@@ -17,7 +17,11 @@ import com.example.frontcapstone.components.layout.BottomThreeMenu
 import com.example.frontcapstone.components.layout.TopMenuWithBack
 
 @Composable
-fun GroupMainPage(navigtionBack: () -> Unit, bottomBaronClickedActions: List<() -> Unit>) {
+fun GroupMainPage(
+    navigtionBack: () -> Unit,
+    bottomBaronClickedActions: List<() -> Unit>,
+    onReviewClicked: () -> Unit,
+) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { TopMenuWithBack(title = "Group Main page", navigationBack = navigtionBack) },
@@ -37,7 +41,7 @@ fun GroupMainPage(navigtionBack: () -> Unit, bottomBaronClickedActions: List<() 
             // List items with ReviewFrame and Line
             val temps: List<String> = List(10) { "$it" }
             itemsIndexed(temps) { index, temp ->
-                ReviewFrame()
+                ReviewFrame(onClicked = onReviewClicked)
                 if (index < temps.size - 1) { // 마지막 아이템이 아닌 경우에만 Line 추가
                     Line()
                 }

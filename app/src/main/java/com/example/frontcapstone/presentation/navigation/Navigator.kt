@@ -24,6 +24,7 @@ import com.example.frontcapstone.presentation.screen.MyPage
 import com.example.frontcapstone.presentation.screen.NoticePage
 import com.example.frontcapstone.presentation.screen.QuoteQuestionPage
 import com.example.frontcapstone.presentation.screen.QuoteReviewPage
+import com.example.frontcapstone.presentation.screen.ReviewDetailPage
 import com.example.frontcapstone.presentation.screen.ReviewPage
 import com.example.frontcapstone.presentation.screen.SearchPage
 import com.example.frontcapstone.presentation.screen.SettingPage
@@ -49,6 +50,8 @@ fun Navigator() {
         { navivationWithClear(navController = navController, route = "GroupArchivePage") },
     )
     val navigationBack: () -> Unit = { navController.navigateUp() }
+
+    val navigateToReviewDetail: () -> Unit = { navController.navigate("ReviewDetailPage") }
 
     //search value 나중에 api 연결하기
     var searchText by rememberSaveable { mutableStateOf("") }
@@ -79,6 +82,7 @@ fun Navigator() {
                 MainPage(
                     bottomBaronClickedActions = bottomBar5onClickedActions,
                     onFloatingButtonCLicked = { navController.navigate("ReviewPage") },
+                    onReviewClicked = navigateToReviewDetail
                 )
             }
             composable(route = "NoticePage") {
@@ -125,7 +129,8 @@ fun Navigator() {
             composable(route = "GroupMainPage") {
                 GroupMainPage(
                     navigtionBack = navigationBack,
-                    bottomBaronClickedActions = bottomBar3onClickedActions
+                    bottomBaronClickedActions = bottomBar3onClickedActions,
+                    onReviewClicked = navigateToReviewDetail
                 )
             }
             composable(route = "GroupQuotePage") {
@@ -133,13 +138,15 @@ fun Navigator() {
                     navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
                     onQuoteQuestionClicked = { navController.navigate("QuoteQuestionPage") },
-                    onEditButtonClicked = { navController.navigate("QuoteReviewPage") }
+                    onEditButtonClicked = { navController.navigate("QuoteReviewPage") },
+                    onReviewClicked = navigateToReviewDetail
                 )
             }
             composable(route = "GroupArchivePage") {
                 GroupArchivePage(
                     navigtionBack = navigationBack,
-                    bottomBaronClickedActions = bottomBar3onClickedActions
+                    bottomBaronClickedActions = bottomBar3onClickedActions,
+                    onReviewClicked = navigateToReviewDetail
                 )
             }
 
@@ -153,7 +160,8 @@ fun Navigator() {
                 QuoteQuestionPage(
                     navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
-                    onEditButtonClicked = { navController.navigate("QuoteReviewPage") }
+                    onEditButtonClicked = { navController.navigate("QuoteReviewPage") },
+                    onReviewClicked = navigateToReviewDetail
                 )
             }
 
@@ -162,6 +170,12 @@ fun Navigator() {
                     navigationBack = navigationBack,
                     quoteText = quoteTextinQuote,
                     onQuoteTextChange = { quoteTextinQuote = it }
+                )
+            }
+
+            composable(route = "ReviewDetailPage") {
+                ReviewDetailPage(
+                    navigationBack = navigationBack,
                 )
             }
 
