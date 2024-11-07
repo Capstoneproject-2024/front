@@ -19,7 +19,8 @@ import com.example.frontcapstone.components.layout.MyPageTopMenu
 fun MyPage(
     bottomBaronClickedActions: List<() -> Unit>,
     moveToFindFriendPage: () -> Unit,
-    moveToSettingPage: () -> Unit
+    moveToSettingPage: () -> Unit,
+    moveToFriendRequestPage: () -> Unit
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -42,7 +43,7 @@ fun MyPage(
         )
         {
             UserProfileCard()
-            FriendRequestButton()
+            FriendRequestButton(moveToFriendRequestPage = moveToFriendRequestPage)
         }
     }
 }

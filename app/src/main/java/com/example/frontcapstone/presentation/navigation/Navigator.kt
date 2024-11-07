@@ -13,6 +13,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.frontcapstone.presentation.screen.FindFriendPage
+import com.example.frontcapstone.presentation.screen.FriendRequestPage
 import com.example.frontcapstone.presentation.screen.GroupArchivePage
 import com.example.frontcapstone.presentation.screen.GroupMainPage
 import com.example.frontcapstone.presentation.screen.GroupPage
@@ -84,7 +85,8 @@ fun Navigator() {
                 MyPage(
                     bottomBaronClickedActions = bottomBar5onClickedActions,
                     moveToFindFriendPage = { navController.navigate("FindFriendPage") },
-                    moveToSettingPage = { navController.navigate("SettingPage") }
+                    moveToSettingPage = { navController.navigate("SettingPage") },
+                    moveToFriendRequestPage = { navController.navigate("FriendRequestPage") }
                 )
             }
 
@@ -133,6 +135,12 @@ fun Navigator() {
                 GroupArchivePage(
                     navigtionBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions
+                )
+            }
+
+            composable(route = "FriendRequestPage") {
+                FriendRequestPage(
+                    navigtionBack = navigationBack,
                 )
             }
 

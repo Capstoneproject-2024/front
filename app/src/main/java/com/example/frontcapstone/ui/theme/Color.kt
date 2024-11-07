@@ -27,3 +27,6 @@ val QuoteQuestionMintTextColor = Color(0xFF91EED2)
 val UnFocusedReviewContainerColor = Color(0xFF535466)
 
 val UserTextPrupleColor = Color(0xFFECE5FC)
+
+val CancelPinkColor = Color(0xFFF8CFCF)
+
