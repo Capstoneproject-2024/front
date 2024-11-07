@@ -51,6 +51,7 @@ fun Navigator() {
     var searchText by rememberSaveable { mutableStateOf("") }
     var quoteText by rememberSaveable { mutableStateOf("") }
     var reviewText by rememberSaveable { mutableStateOf("") }
+    var findFriendText by rememberSaveable { mutableStateOf("") }
 
     Scaffold { innerPadding ->
         NavHost(
@@ -105,7 +106,11 @@ fun Navigator() {
             }
             //Find Friend Page 이동
             composable(route = "FindFriendPage") {
-                FindFriendPage(navigtionBack = navigationBack)
+                FindFriendPage(
+                    navigtionBack = navigationBack,
+                    findFriendText = findFriendText,
+                    onFindFriendTextChanged = { findFriendText = it }
+                )
             }
 
             composable(route = "GroupSettingPage") {
