@@ -1,5 +1,6 @@
 package com.example.frontcapstone.presentation.navigation
 
+import SignInButton
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -66,6 +67,7 @@ fun Navigator() {
             startDestination = "MainPage",
             modifier = Modifier.padding(innerPadding)
         ) {
+
             //BottomBar navigation
             composable(route = "GroupPage") {
                 GroupPage(bottomBaronClickedActions = bottomBar5onClickedActions,

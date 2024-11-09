@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -59,6 +60,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,6 +68,7 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
 
 
     val nav_version = "2.8.3"
@@ -78,6 +81,11 @@ dependencies {
     //image "io.coil-kt.coil3:coil-compose:3.0.1" // "io.coil-kt.coil3:coil-network-okhttp:3.0.1"
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
+
+
+    implementation (libs.play.services.auth) // For Google Sign-In
+    implementation (libs.firebase.auth.ktx) // For Firebase Authentication
+    implementation (libs.androidx.activity.ktx) // For Activity Result API
 
 
 }
