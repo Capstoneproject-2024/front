@@ -19,7 +19,7 @@ fun ReviewDetailPage(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopMenuWithBack(title = "Review", navigationBack = navigationBack) },
+        topBar = { TopMenuWithBack(title = "Find Friend", navigationBack = navigationBack) },
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
