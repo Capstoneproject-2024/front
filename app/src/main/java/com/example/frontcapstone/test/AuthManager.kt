@@ -6,10 +6,10 @@ import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.GoogleAuthProvider
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 
 class AuthManager(private val context: Context) {
 
@@ -19,7 +19,7 @@ class AuthManager(private val context: Context) {
     init {
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(context.getString(R.string.your_web_client_id)) // 웹 클라이언트 ID
+            .requestIdToken(context.getString(R.string.default_web_client_id)) // 웹 클라이언트 ID
             .requestEmail()
             .build()
 

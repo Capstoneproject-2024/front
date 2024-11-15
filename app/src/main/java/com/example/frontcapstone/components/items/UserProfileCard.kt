@@ -27,7 +27,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.frontcapstone.R
@@ -35,9 +34,10 @@ import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 import com.example.frontcapstone.ui.theme.UserTextPrupleColor
 
-@Preview
 @Composable
-fun UserProfileCard() {
+fun UserProfileCard(
+    nickname: String,
+) {
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -75,7 +75,7 @@ fun UserProfileCard() {
                 modifier = Modifier.fillMaxWidth(0.75f)
             ) {
                 Text(
-                    text = "User1234",
+                    text = nickname,
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                     color = UserTextPrupleColor

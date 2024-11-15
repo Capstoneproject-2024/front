@@ -1,6 +1,6 @@
 package com.example.frontcapstone.presentation.navigation
 
-import SignInButton
+//import SignInButton
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -29,6 +29,7 @@ import com.example.frontcapstone.presentation.screen.ReviewDetailPage
 import com.example.frontcapstone.presentation.screen.ReviewPage
 import com.example.frontcapstone.presentation.screen.SearchPage
 import com.example.frontcapstone.presentation.screen.SettingPage
+import com.example.frontcapstone.viemodel.MainViewModel
 
 fun navivationWithClear(navController: NavController, route: String) {
     navController.popBackStack()
@@ -36,7 +37,9 @@ fun navivationWithClear(navController: NavController, route: String) {
 }
 
 @Composable
-fun Navigator() {
+fun Navigator(
+    mainViewModel: MainViewModel
+) {
     val navController = rememberNavController()
     val bottomBar5onClickedActions = listOf(
         { navivationWithClear(navController = navController, route = "GroupPage") },
@@ -95,7 +98,8 @@ fun Navigator() {
                     bottomBaronClickedActions = bottomBar5onClickedActions,
                     moveToFindFriendPage = { navController.navigate("FindFriendPage") },
                     moveToSettingPage = { navController.navigate("SettingPage") },
-                    moveToFriendRequestPage = { navController.navigate("FriendRequestPage") }
+                    moveToFriendRequestPage = { navController.navigate("FriendRequestPage") },
+                    mainViewModel = mainViewModel
                 )
             }
 
