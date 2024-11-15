@@ -4,15 +4,20 @@ package com.example.frontcapstone.presentation.navigation
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.frontcapstone.AuthManager
+import com.example.frontcapstone.api.RetrofitManager
+import com.example.frontcapstone.data.UserState
 import com.example.frontcapstone.presentation.screen.FindFriendPage
 import com.example.frontcapstone.presentation.screen.FriendRequestPage
 import com.example.frontcapstone.presentation.screen.GroupArchivePage
@@ -20,6 +25,7 @@ import com.example.frontcapstone.presentation.screen.GroupMainPage
 import com.example.frontcapstone.presentation.screen.GroupPage
 import com.example.frontcapstone.presentation.screen.GroupQuotePage
 import com.example.frontcapstone.presentation.screen.GroupSettingPage
+import com.example.frontcapstone.presentation.screen.LoginPage
 import com.example.frontcapstone.presentation.screen.MainPage
 import com.example.frontcapstone.presentation.screen.MyPage
 import com.example.frontcapstone.presentation.screen.NoticePage
@@ -30,6 +36,7 @@ import com.example.frontcapstone.presentation.screen.ReviewPage
 import com.example.frontcapstone.presentation.screen.SearchPage
 import com.example.frontcapstone.presentation.screen.SettingPage
 import com.example.frontcapstone.viemodel.MainViewModel
+import com.google.android.gms.auth.api.Auth
 
 fun navivationWithClear(navController: NavController, route: String) {
     navController.popBackStack()
@@ -38,8 +45,13 @@ fun navivationWithClear(navController: NavController, route: String) {
 
 @Composable
 fun Navigator(
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    googleSignIn:()->Unit,
+    authManager: AuthManager
 ) {
+//
+    val userState by mainViewModel.userState.collectAsState()
+
     val navController = rememberNavController()
     val bottomBar5onClickedActions = listOf(
         { navivationWithClear(navController = navController, route = "GroupPage") },
@@ -67,11 +79,22 @@ fun Navigator(
     Scaffold { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "MainPage",
+            startDestination = if(userState.isValid()) "MainPage" else "LoginPage",
             modifier = Modifier.padding(innerPadding)
         ) {
+            composable(route ="LoginPage"){
+                LoginPage(
+                    mainViewModel = mainViewModel,
+                    authManager = authManager,
+
+                    onClick = {
+                        googleSignIn()
+                    }
+                )
+            }
 
             //BottomBar navigation
+
             composable(route = "GroupPage") {
                 GroupPage(bottomBaronClickedActions = bottomBar5onClickedActions,
                     onCardClicked = { navController.navigate("GroupMainPage") },

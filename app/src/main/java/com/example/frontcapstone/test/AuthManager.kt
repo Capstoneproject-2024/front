@@ -3,6 +3,7 @@ package com.example.frontcapstone
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.example.frontcapstone.viemodel.MainViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -11,7 +12,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 
-class AuthManager(private val context: Context) {
+class AuthManager(
+    private val context: Context,
+    private val mainViewModel: MainViewModel
+) {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -41,6 +45,7 @@ class AuthManager(private val context: Context) {
                         // 로그인 성공
                         val user = auth.currentUser
                         user?.let {
+
                             // 사용자가 로그인된 경우, 사용자 정보 출력
                             Log.d("AuthManager", "User ID: ${it.uid}")
                             Log.d("AuthManager", "User Email: ${it.email}")
@@ -58,6 +63,13 @@ class AuthManager(private val context: Context) {
             Log.e("AuthManager", "Google sign-in failed", e)
         }
     }
+
+
+    fun signOut(){
+        auth.signOut()
+    }
+
+    ///INTERFACE
 
     // Firebase Authentication 인스턴스 접근
     fun getAuthInstance() = auth

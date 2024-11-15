@@ -26,7 +26,7 @@ fun MyPage(
     moveToFriendRequestPage: () -> Unit,
     mainViewModel: MainViewModel
 ) {
-    val userState by mainViewModel.userData.collectAsState()
+    val userState by mainViewModel.userState.collectAsState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),

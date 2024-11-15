@@ -28,9 +28,10 @@ class MainActivity : ComponentActivity() {
     private val signInResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
             authManager.handleSignInResult(result.data)
+
         }
 
-    private fun signIn() {
+    private fun googleSignIn() {
         val signInIntent = authManager.signInIntent()
         signInResultLauncher.launch(signInIntent)
     }
@@ -39,31 +40,37 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // AuthManager 인스턴스 초기화
-        authManager = AuthManager(this)
+
 
         enableEdgeToEdge()
         setContent {
             FrontCapstoneTheme(dynamicColor = false) {
 //                val query_start = R.string.query_start
                 val mainViewModel = viewModel<MainViewModel>()
+                // AuthManager 인스턴스 초기화
+                authManager = AuthManager(this,mainViewModel)
 //                mainViewModel.appInit(1)
 
-                SignInButton(
-                    authManager = authManager,
-                    onClick = {
-                        signIn()
-
-
-                    }
+//                SignInButton(
+//                    authManager = authManager,
+//                    onClick = {
+//                        signIn()
+//
+//
+//                    }
+//                )
+                Navigator(
+                    mainViewModel = mainViewModel,
+                    googleSignIn = { googleSignIn() },
+                    authManager = authManager
                 )
-                Navigator(mainViewModel = mainViewModel)
             }
 
         }
 
     }
 }
+
 
 @Composable
 fun SignInButton(authManager: AuthManager, onClick: () -> Unit) {
