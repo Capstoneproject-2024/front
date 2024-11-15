@@ -47,16 +47,16 @@ class MainActivity : ComponentActivity() {
             FrontCapstoneTheme(dynamicColor = false) {
 //                val query_start = R.string.query_start
                 val mainViewModel = viewModel<MainViewModel>()
-                mainViewModel.appInit(1)
+//                mainViewModel.appInit(1)
 
-//                SignInButton(
-//                    authManager = authManager,
-//                    onClick = {
-//                        signIn()
-//
-//
-//                    }
-//                )
+                SignInButton(
+                    authManager = authManager,
+                    onClick = {
+                        signIn()
+
+
+                    }
+                )
                 Navigator(mainViewModel = mainViewModel)
             }
 
