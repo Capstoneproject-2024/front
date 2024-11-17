@@ -3,6 +3,7 @@ package com.example.frontcapstone.viemodel
 import android.provider.ContactsContract.CommonDataKinds.Nickname
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.frontcapstone.AuthManager
 import com.example.frontcapstone.api.ApiService
 import com.example.frontcapstone.api.data.UserInput
 import com.example.frontcapstone.data.UserState
@@ -18,6 +19,7 @@ class MainViewModel : ViewModel() {
 
     private val _userState = MutableStateFlow(UserState())
     val userState : StateFlow<UserState> = _userState.asStateFlow()
+
 
 
     fun updateUserState(id : Int, nickname: String){
@@ -37,7 +39,7 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun updateUserState(nickname: String,email:String, uid:String){
+    fun updateUserState(nickname:String?,email:String?,uid:String){
         //create여부 확인
         // create문 호출
         //state 업데이트
