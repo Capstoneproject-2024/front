@@ -20,16 +20,18 @@ class RetrofitManager {
         try{
             val response = apiService.createUser(userInput = UserInput(nickname,email,uid))
             if(response.isSuccessful){
-                val userID  = response.body()?.ID
-                Log.d("API-Request", "createUser : User created with ID: $userID")
-
+                val userUIState  = response.body()
+                Log.d("API-Request", "createUser : User created with ID: ${userUIState?.uid}")
+                onSuccess()
 
             }else{
                 Log.e("API-Request", "Error: ${response.errorBody()}")
+                onFailure()
             }
         }
         catch (e:Exception){
             Log.e("API-Request", e.toString())
+            onFailure()
         }
     }
 
@@ -38,13 +40,21 @@ class RetrofitManager {
             val response = apiService.getUser(id)
             if(response.isSuccessful)
             {
-                val userData = response.body()
+                val userUIState = response.body()
+                onSuccess()
 
             }else{
                 Log.e("API-Request", "Error: ${response.errorBody()}")
+                onFailure()
             }
         } catch (e:Exception){
             Log.e("API-Request", e.toString())
+            onFailure()
         }
+    }
+
+
+    suspend fun updateUseer(){
+
     }
 }

@@ -5,7 +5,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.frontcapstone.AuthManager
 import com.example.frontcapstone.api.ApiService
+import com.example.frontcapstone.api.RetrofitManager
 import com.example.frontcapstone.api.data.UserInput
+import com.example.frontcapstone.api.data.UserUIState
 import com.example.frontcapstone.data.UserState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,8 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MainViewModel : ViewModel() {
 
-    private val _userState = MutableStateFlow(UserState())
-    val userState : StateFlow<UserState> = _userState.asStateFlow()
+    private val _userState = MutableStateFlow(UserUIState())
+    val userState : StateFlow<UserUIState> = _userState.asStateFlow()
 
 
 
@@ -40,6 +42,14 @@ class MainViewModel : ViewModel() {
     }
 
     fun updateUserState(nickname:String?,email:String?,uid:String){
+
+        try{
+//            val getUserResponse = RetrofitManager.instance.
+        }
+        catch (e: Exception) {
+            // Handle exceptions
+
+        }
         //create여부 확인
         // create문 호출
         //state 업데이트

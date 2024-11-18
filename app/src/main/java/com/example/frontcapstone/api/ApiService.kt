@@ -1,9 +1,7 @@
 package com.example.frontcapstone.api
 
-import com.example.frontcapstone.api.data.UserID
 import com.example.frontcapstone.api.data.UserInput
-import com.example.frontcapstone.data.UserData
-import retrofit2.Call
+import com.example.frontcapstone.api.data.UserUIState
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -16,10 +14,15 @@ interface ApiService {
     @POST("create_user")
     suspend fun createUser(
         @Body userInput :UserInput
-    ): Response<UserID>
+    ): Response<UserUIState>
 
     @GET("get_user")
     fun getUser(
         @Query("id") id :Int
-    ):Response<UserData>
+    ):Response<UserUIState>
+
+    @GET("get_user_email")
+    fun getUserEmail(
+        @Query("email") email:String
+    ):Response<UserUIState>
 }
