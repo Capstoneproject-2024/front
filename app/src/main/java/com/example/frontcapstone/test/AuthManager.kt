@@ -11,6 +11,9 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AuthManager(
     private val context: Context,
@@ -30,13 +33,17 @@ class AuthManager(
         googleSignInClient = GoogleSignIn.getClient(context, gso)
 
         val user = auth.currentUser
-        user?.let {
-            mainViewModel.updateUserState(user.displayName, user.email, user.uid)
-            // 사용자가 로그인된 경우, 사용자 정보 출력
-            Log.d("AuthManager", "User ID: ${it.uid}")
-            Log.d("AuthManager", "User Email: ${it.email}")
-            Log.d("AuthManager", "User Name: ${it.displayName}")
-        }
+//        user?.let {
+//            mainViewModel.updateUserState(
+//                nickname = user.displayName,
+//                email = user.email,
+//                uid = user.uid
+//            )
+//            // 사용자가 로그인된 경우, 사용자 정보 출력
+//            Log.d("AuthManager", "User ID: ${it.uid}")
+//            Log.d("AuthManager", "User Email: ${it.email}")
+//            Log.d("AuthManager", "User Name: ${it.displayName}")
+//        }
     }
 
     // Google Sign-In Intent
@@ -54,7 +61,13 @@ class AuthManager(
                         // 로그인 성공
                         val user = auth.currentUser
                         user?.let {
-                            mainViewModel.updateUserState(user.displayName, user.email, user.uid)
+                            CoroutineScope(Dispatchers.Main).launch {
+                                mainViewModel.updateUserState(
+                                    nickname = user.displayName,
+                                    email = user.email,
+                                    uid = user.uid
+                                )
+                            }
                             // 사용자가 로그인된 경우, 사용자 정보 출력
                             Log.d("AuthManager", "User ID: ${it.uid}")
                             Log.d("AuthManager", "User Email: ${it.email}")

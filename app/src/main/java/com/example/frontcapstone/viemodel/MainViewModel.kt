@@ -1,20 +1,12 @@
 package com.example.frontcapstone.viemodel
 
-import android.provider.ContactsContract.CommonDataKinds.Nickname
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.frontcapstone.AuthManager
-import com.example.frontcapstone.api.ApiService
 import com.example.frontcapstone.api.RetrofitManager
-import com.example.frontcapstone.api.data.UserInput
 import com.example.frontcapstone.api.data.UserUIState
-import com.example.frontcapstone.data.UserState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainViewModel : ViewModel() {
@@ -41,15 +33,43 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun updateUserState(nickname:String?,email:String?,uid:String){
+    suspend fun updateUserState(nickname:String?, email:String?, uid:String){
+        if(nickname == null || email == null) return
+        RetrofitManager.instance.createUser(
+            nickname = nickname,
+            email = email,
+            uid = uid,
+            onSuccess = {user:UserUIState ->
+                _userState.update{
+                    it.copy(
+                        nickname = user.nickname,
+                        id = user.id,
+                        uid = user.uid,
+                        email = user.email
+                    )
+                }
+            },
+            onFailure = {
 
-        try{
-//            val getUserResponse = RetrofitManager.instance.
-        }
-        catch (e: Exception) {
-            // Handle exceptions
+            }
 
-        }
+        )
+        val getUserResponse = RetrofitManager.instance.getUserByEmail(
+            email = email,
+            onSuccess = { user:UserUIState ->
+                _userState.update{
+                    it.copy(
+                        nickname = user.nickname,
+                        id = user.id,
+                        uid = user.uid,
+                        email = user.email
+                    )
+                }
+            },
+            onFailure = {
+
+            }
+        )
         //create여부 확인
         // create문 호출
         //state 업데이트

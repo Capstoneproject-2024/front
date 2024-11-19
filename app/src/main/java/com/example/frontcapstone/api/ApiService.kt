@@ -17,12 +17,12 @@ interface ApiService {
     ): Response<UserUIState>
 
     @GET("get_user")
-    fun getUser(
+    suspend fun getUser(
         @Query("id") id :Int
     ):Response<UserUIState>
 
     @GET("get_user_email")
-    fun getUserEmail(
+    suspend fun getUserEmail(
         @Query("email") email:String
     ):Response<UserUIState>
 }
