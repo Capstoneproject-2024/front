@@ -10,14 +10,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.frontcapstone.AuthManager
-import com.example.frontcapstone.api.RetrofitManager
-import com.example.frontcapstone.data.UserState
 import com.example.frontcapstone.presentation.screen.FindFriendPage
 import com.example.frontcapstone.presentation.screen.FriendRequestPage
 import com.example.frontcapstone.presentation.screen.GroupArchivePage
@@ -36,7 +33,6 @@ import com.example.frontcapstone.presentation.screen.ReviewPage
 import com.example.frontcapstone.presentation.screen.SearchPage
 import com.example.frontcapstone.presentation.screen.SettingPage
 import com.example.frontcapstone.viemodel.MainViewModel
-import com.google.android.gms.auth.api.Auth
 
 fun navivationWithClear(navController: NavController, route: String) {
     navController.popBackStack()
@@ -46,7 +42,7 @@ fun navivationWithClear(navController: NavController, route: String) {
 @Composable
 fun Navigator(
     mainViewModel: MainViewModel,
-    googleSignIn:()->Unit,
+    googleSignIn: () -> Unit,
     authManager: AuthManager
 ) {
 //
@@ -79,10 +75,10 @@ fun Navigator(
     Scaffold { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = if(userState.isValid()) "MainPage" else "LoginPage",
+            startDestination = if (userState.isValid()) "MainPage" else "LoginPage",
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(route ="LoginPage"){
+            composable(route = "LoginPage") {
                 LoginPage(
                     mainViewModel = mainViewModel,
                     authManager = authManager,
@@ -104,7 +100,10 @@ fun Navigator(
                 SearchPage(
                     bottomBaronClickedActions = bottomBar5onClickedActions,
                     searchText = searchText,
-                    onSearchValueChange = { searchText = it })
+                    onSearchValueChange = { searchText = it },
+                    mainViewModel = mainViewModel
+                )
+
             }
             composable(route = "MainPage") {
                 MainPage(

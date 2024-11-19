@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
@@ -30,6 +31,7 @@ fun SearchTextInput(
     modifier: Modifier = Modifier,
     searchText: String,
     onSearchValueChange: (String) -> Unit,
+    onKeyboardDone: () -> Unit
 ) {
     TopAppBar(
         modifier = modifier.fillMaxWidth(),
@@ -61,9 +63,9 @@ fun SearchTextInput(
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done
                     ),
-//                    keyboardActions = KeyboardActions(
-//                        onDone = {onKeyboardDone() }
-//                    )
+                    keyboardActions = KeyboardActions(
+                        onDone = { onKeyboardDone() }
+                    )
                 )
             }
         },

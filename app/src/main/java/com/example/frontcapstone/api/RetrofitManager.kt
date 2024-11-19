@@ -3,6 +3,7 @@ package com.example.frontcapstone.api
 import android.util.Log
 import com.example.frontcapstone.api.data.UserInput
 import com.example.frontcapstone.api.data.UserUIState
+import com.example.frontcapstone.data.BookData
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -12,69 +13,99 @@ class RetrofitManager {
     }
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://192.168.219.101:8000")
+        .baseUrl("http://172.30.1.47:8000")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private val apiService = retrofit.create(ApiService::class.java)
 
-    suspend fun createUser(nickname:String, email:String, uid:String, onSuccess: (UserUIState) -> Unit, onFailure:()->Unit){
-        try{
-            val response = apiService.createUser(userInput = UserInput(nickname,email,uid))
-            if(response.isSuccessful){
-                val userUIState  = response.body()
+    suspend fun createUser(
+        nickname: String,
+        email: String,
+        uid: String,
+        onSuccess: (UserUIState) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.createUser(userInput = UserInput(nickname, email, uid))
+            if (response.isSuccessful) {
+                val userUIState = response.body()
                 Log.d("API-Request", "createUser : User created with ID: ${userUIState?.uid}")
                 if (userUIState != null) {
                     onSuccess(userUIState)
                 }
 
-            }else{
+            } else {
                 Log.e("API-Request", "Error: ${response.errorBody()}")
                 onFailure()
             }
-        }
-        catch (e:Exception){
+        } catch (e: Exception) {
             Log.e("API-Request", e.toString())
             onFailure()
         }
     }
 
-    suspend fun getUserByEmail(email:String, onSuccess: (UserUIState) -> Unit, onFailure: () -> Unit){
-        try{
+    suspend fun getUserByEmail(
+        email: String,
+        onSuccess: (UserUIState) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
             val response = apiService.getUserEmail(email)
-            if(response.isSuccessful){
+            if (response.isSuccessful) {
                 val userUIState = response.body()
                 if (userUIState != null) {
                     onSuccess(userUIState)
                 }
-            } else{
+            } else {
                 onFailure()
             }
 
-        } catch(e:Exception){
+        } catch (e: Exception) {
             Log.e("API-Request", e.toString())
             onFailure()
         }
     }
 
-    suspend fun getUser(id:Int, onSuccess:(UserUIState)->Unit,onFailure:()->Unit) {
-        try{
+    suspend fun getUser(id: Int, onSuccess: (UserUIState) -> Unit, onFailure: () -> Unit) {
+        try {
             val response = apiService.getUser(id)
-            if(response.isSuccessful)
-            {
+            if (response.isSuccessful) {
                 val userUIState = response.body()
                 if (userUIState != null) {
                     onSuccess(userUIState)
                 }
 
-            }else{
+            } else {
                 Log.e("API-Request", "Error: ${response.errorBody()}")
                 onFailure()
             }
-        } catch (e:Exception){
+        } catch (e: Exception) {
             Log.e("API-Request", e.toString())
             onFailure()
         }
     }
 
+    suspend fun getBookByName(
+        bookName: String,
+        onSuccess: (List<BookData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getBookByName(bookName)
+            if (response.isSuccessful) {
+                val bookList = response.body()
+                if (bookList != null) {
+                    onSuccess(bookList)
+                }
+
+            } else {
+                Log.e("BookAPI-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("BookAPI-Request", e.toString())
+//            onFailure()
+        }
+    }
 
 }

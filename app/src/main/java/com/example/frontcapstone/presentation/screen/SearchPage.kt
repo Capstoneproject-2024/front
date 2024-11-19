@@ -10,6 +10,9 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
@@ -17,16 +20,20 @@ import androidx.compose.ui.unit.dp
 import com.example.frontcapstone.components.items.SimpleBook
 import com.example.frontcapstone.components.layout.BottomFiveMenu
 import com.example.frontcapstone.components.textInput.SearchTextInput
+import com.example.frontcapstone.viemodel.MainViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun SearchPage(
     bottomBaronClickedActions: List<() -> Unit>,
     searchText: String,
     onSearchValueChange: (String) -> Unit,
-//    onKeyboardDone: (String) -> Unit,
-//    searchedBooks: List<BookData>
+    mainViewModel: MainViewModel
 ) {
+    val books by mainViewModel.searchedBooks.collectAsState(initial = emptyList())
     val focusManager = LocalFocusManager.current
+    val coroutineScope = rememberCoroutineScope()
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
@@ -35,7 +42,12 @@ fun SearchPage(
             SearchTextInput(
                 searchText = searchText,
                 onSearchValueChange = onSearchValueChange,
-                onKeyboardDone = {}//onKeyboardDone
+                onKeyboardDone = {
+                    coroutineScope.launch {
+                        mainViewModel.searchedBookList(bookName = searchText)
+                        focusManager.clearFocus()
+                    }
+                }
             )
         },
         bottomBar = {
@@ -55,12 +67,13 @@ fun SearchPage(
             LazyVerticalGrid(
                 modifier = Modifier
                     .fillMaxSize(),
-                columns = GridCells.Fixed(2), // 한 줄에 2개의 아이템
-
+                columns = GridCells.Fixed(2),
             ) {
-                val temps: List<String> = List(5) { "$it" }
-                items(temps) { temp ->
-                    SimpleBook() // 나중에 book 데이터를 활용하여 구성 가능
+                items(books) {
+                    SimpleBook(
+                        name = it.name,
+                        image = it.image
+                    )
                 }
             }
         }
