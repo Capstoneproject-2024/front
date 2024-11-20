@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.frontcapstone.AuthManager
+import com.example.frontcapstone.presentation.screen.BookDetailPage
 import com.example.frontcapstone.presentation.screen.FindFriendPage
 import com.example.frontcapstone.presentation.screen.FriendRequestPage
 import com.example.frontcapstone.presentation.screen.GroupArchivePage
@@ -101,7 +102,10 @@ fun Navigator(
                     bottomBaronClickedActions = bottomBar5onClickedActions,
                     searchText = searchText,
                     onSearchValueChange = { searchText = it },
-                    mainViewModel = mainViewModel
+                    mainViewModel = mainViewModel,
+                    navigateToBookDetail = {
+                        navController.navigate("BookDetailPage")
+                    }
                 )
 
             }
@@ -207,14 +211,15 @@ fun Navigator(
                 )
             }
 
+            composable(route = "BookDetailPage") {
+                BookDetailPage(
+                    navigationBack = navigationBack,
+                    bottomBaronClickedActions = bottomBar5onClickedActions,
+                    onFloatingButtonCLicked = { navController.navigate("ReviewPage") },
+                    mainViewModel = mainViewModel,
+                )
+            }
+
         }
     }
 }
-// // 추후 nav 분류할거면 사용
-//fun NavGraphBuilder.loginGraph(navController: NavController) {
-//    navigation(startDestination = "username", route = "login") {
-//        composable("username") { ... }
-//        composable("password") { ... }
-//        composable("registration") { ... }
-//    }
-//}

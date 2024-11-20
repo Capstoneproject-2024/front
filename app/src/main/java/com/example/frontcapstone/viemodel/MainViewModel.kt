@@ -19,6 +19,8 @@ class MainViewModel : ViewModel() {
         MutableStateFlow<List<BookData>>(emptyList())//MutableStateFlow(mutableListOf<BookData>())
     val searchedBooks: StateFlow<List<BookData>> = _searchedBooks.asStateFlow()
 
+    private val _chosenBook = MutableStateFlow<BookData>(BookData())
+    val chosenBook: StateFlow<BookData> = _chosenBook.asStateFlow()
 
     fun updateUserState(id: Int, nickname: String) {
         _userState.update {
@@ -89,6 +91,16 @@ class MainViewModel : ViewModel() {
             onFailure = {
 
             }
+        )
+    }
+
+    suspend fun searchedBook(id: Int) {
+        RetrofitManager.instance.getBookByID(
+            id = id,
+            onSuccess = { book: BookData ->
+                _chosenBook.update { book }
+            },
+            onFailure = {}
         )
     }
 

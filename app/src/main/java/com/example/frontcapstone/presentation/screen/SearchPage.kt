@@ -28,7 +28,8 @@ fun SearchPage(
     bottomBaronClickedActions: List<() -> Unit>,
     searchText: String,
     onSearchValueChange: (String) -> Unit,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    navigateToBookDetail: () -> Unit
 ) {
     val books by mainViewModel.searchedBooks.collectAsState(initial = emptyList())
     val focusManager = LocalFocusManager.current
@@ -72,7 +73,13 @@ fun SearchPage(
                 items(books) {
                     SimpleBook(
                         name = it.name,
-                        image = it.image
+                        image = it.image,
+                        onClicked = {
+                            coroutineScope.launch {
+                                mainViewModel.searchedBook(it.id)
+                                navigateToBookDetail()
+                            }
+                        }
                     )
                 }
             }

@@ -108,4 +108,28 @@ class RetrofitManager {
         }
     }
 
+    suspend fun getBookByID(
+        id: Int,
+        onSuccess: (BookData) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getBookByID(id)
+            if (response.isSuccessful) {
+                val book = response.body()
+                Log.d("BookAPI-Request", book.toString())
+                if (book != null) {
+                    onSuccess(book)
+                }
+
+            } else {
+                Log.e("BookAPI-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("BookAPI-Request", e.toString())
+//            onFailure()
+        }
+    }
+
 }

@@ -7,6 +7,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -30,4 +31,9 @@ interface ApiService {
     suspend fun getBookByName(
         @Query("bookName") bookName: String
     ): Response<List<BookData>>
+
+    @GET("/book/search_by_id/{id}")
+    suspend fun getBookByID(
+        @Path("id") id: Int
+    ): Response<BookData>
 }
