@@ -23,6 +23,7 @@ val PrimaryPurpleColor = Color(0xFFDCCFF8)
 val PrimaryContainerColor = Color(0xFF535466)
 
 val QuoteQuestionMintTextColor = Color(0xFF91EED2)
+val SecondaryGroupGreenColor = Color(0xFFD6EE91)
 
 val UnFocusedReviewContainerColor = Color(0xFF535466)
 

@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.frontcapstone.api.data.UserInput
 import com.example.frontcapstone.api.data.UserUIState
 import com.example.frontcapstone.data.BookData
+import com.example.frontcapstone.data.GroupData
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -131,6 +132,49 @@ class RetrofitManager {
             }
         } catch (e: Exception) {
             Log.e("BookAPI-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun createGroup(
+        userID: Int,
+        groupName: String,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.createGroup(userID = userID, groupName = groupName)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("GroupAPI-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("GroupAPI-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getUserGroups(
+        userID: Int,
+        onSuccess: (List<GroupData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getUserGroups(userID)
+            if (response.isSuccessful) {
+                val groupList = response.body()
+                if (groupList != null) {
+                    onSuccess(groupList)
+                }
+
+            } else {
+                Log.e("GroupAPI-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("GroupAPI-Request", e.toString())
 //            onFailure()
         }
     }

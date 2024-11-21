@@ -1,13 +1,16 @@
 package com.example.frontcapstone.viemodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.frontcapstone.api.RetrofitManager
 import com.example.frontcapstone.api.data.UserUIState
 import com.example.frontcapstone.data.BookData
+import com.example.frontcapstone.data.GroupData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 
 class MainViewModel : ViewModel() {
@@ -19,8 +22,12 @@ class MainViewModel : ViewModel() {
         MutableStateFlow<List<BookData>>(emptyList())//MutableStateFlow(mutableListOf<BookData>())
     val searchedBooks: StateFlow<List<BookData>> = _searchedBooks.asStateFlow()
 
-    private val _chosenBook = MutableStateFlow<BookData>(BookData())
+    private val _chosenBook = MutableStateFlow(BookData())
     val chosenBook: StateFlow<BookData> = _chosenBook.asStateFlow()
+
+    private val _groupList = MutableStateFlow<List<GroupData>>(emptyList())
+    val groupList: StateFlow<List<GroupData>> = _groupList.asStateFlow()
+
 
     fun updateUserState(id: Int, nickname: String) {
         _userState.update {
@@ -116,5 +123,31 @@ class MainViewModel : ViewModel() {
 
     fun clearChosenBook() {
         _chosenBook.update { BookData() }
+    }
+
+    suspend fun createGroup(groupName: String) {
+        RetrofitManager.instance.createGroup(
+            userID = userState.value.id,
+            groupName,
+            onSuccess = {},
+            onFailure = {}
+        )
+    }
+
+    suspend fun getUserGroups() {
+        RetrofitManager.instance.getUserGroups(
+            userID = userState.value.id,
+            onSuccess = { groups: List<GroupData> ->
+                _groupList.update { groups }
+            },
+            onFailure = {}
+        )
+    }
+
+    fun createAndUpdateGroupList(groupName: String) {
+        viewModelScope.launch {
+            createGroup(groupName = groupName)
+            getUserGroups()
+        }
     }
 }

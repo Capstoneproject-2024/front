@@ -25,6 +25,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
@@ -35,7 +36,8 @@ fun GroupCard(
     mainColor: Color = QuoteQuestionMintTextColor,
     onEditClicked: () -> Unit,
     onCardClicked: () -> Unit,
-    editPossible: Boolean = false
+    editPossible: Boolean = false,
+    groupName: String
 ) {
     Card(
         modifier = Modifier
@@ -68,7 +70,7 @@ fun GroupCard(
             )
             {
                 Text(
-                    text = "Group name A", //Todo 글자수 제한 필요
+                    text = groupName, //Todo 글자수 제한 필요
                     modifier = Modifier
                         .padding(8.dp)
                         .padding(top = 8.dp)
@@ -76,7 +78,9 @@ fun GroupCard(
                         .fillMaxHeight(0.3f),
                     color = mainColor,
                     fontSize = 28.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = "Group description Lorem ipsum dolor sit amet  dfd consectetur.",

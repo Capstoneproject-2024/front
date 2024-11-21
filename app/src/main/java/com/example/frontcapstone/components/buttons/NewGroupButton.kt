@@ -1,5 +1,4 @@
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -26,16 +25,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 
-@Preview
 @Composable
-fun NewGroupButton() {
+fun NewGroupButton(
+    onClicked: () -> Unit
+) {
     Button(
-        onClick = { /* TODO: Handle click */ },
+        onClick = onClicked,
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()

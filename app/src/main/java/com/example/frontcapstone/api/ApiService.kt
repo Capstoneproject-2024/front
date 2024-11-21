@@ -3,6 +3,8 @@ package com.example.frontcapstone.api
 import com.example.frontcapstone.api.data.UserInput
 import com.example.frontcapstone.api.data.UserUIState
 import com.example.frontcapstone.data.BookData
+import com.example.frontcapstone.data.GroupData
+import com.example.frontcapstone.data.SuccessResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -36,4 +38,15 @@ interface ApiService {
     suspend fun getBookByID(
         @Path("id") id: Int
     ): Response<BookData>
+
+    @POST("/group/create_group/{userID}/{groupName}")
+    suspend fun createGroup(
+        @Path("userID") userID: Int,
+        @Path("groupName") groupName: String
+    ): Response<SuccessResponse>
+
+    @GET("/group/get_user_groups")
+    suspend fun getUserGroups(
+        @Query("userID") userID: Int,
+    ): Response<List<GroupData>>
 }

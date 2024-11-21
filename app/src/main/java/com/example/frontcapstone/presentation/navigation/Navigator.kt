@@ -20,6 +20,7 @@ import com.example.frontcapstone.presentation.screen.FindFriendPage
 import com.example.frontcapstone.presentation.screen.FriendRequestPage
 import com.example.frontcapstone.presentation.screen.GroupArchivePage
 import com.example.frontcapstone.presentation.screen.GroupMainPage
+import com.example.frontcapstone.presentation.screen.GroupNameSettingPage
 import com.example.frontcapstone.presentation.screen.GroupPage
 import com.example.frontcapstone.presentation.screen.GroupQuotePage
 import com.example.frontcapstone.presentation.screen.GroupSettingPage
@@ -68,6 +69,9 @@ fun Navigator(
     val navigateToReviewDetail: () -> Unit = { navController.navigate("ReviewDetailPage") }
 
     var searchText by rememberSaveable { mutableStateOf("") }
+
+    var groupNameText by rememberSaveable { mutableStateOf("") }
+
     var quoteTextinReview by rememberSaveable { mutableStateOf("") }
     var quoteTextinQuote by rememberSaveable { mutableStateOf("") }
     var reviewText by rememberSaveable { mutableStateOf("") }
@@ -93,6 +97,8 @@ fun Navigator(
 
             "QuoteReviewPage" -> quoteTextinQuote = ""
             "FindFriendPage" -> findFriendText = ""
+
+            "GroupNameSettingPage" -> groupNameText = ""
         }
     }
 
@@ -116,9 +122,13 @@ fun Navigator(
             //BottomBar navigation
 
             composable(route = "GroupPage") {
-                GroupPage(bottomBaronClickedActions = bottomBar5onClickedActions,
+                GroupPage(
+                    bottomBaronClickedActions = bottomBar5onClickedActions,
                     onCardClicked = { navController.navigate("GroupMainPage") },
-                    onEditClicked = { navController.navigate("GroupSettingPage") })
+                    onEditClicked = { navController.navigate("GroupSettingPage") },
+                    onNewGroupClicked = { navController.navigate("GroupNameSettingPage") },
+                    mainViewModel = mainViewModel
+                )
             }
             composable(route = "SearchPage") {
                 SearchPage(
@@ -259,6 +269,18 @@ fun Navigator(
                     bottomBaronClickedActions = bottomBar5onClickedActions,
                     onFloatingButtonCLicked = { navController.navigate("ReviewPage") },
                     mainViewModel = mainViewModel,
+                )
+            }
+
+            composable(route = "GroupNameSettingPage") {
+                GroupNameSettingPage(
+                    navigationBack = navigationBack,
+                    groupNameText = groupNameText,
+                    onGroupNameTextChanged = { groupNameText = it },
+                    onConfirmButtonClicked = {
+                        mainViewModel.createAndUpdateGroupList(groupNameText)
+                        navigationBack()
+                    }
                 )
             }
 
