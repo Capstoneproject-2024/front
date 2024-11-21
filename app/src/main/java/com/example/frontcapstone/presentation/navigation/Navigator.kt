@@ -191,7 +191,10 @@ fun Navigator(
             }
 
             composable(route = "GroupSettingPage") {
-                GroupSettingPage(navigtionBack = navigationBack)
+                GroupSettingPage(
+                    navigationBack = navigationBack,
+                    bottomBaronClickedActions = bottomBar3onClickedActions,
+                )
             }
 
             composable(route = "GroupMainPage") {
