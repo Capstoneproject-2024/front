@@ -74,6 +74,13 @@ fun QuoteTextInput(
                     focusedBorderColor = Color.Transparent,
                     unfocusedBorderColor = Color.Transparent,
                 ),
+                placeholder = {
+                    Text(
+                        text = "Write your own quote",
+                        color = Color.Black,
+                        fontSize = 16.sp
+                    )
+                },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Done
                 ),

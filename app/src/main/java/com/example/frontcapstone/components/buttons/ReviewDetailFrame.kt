@@ -20,6 +20,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,12 +37,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.frontcapstone.R
-import com.example.frontcapstone.components.items.RatingBar
+import com.example.frontcapstone.components.items.FixedRatingBar
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 
 @Preview
 @Composable
 fun ReviewDetailFrame() {
+    var rating by rememberSaveable { mutableFloatStateOf(2.5f) }
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
@@ -89,7 +94,9 @@ fun ReviewDetailFrame() {
                             contentScale = ContentScale.Crop
                         )
 
-                        RatingBar(rating = 4)
+                        FixedRatingBar(
+                            rating = rating,
+                        )
                     }
 
                     Text(

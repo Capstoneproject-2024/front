@@ -35,7 +35,10 @@ class RetrofitManager {
                 }
 
             } else {
-                Log.e("API-Request", "Error: ${response.errorBody()}")
+                Log.e(
+                    "API-Request 1",
+                    "Error: ${response.errorBody()}"
+                ) // TODO 여기서  Error: okhttp3.ResponseBody$Companion$asResponseBody$1@564d011
                 onFailure()
             }
         } catch (e: Exception) {
