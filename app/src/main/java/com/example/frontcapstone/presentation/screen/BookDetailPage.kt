@@ -41,7 +41,8 @@ fun BookDetailPage(
                 name = chosenBook.name,
                 year = chosenBook.year,
                 author = chosenBook.author,
-                image = chosenBook.image
+                image = chosenBook.image,
+                onClicked = { }
             )
         }
     }

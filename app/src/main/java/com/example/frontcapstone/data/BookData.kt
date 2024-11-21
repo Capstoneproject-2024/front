@@ -1,7 +1,7 @@
 package com.example.frontcapstone.data
 
 data class BookData(
-    val id: Int = 0,
+    val id: Int = -1,
     val name: String = "",
     val author: String = "",
     val publisher: String = "",

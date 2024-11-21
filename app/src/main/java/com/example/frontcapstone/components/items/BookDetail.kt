@@ -1,5 +1,6 @@
 package com.example.frontcapstone.components.items
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,12 +24,14 @@ fun BookDetail(
     name: String,
     year: String,
     author: String,
-    image: String
+    image: String,
+    onClicked: () -> Unit
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(16.dp)
+            .clickable { onClicked() },
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.Top
     ) {

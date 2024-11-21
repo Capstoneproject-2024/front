@@ -60,6 +60,7 @@ class MainViewModel : ViewModel() {
             }
 
         )
+
         val getUserResponse = RetrofitManager.instance.getUserByEmail(
             email = email,
             onSuccess = { user: UserUIState ->
@@ -104,5 +105,16 @@ class MainViewModel : ViewModel() {
         )
     }
 
+    fun clearSearchThings() {
+        _searchedBooks.update { emptyList() }
+        _chosenBook.update { BookData() }
+    }
 
+    fun clearSearchedBookList() {
+        _searchedBooks.update { emptyList() }
+    }
+
+    fun clearChosenBook() {
+        _chosenBook.update { BookData() }
+    }
 }

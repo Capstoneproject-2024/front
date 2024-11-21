@@ -17,6 +17,8 @@ fun QuoteReviewPage(
 //    onClickPost: () -> Unit,
     onQuoteTextChange: (String) -> Unit,
     quoteText: String,
+    onSelectButtonClicked: () -> Unit,
+    onBookClicked: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -33,7 +35,9 @@ fun QuoteReviewPage(
                 .padding(8.dp)
         )
         {
-            NewSelectBookButton()
+            NewSelectBookButton(
+                onClicked = onSelectButtonClicked
+            )
             QuoteTextInput(quoteText = quoteText, onQuoteTextChange = onQuoteTextChange)
         }
     }

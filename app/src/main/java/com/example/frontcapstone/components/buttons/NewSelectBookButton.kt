@@ -25,16 +25,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 
-@Preview
 @Composable
-fun NewSelectBookButton() {
+fun NewSelectBookButton(
+    onClicked: () -> Unit
+) {
     Button(
-        onClick = { /* TODO: Handle click */ },
+        onClick = onClicked,
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()

@@ -32,6 +32,7 @@ import com.example.frontcapstone.presentation.screen.QuoteReviewPage
 import com.example.frontcapstone.presentation.screen.ReviewDetailPage
 import com.example.frontcapstone.presentation.screen.ReviewPage
 import com.example.frontcapstone.presentation.screen.SearchPage
+import com.example.frontcapstone.presentation.screen.SearchPageWithoutBottomBar
 import com.example.frontcapstone.presentation.screen.SettingPage
 import com.example.frontcapstone.viemodel.MainViewModel
 
@@ -66,12 +67,34 @@ fun Navigator(
 
     val navigateToReviewDetail: () -> Unit = { navController.navigate("ReviewDetailPage") }
 
-    //search value 나중에 api 연결하기
     var searchText by rememberSaveable { mutableStateOf("") }
     var quoteTextinReview by rememberSaveable { mutableStateOf("") }
     var quoteTextinQuote by rememberSaveable { mutableStateOf("") }
     var reviewText by rememberSaveable { mutableStateOf("") }
     var findFriendText by rememberSaveable { mutableStateOf("") }
+
+    // 해당 페이지로 이동 시 초기화
+    navController.addOnDestinationChangedListener { _, destination, _ ->
+        when (destination.route) {
+            "SearchPage" -> {
+                searchText = ""
+                mainViewModel.clearSearchedBookList()
+            }
+
+            "SearchPageWithoutBottomBar" -> {
+                searchText = ""
+                mainViewModel.clearSearchedBookList()
+            }
+
+            "ReviewPage" -> {
+                quoteTextinReview = ""
+                reviewText = ""
+            }
+
+            "QuoteReviewPage" -> quoteTextinQuote = ""
+            "FindFriendPage" -> findFriendText = ""
+        }
+    }
 
     Scaffold { innerPadding ->
         NavHost(
@@ -107,8 +130,17 @@ fun Navigator(
                         navController.navigate("BookDetailPage")
                     }
                 )
-
             }
+
+            composable(route = "SearchPageWithoutBottomBar") {
+                SearchPageWithoutBottomBar(
+                    searchText = searchText,
+                    onSearchValueChange = { searchText = it },
+                    mainViewModel = mainViewModel,
+                    navigationBack = { navigationBack() }
+                )
+            }
+
             composable(route = "MainPage") {
                 MainPage(
                     bottomBaronClickedActions = bottomBar5onClickedActions,
@@ -138,9 +170,13 @@ fun Navigator(
                     quoteText = quoteTextinReview,
                     onQuoteTextChange = { quoteTextinReview = it },
                     reviewText = reviewText,
-                    onReviewTextChange = { reviewText = it }
+                    onReviewTextChange = { reviewText = it },
+                    onSelectButtonClicked = { navController.navigate("SearchPageWithoutBottomBar") },
+                    onBookClicked = { navController.navigate("SearchPageWithoutBottomBar") },
+                    mainViewModel = mainViewModel
                 )
             }
+
             //SettingPage이동
             composable(route = "SettingPage") {
                 SettingPage(navigtionBack = navigationBack)
@@ -201,8 +237,11 @@ fun Navigator(
                 QuoteReviewPage(
                     navigationBack = navigationBack,
                     quoteText = quoteTextinQuote,
-                    onQuoteTextChange = { quoteTextinQuote = it }
-                )
+                    onQuoteTextChange = { quoteTextinQuote = it },
+                    onSelectButtonClicked = { navController.navigate("SearchPageWithoutBottomBar") },
+                    onBookClicked = { navController.navigate("SearchPageWithoutBottomBar") },
+
+                    )
             }
 
             composable(route = "ReviewDetailPage") {
