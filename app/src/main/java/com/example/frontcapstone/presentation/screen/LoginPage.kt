@@ -17,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -91,16 +92,17 @@ fun LoginPage(
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(50.dp)
                     .padding(horizontal = 40.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                 shape = RoundedCornerShape(10.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.continue_with_google),
+                    painter = painterResource(id = R.drawable.continue_with_email),
                     contentDescription = "google_login",
                     modifier = Modifier
-                        .width(200.dp)
-                        .padding(vertical = 7.dp)
+                        .scale(0.6f)
+//                        .padding(vertical = 7.dp)
 
                 )
             }

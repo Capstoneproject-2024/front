@@ -28,6 +28,7 @@ import com.example.frontcapstone.presentation.screen.MyPage
 import com.example.frontcapstone.presentation.screen.NoticePage
 import com.example.frontcapstone.presentation.screen.QuoteQuestionPage
 import com.example.frontcapstone.presentation.screen.QuoteReviewPage
+import com.example.frontcapstone.presentation.screen.RegisterPage
 import com.example.frontcapstone.presentation.screen.ReviewDetailPage
 import com.example.frontcapstone.presentation.screen.ReviewPage
 import com.example.frontcapstone.presentation.screen.SearchPage
@@ -85,6 +86,13 @@ fun Navigator(
 
                     onClick = {
                         googleSignIn()
+                    }
+                )
+            }
+            composable(route = "RegieterPage"){
+                RegisterPage(
+                    tryAuthWithEmailAndPassword =  { email:String, password:String, onAuthFailure:()->Unit, onFailure:()->Unit ->
+                        authManager.tryAuthWithEmailAndPassword(email,password,onAuthFailure,onFailure)
                     }
                 )
             }
