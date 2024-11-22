@@ -18,13 +18,13 @@ import com.example.frontcapstone.components.layout.TopMenuWithBack
 
 @Composable
 fun GroupMainPage(
-    navigtionBack: () -> Unit,
+    navigationBack: () -> Unit,
     bottomBaronClickedActions: List<() -> Unit>,
     onReviewClicked: () -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopMenuWithBack(title = "Group Main page", navigationBack = navigtionBack) },
+        topBar = { TopMenuWithBack(title = "Group Main page", navigationBack = navigationBack) },
         bottomBar = { BottomThreeMenu(onClickedActions = bottomBaronClickedActions) },
     ) { innerPadding ->
         LazyColumn(

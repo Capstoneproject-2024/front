@@ -190,12 +190,12 @@ fun Navigator(
 
             //SettingPage이동
             composable(route = "SettingPage") {
-                SettingPage(navigtionBack = navigationBack)
+                SettingPage(navigationBack = navigationBack)
             }
             //Find Friend Page 이동
             composable(route = "FindFriendPage") {
                 FindFriendPage(
-                    navigtionBack = navigationBack,
+                    navigationBack = navigationBack,
                     findFriendText = findFriendText,
                     onFindFriendTextChanged = { findFriendText = it }
                 )
@@ -210,7 +210,7 @@ fun Navigator(
 
             composable(route = "GroupMainPage") {
                 GroupMainPage(
-                    navigtionBack = navigationBack,
+                    navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
                     onReviewClicked = navigateToReviewDetail
                 )
@@ -226,7 +226,7 @@ fun Navigator(
             }
             composable(route = "GroupArchivePage") {
                 GroupArchivePage(
-                    navigtionBack = navigationBack,
+                    navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
                     onReviewClicked = navigateToReviewDetail
                 )
@@ -234,7 +234,7 @@ fun Navigator(
 
             composable(route = "FriendRequestPage") {
                 FriendRequestPage(
-                    navigtionBack = navigationBack,
+                    navigationBack = navigationBack,
                     mainViewModel = mainViewModel
                 )
             }

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.frontcapstone.api.RetrofitManager
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
+import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserUIState
@@ -168,6 +169,21 @@ class MainViewModel : ViewModel() {
             receiverID = userState.value.id,
             onSuccess = { requestSenders: List<UserData> ->
                 _requestSenderList.update { requestSenders }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun createFriendAndAutoDelete(requestSenderID: Int) {
+        RetrofitManager.instance.createFriendAndAutoDelete(
+            follower = FollowerData(
+                followerID = userState.value.id,
+                followeeID = requestSenderID
+            ),
+            onSuccess = {
+                viewModelScope.launch {
+                    getRequestSender()
+                }
             },
             onFailure = {}
         )

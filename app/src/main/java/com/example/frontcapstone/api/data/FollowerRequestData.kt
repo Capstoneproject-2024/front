@@ -1,6 +1,6 @@
 package com.example.frontcapstone.api.data
 
-data class FollowerRequest(
+data class FollowerRequestData(
     val senderID: Int,
     val receiverID: Int
 )

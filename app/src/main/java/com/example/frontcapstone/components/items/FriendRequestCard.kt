@@ -39,7 +39,8 @@ import com.example.frontcapstone.ui.theme.UserTextPrupleColor
 
 @Composable
 fun FriendRequestCard(
-    requestSender: UserData
+    requestSender: UserData,
+    addButtonClicked: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -62,7 +63,7 @@ fun FriendRequestCard(
             contentScale = ContentScale.Crop
         )
 
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(16.dp))
 
         // 사용자 이름
         Text(
@@ -77,7 +78,7 @@ fun FriendRequestCard(
 
         // 친구 추가 버튼
         Button(
-            onClick = { /* TODO: Send request action */ },
+            onClick = addButtonClicked,
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = PrimaryPurpleColor,

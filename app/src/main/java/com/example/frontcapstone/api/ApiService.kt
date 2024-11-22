@@ -2,7 +2,8 @@ package com.example.frontcapstone.api
 
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
-import com.example.frontcapstone.api.data.FollowerRequest
+import com.example.frontcapstone.api.data.FollowerData
+import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.SuccessResponse
 import com.example.frontcapstone.api.data.UserData
@@ -68,11 +69,16 @@ interface ApiService {
 
     @POST("/friend/create_followerRequest")
     suspend fun createFollowerRequest(
-        @Body followerRequest: FollowerRequest
+        @Body followerRequest: FollowerRequestData
     ): Response<SuccessResponse>
 
     @GET("/friend/get_request_sender")
     suspend fun getRequestSender(
         @Query("receiverID") receiverID: Int
     ): Response<List<UserData>>
+
+    @POST("/friend/create_friend_and_autoDelete")
+    suspend fun createFriendAndAutoDelete(
+        @Body follower: FollowerData
+    ): Response<SuccessResponse>
 }

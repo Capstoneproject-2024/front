@@ -14,13 +14,13 @@ import com.example.frontcapstone.components.textInput.SearchFriendTextInput
 
 @Composable
 fun FindFriendPage(
-    navigtionBack: () -> Unit,
+    navigationBack: () -> Unit,
     findFriendText: String,
     onFindFriendTextChanged: (String) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopMenuWithBack(title = "Find Friend", navigationBack = navigtionBack) },
+        topBar = { TopMenuWithBack(title = "Find Friend", navigationBack = navigationBack) },
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier

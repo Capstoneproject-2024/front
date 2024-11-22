@@ -3,7 +3,8 @@ package com.example.frontcapstone.api
 import android.util.Log
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
-import com.example.frontcapstone.api.data.FollowerRequest
+import com.example.frontcapstone.api.data.FollowerData
+import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserInput
@@ -211,7 +212,7 @@ class RetrofitManager {
     }
 
     suspend fun createFollowerRequest(
-        followerRequest: FollowerRequest,
+        followerRequest: FollowerRequestData,
         onSuccess: () -> Unit,
         onFailure: () -> Unit
     ) {
@@ -248,6 +249,25 @@ class RetrofitManager {
             }
         } catch (e: Exception) {
             Log.e("Friend-getReceivers-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun createFriendAndAutoDelete(
+        follower: FollowerData,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.createFriendAndAutoDelete(follower)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("FriendAPI-create&autoDelete-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Friend-create&autoDelete-Request", e.toString())
 //            onFailure()
         }
     }

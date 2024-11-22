@@ -22,7 +22,7 @@ import com.example.frontcapstone.components.layout.TopMenuWithBack
 
 @Composable
 fun GroupArchivePage(
-    navigtionBack: () -> Unit,
+    navigationBack: () -> Unit,
     bottomBaronClickedActions: List<() -> Unit>,
     onReviewClicked: () -> Unit,
 
@@ -32,7 +32,7 @@ fun GroupArchivePage(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopMenuWithBack(title = "Group Archive page", navigationBack = navigtionBack) },
+        topBar = { TopMenuWithBack(title = "Group Archive page", navigationBack = navigationBack) },
         bottomBar = { BottomThreeMenu(onClickedActions = bottomBaronClickedActions) },
     ) { innerPadding ->
         LazyColumn(
