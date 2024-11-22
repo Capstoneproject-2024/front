@@ -2,7 +2,6 @@ package com.example.frontcapstone.components.items
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,18 +28,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.frontcapstone.R
+import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.ui.theme.CancelPinkColor
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 import com.example.frontcapstone.ui.theme.UserTextPrupleColor
 
-@Preview
 @Composable
-fun FriendRequestCard() {
+fun FriendRequestCard(
+    requestSender: UserData
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -51,7 +51,6 @@ fun FriendRequestCard() {
             )
             .padding(horizontal = 16.dp, vertical = 12.dp), // 내부 패딩
         verticalAlignment = Alignment.CenterVertically,
-//        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         // 프로필 이미지
         Image(
@@ -67,7 +66,7 @@ fun FriendRequestCard() {
 
         // 사용자 이름
         Text(
-            text = "User1234",
+            text = requestSender.nickname,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = UserTextPrupleColor,
@@ -98,7 +97,7 @@ fun FriendRequestCard() {
         Spacer(modifier = Modifier.width(8.dp))
 
         IconButton(
-            onClick = {},
+            onClick = {/* TODO: Send request action */ },
             modifier = Modifier.size(24.dp)
         ) {
             Icon(

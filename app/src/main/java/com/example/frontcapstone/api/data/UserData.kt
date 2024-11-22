@@ -5,5 +5,4 @@ data class UserData(
     val nickname: String = "",
     val email: String = "",
     val uid: String = "",
-
-    )
+)

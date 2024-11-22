@@ -235,6 +235,7 @@ fun Navigator(
             composable(route = "FriendRequestPage") {
                 FriendRequestPage(
                     navigtionBack = navigationBack,
+                    mainViewModel = mainViewModel
                 )
             }
 

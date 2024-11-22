@@ -66,13 +66,13 @@ interface ApiService {
         @Query("email") email: String,
     ): Response<List<UserData>>
 
-    @POST("create_followerRequest")
+    @POST("/friend/create_followerRequest")
     suspend fun createFollowerRequest(
         @Body followerRequest: FollowerRequest
     ): Response<SuccessResponse>
 
-    @GET("get_receivers")
-    suspend fun getReceivers(
+    @GET("/friend/get_request_sender")
+    suspend fun getRequestSender(
         @Query("receiverID") receiverID: Int
     ): Response<List<UserData>>
 }

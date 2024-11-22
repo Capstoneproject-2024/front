@@ -25,7 +25,8 @@ import com.example.frontcapstone.ui.theme.UserTextPrupleColor
 
 @Composable
 fun FriendRequestButton(
-    moveToFriendRequestPage: () -> Unit
+    moveToFriendRequestPage: () -> Unit,
+    requestSenderNumber: String
 ) {
     Row(
         modifier = Modifier
@@ -56,7 +57,7 @@ fun FriendRequestButton(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "3",
+                text = requestSenderNumber,
                 fontSize = 12.sp,
                 color = TopAppbarBackgroundColor,
                 fontWeight = FontWeight.Bold

@@ -17,7 +17,7 @@ class RetrofitManager {
     }
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://172.30.1.47:8000")
+        .baseUrl("http://172.30.1.47:8001")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private val apiService = retrofit.create(ApiService::class.java)
@@ -229,13 +229,13 @@ class RetrofitManager {
         }
     }
 
-    suspend fun getReceivers(
+    suspend fun getRequestSender(
         receiverID: Int,
         onSuccess: (List<UserData>) -> Unit,
         onFailure: () -> Unit
     ) {
         try {
-            val response = apiService.getReceivers(receiverID)
+            val response = apiService.getRequestSender(receiverID)
             if (response.isSuccessful) {
                 val senderIDList = response.body()
                 if (senderIDList != null) {

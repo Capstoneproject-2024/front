@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -17,6 +19,7 @@ import com.example.frontcapstone.components.items.UserProfileCard
 import com.example.frontcapstone.components.layout.BottomFiveMenu
 import com.example.frontcapstone.components.layout.MyPageTopMenu
 import com.example.frontcapstone.viemodel.MainViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun MyPage(
@@ -27,6 +30,12 @@ fun MyPage(
     mainViewModel: MainViewModel
 ) {
     val userState by mainViewModel.userState.collectAsState()
+    val requestSenderList by mainViewModel.requestSenderList.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        mainViewModel.getRequestSender()
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -49,7 +58,15 @@ fun MyPage(
         )
         {
             UserProfileCard(nickname = userState.nickname)
-            FriendRequestButton(moveToFriendRequestPage = moveToFriendRequestPage)
+            FriendRequestButton(
+                moveToFriendRequestPage = {
+                    coroutineScope.launch {
+                        mainViewModel.getRequestSender()
+                    }
+                    moveToFriendRequestPage()
+                },
+                requestSenderNumber = requestSenderList.size.toString()
+            )
         }
     }
 }

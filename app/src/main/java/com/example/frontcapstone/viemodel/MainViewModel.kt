@@ -7,6 +7,7 @@ import com.example.frontcapstone.api.RetrofitManager
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserUIState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -29,6 +30,9 @@ class MainViewModel : ViewModel() {
 
     private val _groupList = MutableStateFlow<List<GroupData>>(emptyList())
     val groupList: StateFlow<List<GroupData>> = _groupList.asStateFlow()
+
+    private val _requestSenderList = MutableStateFlow<List<UserData>>(emptyList())
+    val requestSenderList: StateFlow<List<UserData>> = _requestSenderList.asStateFlow()
 
 
     fun updateUserState(id: Int, nickname: String) {
@@ -157,5 +161,15 @@ class MainViewModel : ViewModel() {
             createGroup(groupName = groupName, groupDescription = groupDescription)
             getUserGroups()
         }
+    }
+
+    suspend fun getRequestSender() {
+        RetrofitManager.instance.getRequestSender(
+            receiverID = userState.value.id,
+            onSuccess = { requestSenders: List<UserData> ->
+                _requestSenderList.update { requestSenders }
+            },
+            onFailure = {}
+        )
     }
 }
