@@ -11,6 +11,7 @@ import com.example.frontcapstone.api.data.UserInput
 import com.example.frontcapstone.api.data.UserUIState
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -80,5 +81,11 @@ interface ApiService {
     @POST("/friend/create_friend_and_autoDelete")
     suspend fun createFriendAndAutoDelete(
         @Body follower: FollowerData
+    ): Response<SuccessResponse>
+
+    @DELETE("/friend/delete_friend_request")
+    suspend fun deleteFriendRequest(
+        @Query("senderID") senderID: Int,
+        @Query("receiverID") receiverID: Int
     ): Response<SuccessResponse>
 }

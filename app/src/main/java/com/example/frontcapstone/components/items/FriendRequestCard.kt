@@ -40,7 +40,8 @@ import com.example.frontcapstone.ui.theme.UserTextPrupleColor
 @Composable
 fun FriendRequestCard(
     requestSender: UserData,
-    addButtonClicked: () -> Unit
+    addButtonClicked: () -> Unit,
+    deleteButtonClicked: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -55,7 +56,7 @@ fun FriendRequestCard(
     ) {
         // 프로필 이미지
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background), // 실제 프로필 이미지 리소스를 넣으세요
+            painter = painterResource(id = R.drawable.ic_launcher_background), // 실제 프로필 이미지 리소스
             contentDescription = "User Profile",
             modifier = Modifier
                 .size(50.dp)
@@ -97,8 +98,9 @@ fun FriendRequestCard(
 
         Spacer(modifier = Modifier.width(8.dp))
 
+        //친구 요청 삭제 버튼
         IconButton(
-            onClick = {/* TODO: Send request action */ },
+            onClick = deleteButtonClicked,
             modifier = Modifier.size(24.dp)
         ) {
             Icon(

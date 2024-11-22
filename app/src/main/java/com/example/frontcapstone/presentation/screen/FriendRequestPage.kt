@@ -41,6 +41,11 @@ fun FriendRequestPage(
                         coroutineScope.launch {
                             mainViewModel.createFriendAndAutoDelete(requestSenderID = requestSender.id)
                         }
+                    },
+                    deleteButtonClicked = {
+                        coroutineScope.launch {
+                            mainViewModel.deleteFriendRequest(requestSenderID = requestSender.id)
+                        }
                     }
                 )
             }

@@ -271,4 +271,26 @@ class RetrofitManager {
 //            onFailure()
         }
     }
+
+    suspend fun deleteFriendRequest(
+        senderID: Int,
+        receiverID: Int,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.deleteFriendRequest(senderID = senderID, receiverID = receiverID)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("FriendAPI-create&autoDelete-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Friend-create&autoDelete-Request", e.toString())
+//            onFailure()
+        }
+    }
+
 }

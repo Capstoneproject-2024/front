@@ -188,4 +188,17 @@ class MainViewModel : ViewModel() {
             onFailure = {}
         )
     }
+
+    suspend fun deleteFriendRequest(requestSenderID: Int) {
+        RetrofitManager.instance.deleteFriendRequest(
+            senderID = requestSenderID,
+            receiverID = userState.value.id,
+            onSuccess = {
+                viewModelScope.launch {
+                    getRequestSender()
+                }
+            },
+            onFailure = {}
+        )
+    }
 }
