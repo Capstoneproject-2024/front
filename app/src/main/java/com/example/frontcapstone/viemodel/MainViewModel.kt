@@ -125,10 +125,11 @@ class MainViewModel : ViewModel() {
         _chosenBook.update { BookData() }
     }
 
-    suspend fun createGroup(groupName: String) {
+    suspend fun createGroup(groupName: String, groupDescription: String) {
         RetrofitManager.instance.createGroup(
             userID = userState.value.id,
-            groupName,
+            groupName = groupName,
+            groupDescription = groupDescription,
             onSuccess = {},
             onFailure = {}
         )
@@ -144,9 +145,9 @@ class MainViewModel : ViewModel() {
         )
     }
 
-    fun createAndUpdateGroupList(groupName: String) {
+    fun createAndUpdateGroupList(groupName: String, groupDescription: String) {
         viewModelScope.launch {
-            createGroup(groupName = groupName)
+            createGroup(groupName = groupName, groupDescription = groupDescription)
             getUserGroups()
         }
     }

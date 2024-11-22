@@ -34,6 +34,8 @@ import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 fun GroupNameSettingPage(
     navigationBack: () -> Unit,
     groupNameText: String,
+    groupDescriptionText: String,
+    onGroupDescriptionTextChanged: (String) -> Unit,
     onGroupNameTextChanged: (String) -> Unit,
     onConfirmButtonClicked: () -> Unit,
 ) {
@@ -61,8 +63,8 @@ fun GroupNameSettingPage(
                     Text(
                         text = "Write Group Name",
                         color = Color.LightGray,
-                        fontSize = 20.sp,
-                        textAlign = TextAlign.Center
+                        fontSize = 16.sp,
+                        textAlign = TextAlign.Start
                     )
                 },
                 modifier = Modifier
@@ -79,12 +81,47 @@ fun GroupNameSettingPage(
                     imeAction = ImeAction.Done
                 ),
                 textStyle = LocalTextStyle.current.copy(
-                    fontSize = 24.sp,
+                    fontSize = 16.sp,
                     color = Color.White,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Start
                 )
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            TextField(
+                value = groupDescriptionText,
+                onValueChange = onGroupDescriptionTextChanged,
+                placeholder = {
+                    Text(
+                        text = "Write Group Description",
+                        color = Color.LightGray,
+                        fontSize = 14.sp,
+                        textAlign = TextAlign.Start
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                colors = TextFieldDefaults.colors(
+                    unfocusedContainerColor = PrimaryContainerColor,
+                    focusedContainerColor = PrimaryContainerColor,
+                    focusedIndicatorColor = PrimaryContainerColor,
+                    unfocusedIndicatorColor = PrimaryContainerColor,
+                    cursorColor = Color.White
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done
+                ),
+                textStyle = LocalTextStyle.current.copy(
+                    fontSize = 14.sp,
+                    color = Color.White,
+                    textAlign = TextAlign.Start
+                )
+            )
+
             Spacer(modifier = Modifier.height(16.dp))
+
             Button(
                 onClick = { onConfirmButtonClicked() },
                 shape = RoundedCornerShape(6.dp),

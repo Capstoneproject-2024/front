@@ -139,11 +139,16 @@ class RetrofitManager {
     suspend fun createGroup(
         userID: Int,
         groupName: String,
+        groupDescription: String,
         onSuccess: () -> Unit,
         onFailure: () -> Unit
     ) {
         try {
-            val response = apiService.createGroup(userID = userID, groupName = groupName)
+            val response = apiService.createGroup(
+                userID = userID,
+                groupName = groupName,
+                groupDescription = groupDescription
+            )
             if (response.isSuccessful) {
                 onSuccess()
             } else {

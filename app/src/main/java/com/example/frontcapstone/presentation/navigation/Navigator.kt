@@ -48,7 +48,7 @@ fun Navigator(
     googleSignIn: () -> Unit,
     authManager: AuthManager
 ) {
-//
+
     val userState by mainViewModel.userState.collectAsState()
 
     val navController = rememberNavController()
@@ -71,6 +71,7 @@ fun Navigator(
     var searchText by rememberSaveable { mutableStateOf("") }
 
     var groupNameText by rememberSaveable { mutableStateOf("") }
+    var groupDescriptionText by rememberSaveable { mutableStateOf("") }
 
     var quoteTextinReview by rememberSaveable { mutableStateOf("") }
     var quoteTextinQuote by rememberSaveable { mutableStateOf("") }
@@ -105,7 +106,7 @@ fun Navigator(
     Scaffold { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "GroupArchivePage",//if (userState.isValid()) "MainPage" else "LoginPage",
+            startDestination = "GroupNameSettingPage",//if (userState.isValid()) "MainPage" else "LoginPage",
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = "LoginPage") {
@@ -276,11 +277,16 @@ fun Navigator(
                 GroupNameSettingPage(
                     navigationBack = navigationBack,
                     groupNameText = groupNameText,
+                    groupDescriptionText = groupDescriptionText,
                     onGroupNameTextChanged = { groupNameText = it },
+                    onGroupDescriptionTextChanged = { groupDescriptionText = it },
                     onConfirmButtonClicked = {
-                        mainViewModel.createAndUpdateGroupList(groupNameText)
+                        mainViewModel.createAndUpdateGroupList(
+                            groupName = groupNameText,
+                            groupDescription = groupDescriptionText
+                        )
                         navigationBack()
-                    }
+                    },
                 )
             }
 

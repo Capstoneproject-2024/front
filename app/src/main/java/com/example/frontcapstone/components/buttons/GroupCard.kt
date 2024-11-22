@@ -37,7 +37,8 @@ fun GroupCard(
     onEditClicked: () -> Unit,
     onCardClicked: () -> Unit,
     editPossible: Boolean = false,
-    groupName: String
+    groupName: String,
+    groupDescription: String
 ) {
     Card(
         modifier = Modifier
@@ -70,7 +71,7 @@ fun GroupCard(
             )
             {
                 Text(
-                    text = groupName, //Todo 글자수 제한 필요
+                    text = groupName,
                     modifier = Modifier
                         .padding(8.dp)
                         .padding(top = 8.dp)
@@ -83,7 +84,7 @@ fun GroupCard(
                     overflow = TextOverflow.Ellipsis
                 )
                 Text(
-                    text = "Group description Lorem ipsum dolor sit amet  dfd consectetur.",
+                    text = groupDescription,
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .fillMaxWidth()

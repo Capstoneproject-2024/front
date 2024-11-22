@@ -13,7 +13,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -25,6 +27,7 @@ fun BookDetail(
     year: String,
     author: String,
     image: String,
+    desc: String,
     onClicked: () -> Unit
 ) {
     Row(
@@ -58,12 +61,14 @@ fun BookDetail(
                 fontSize = 16.sp,
             )
 
-//            Text(
-//                text = "Lorem ipsum dolor sit amet consectetur. Porta nibh tortor etiam adipiscing sed enim ut. Diam lacinia convallis parturient faucibus pulvinar elit amet. Purus orci adipiscing in enim placerat eros mauris neque praesent. Lorem ipsum dolor sit amet consectetur. Lo..",
-//                color = Color.White,
-//                fontSize = 12.sp,
-//                lineHeight = 16.sp
-//            )
+            Text(
+                text = desc,
+                color = Color.White,
+                fontSize = 12.sp,
+                lineHeight = 16.sp,
+                maxLines = 5,
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }

@@ -50,7 +50,8 @@ fun GroupPage(
                     onCardClicked = onCardClicked,
                     onEditClicked = onEditClicked,
                     editPossible = group.role == "admin",
-                    groupName = group.groupName
+                    groupName = group.groupName,
+                    groupDescription = group.groupDescription
                 )
             }
             item {

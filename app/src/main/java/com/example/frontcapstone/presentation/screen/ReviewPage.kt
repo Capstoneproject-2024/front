@@ -69,7 +69,8 @@ fun ReviewPage(
                     year = chosenBook.year,
                     author = chosenBook.author,
                     image = chosenBook.image,
-                    onClicked = onBookClicked
+                    onClicked = onBookClicked,
+                    desc = chosenBook.desc
                 )
             } else {
                 NewSelectBookButton(

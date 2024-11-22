@@ -39,10 +39,11 @@ interface ApiService {
         @Path("id") id: Int
     ): Response<BookData>
 
-    @POST("/group/create_group/{userID}/{groupName}")
+    @POST("/group/create_group/{userID}/{groupName}/{groupDescription}")
     suspend fun createGroup(
         @Path("userID") userID: Int,
-        @Path("groupName") groupName: String
+        @Path("groupName") groupName: String,
+        @Path("groupDescription") groupDescription: String,
     ): Response<SuccessResponse>
 
     @GET("/group/get_user_groups")

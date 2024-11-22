@@ -53,7 +53,7 @@ fun SearchFriendTextInput(
             onValueChange = onFindFriendTextChanged,
             placeholder = {
                 Text(
-                    text = "ID or Email",
+                    text = "Email",
                     color = Color.LightGray,
                     fontSize = 16.sp
                 )
