@@ -1,4 +1,4 @@
-package com.example.frontcapstone.data
+package com.example.frontcapstone.api.data
 
 data class SuccessResponse(
     val result: String

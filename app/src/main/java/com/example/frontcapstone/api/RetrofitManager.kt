@@ -1,10 +1,13 @@
 package com.example.frontcapstone.api
 
 import android.util.Log
+import com.example.frontcapstone.api.data.BookData
+import com.example.frontcapstone.api.data.BookDataWithoutDesc
+import com.example.frontcapstone.api.data.FollowerRequest
+import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserInput
 import com.example.frontcapstone.api.data.UserUIState
-import com.example.frontcapstone.data.BookData
-import com.example.frontcapstone.data.GroupData
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -91,7 +94,7 @@ class RetrofitManager {
 
     suspend fun getBookByName(
         bookName: String,
-        onSuccess: (List<BookData>) -> Unit,
+        onSuccess: (List<BookDataWithoutDesc>) -> Unit,
         onFailure: () -> Unit
     ) {
         try {
@@ -137,7 +140,7 @@ class RetrofitManager {
     }
 
     suspend fun createGroup(
-        userID: Int,
+        adminID: Int,
         groupName: String,
         groupDescription: String,
         onSuccess: () -> Unit,
@@ -145,7 +148,7 @@ class RetrofitManager {
     ) {
         try {
             val response = apiService.createGroup(
-                userID = userID,
+                adminID = adminID,
                 groupName = groupName,
                 groupDescription = groupDescription
             )
@@ -184,4 +187,68 @@ class RetrofitManager {
         }
     }
 
+    suspend fun getUsersByEmail(
+        email: String,
+        onSuccess: (List<UserData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getUsersByEmail(email)
+            if (response.isSuccessful) {
+                val userList = response.body()
+                if (userList != null) {
+                    onSuccess(userList)
+                }
+
+            } else {
+                Log.e("FriendAPI-getUsers-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Friend-getUsers-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun createFollowerRequest(
+        followerRequest: FollowerRequest,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.createFollowerRequest(followerRequest)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("FriendAPI-create-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Friend-create-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getReceivers(
+        receiverID: Int,
+        onSuccess: (List<UserData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getReceivers(receiverID)
+            if (response.isSuccessful) {
+                val senderIDList = response.body()
+                if (senderIDList != null) {
+                    onSuccess(senderIDList)
+                }
+
+            } else {
+                Log.e("FriendAPI-getReceivers-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Friend-getReceivers-Request", e.toString())
+//            onFailure()
+        }
+    }
 }

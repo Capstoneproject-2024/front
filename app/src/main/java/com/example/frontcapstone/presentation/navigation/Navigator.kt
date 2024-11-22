@@ -106,7 +106,7 @@ fun Navigator(
     Scaffold { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = "GroupNameSettingPage",//if (userState.isValid()) "MainPage" else "LoginPage",
+            startDestination = if (userState.isValid()) "MainPage" else "LoginPage",
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(route = "LoginPage") {

@@ -1,10 +1,13 @@
 package com.example.frontcapstone.api
 
+import com.example.frontcapstone.api.data.BookData
+import com.example.frontcapstone.api.data.BookDataWithoutDesc
+import com.example.frontcapstone.api.data.FollowerRequest
+import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.SuccessResponse
+import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserInput
 import com.example.frontcapstone.api.data.UserUIState
-import com.example.frontcapstone.data.BookData
-import com.example.frontcapstone.data.GroupData
-import com.example.frontcapstone.data.SuccessResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -14,6 +17,7 @@ import retrofit2.http.Query
 
 interface ApiService {
 
+    //auth 관련
     @POST("create_user")
     suspend fun createUser(
         @Body userInput: UserInput
@@ -29,19 +33,23 @@ interface ApiService {
         @Query("email") email: String
     ): Response<UserUIState>
 
+
+    // book_router 관련
     @GET("/book/search_by_name")
     suspend fun getBookByName(
         @Query("bookName") bookName: String
-    ): Response<List<BookData>>
+    ): Response<List<BookDataWithoutDesc>>
 
     @GET("/book/search_by_id/{id}")
     suspend fun getBookByID(
         @Path("id") id: Int
     ): Response<BookData>
 
-    @POST("/group/create_group/{userID}/{groupName}/{groupDescription}")
+
+    // group_router 관련
+    @POST("/group/create_group/{adminID}/{groupName}/{groupDescription}")
     suspend fun createGroup(
-        @Path("userID") userID: Int,
+        @Path("adminID") adminID: Int,
         @Path("groupName") groupName: String,
         @Path("groupDescription") groupDescription: String,
     ): Response<SuccessResponse>
@@ -50,4 +58,21 @@ interface ApiService {
     suspend fun getUserGroups(
         @Query("userID") userID: Int,
     ): Response<List<GroupData>>
+
+
+    //friend_router 관련
+    @GET("/friend/get_users_by_email")
+    suspend fun getUsersByEmail(
+        @Query("email") email: String,
+    ): Response<List<UserData>>
+
+    @POST("create_followerRequest")
+    suspend fun createFollowerRequest(
+        @Body followerRequest: FollowerRequest
+    ): Response<SuccessResponse>
+
+    @GET("get_receivers")
+    suspend fun getReceivers(
+        @Query("receiverID") receiverID: Int
+    ): Response<List<UserData>>
 }

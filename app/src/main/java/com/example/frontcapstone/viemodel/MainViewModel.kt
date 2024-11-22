@@ -1,11 +1,13 @@
 package com.example.frontcapstone.viemodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontcapstone.api.RetrofitManager
+import com.example.frontcapstone.api.data.BookData
+import com.example.frontcapstone.api.data.BookDataWithoutDesc
+import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.UserUIState
-import com.example.frontcapstone.data.BookData
-import com.example.frontcapstone.data.GroupData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -19,8 +21,8 @@ class MainViewModel : ViewModel() {
     val userState: StateFlow<UserUIState> = _userState.asStateFlow()
 
     private val _searchedBooks =
-        MutableStateFlow<List<BookData>>(emptyList())//MutableStateFlow(mutableListOf<BookData>())
-    val searchedBooks: StateFlow<List<BookData>> = _searchedBooks.asStateFlow()
+        MutableStateFlow<List<BookDataWithoutDesc>>(emptyList())//MutableStateFlow(mutableListOf<BookData>())
+    val searchedBooks: StateFlow<List<BookDataWithoutDesc>> = _searchedBooks.asStateFlow()
 
     private val _chosenBook = MutableStateFlow(BookData())
     val chosenBook: StateFlow<BookData> = _chosenBook.asStateFlow()
@@ -93,8 +95,10 @@ class MainViewModel : ViewModel() {
     suspend fun searchedBookList(bookName: String) {
         RetrofitManager.instance.getBookByName(
             bookName = bookName,
-            onSuccess = { bookList: List<BookData> ->
+            onSuccess = { bookList: List<BookDataWithoutDesc> ->
+                Log.d("bookAPI - searchedbookAPI", bookList.toString())
                 _searchedBooks.update { bookList }
+                Log.d("bookAPI - searchedBOokupdate", _searchedBooks.toString())
             },
             onFailure = {
 
@@ -106,7 +110,10 @@ class MainViewModel : ViewModel() {
         RetrofitManager.instance.getBookByID(
             id = id,
             onSuccess = { book: BookData ->
+                Log.d("bookAPI - chosenbook api", book.toString())
                 _chosenBook.update { book }
+                Log.d("bookAPI - chosenbook", _chosenBook.toString())
+
             },
             onFailure = {}
         )
@@ -127,7 +134,7 @@ class MainViewModel : ViewModel() {
 
     suspend fun createGroup(groupName: String, groupDescription: String) {
         RetrofitManager.instance.createGroup(
-            userID = userState.value.id,
+            adminID = userState.value.id,
             groupName = groupName,
             groupDescription = groupDescription,
             onSuccess = {},

@@ -1,12 +1,11 @@
-package com.example.frontcapstone.data
+package com.example.frontcapstone.api.data
 
-data class BookData(
+data class BookDataWithoutDesc(
     val id: Int = -1,
     val name: String = "",
     val author: String = "",
     val publisher: String = "",
     val year: String = "",
-    val desc: String = "",
     val image: String = "",
     val ISBN: String = "",
 )
