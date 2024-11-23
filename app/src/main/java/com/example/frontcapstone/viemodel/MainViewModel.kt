@@ -1,23 +1,52 @@
 package com.example.frontcapstone.viemodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.frontcapstone.api.RetrofitManager
+import com.example.frontcapstone.api.data.BookData
+import com.example.frontcapstone.api.data.BookDataWithoutDesc
+import com.example.frontcapstone.api.data.FollowerData
+import com.example.frontcapstone.api.data.FollowerRequestData
+import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserUIState
-import com.example.frontcapstone.data.BookData
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 
 class MainViewModel : ViewModel() {
 
+    //로그인 관련
     private val _userState = MutableStateFlow(UserUIState())
     val userState: StateFlow<UserUIState> = _userState.asStateFlow()
 
+    //search 관련
     private val _searchedBooks =
-        MutableStateFlow<List<BookData>>(emptyList())//MutableStateFlow(mutableListOf<BookData>())
-    val searchedBooks: StateFlow<List<BookData>> = _searchedBooks.asStateFlow()
+        MutableStateFlow<List<BookDataWithoutDesc>>(emptyList())//MutableStateFlow(mutableListOf<BookData>())
+    val searchedBooks: StateFlow<List<BookDataWithoutDesc>> = _searchedBooks.asStateFlow()
+
+    private val _chosenBook = MutableStateFlow(BookData())
+    val chosenBook: StateFlow<BookData> = _chosenBook.asStateFlow()
+
+    //group관련
+    private val _groupList = MutableStateFlow<List<GroupData>>(emptyList())
+    val groupList: StateFlow<List<GroupData>> = _groupList.asStateFlow()
+
+    //friend  관련
+    private val _requestSenderList = MutableStateFlow<List<UserData>>(emptyList())
+    val requestSenderList: StateFlow<List<UserData>> = _requestSenderList.asStateFlow()
+
+    private val _searchedUserList = MutableStateFlow<List<UserData>>(emptyList())
+    val searchedUserList: StateFlow<List<UserData>> = _searchedUserList.asStateFlow()
+
+    private val _friendsList = MutableStateFlow<List<UserData>>(emptyList())
+    val friendsList: StateFlow<List<UserData>> = _friendsList.asStateFlow()
+    private val _friendCandidateList = MutableStateFlow<List<UserData>>(emptyList())
+    val friendCandidateList: StateFlow<List<UserData>> = _friendCandidateList.asStateFlow()
 
 
     fun updateUserState(id: Int, nickname: String) {
@@ -58,6 +87,7 @@ class MainViewModel : ViewModel() {
             }
 
         )
+
         val getUserResponse = RetrofitManager.instance.getUserByEmail(
             email = email,
             onSuccess = { user: UserUIState ->
@@ -83,8 +113,10 @@ class MainViewModel : ViewModel() {
     suspend fun searchedBookList(bookName: String) {
         RetrofitManager.instance.getBookByName(
             bookName = bookName,
-            onSuccess = { bookList: List<BookData> ->
+            onSuccess = { bookList: List<BookDataWithoutDesc> ->
+                Log.d("bookAPI - searchedbookAPI", bookList.toString())
                 _searchedBooks.update { bookList }
+                Log.d("bookAPI - searchedBOokupdate", _searchedBooks.toString())
             },
             onFailure = {
 
@@ -92,5 +124,138 @@ class MainViewModel : ViewModel() {
         )
     }
 
+    suspend fun searchedBook(id: Int) {
+        RetrofitManager.instance.getBookByID(
+            id = id,
+            onSuccess = { book: BookData ->
+                Log.d("bookAPI - chosenbook api", book.toString())
+                _chosenBook.update { book }
+                Log.d("bookAPI - chosenbook", _chosenBook.toString())
+
+            },
+            onFailure = {}
+        )
+    }
+
+    fun clearSearchThings() {
+        _searchedBooks.update { emptyList() }
+        _chosenBook.update { BookData() }
+    }
+
+    fun clearSearchedBookList() {
+        _searchedBooks.update { emptyList() }
+    }
+
+    fun clearChosenBook() {
+        _chosenBook.update { BookData() }
+    }
+
+    suspend fun createGroup(groupName: String, groupDescription: String) {
+        RetrofitManager.instance.createGroup(
+            adminID = userState.value.id,
+            groupName = groupName,
+            groupDescription = groupDescription,
+            onSuccess = {},
+            onFailure = {}
+        )
+    }
+
+    suspend fun getUserGroups() {
+        RetrofitManager.instance.getUserGroups(
+            userID = userState.value.id,
+            onSuccess = { groups: List<GroupData> ->
+                _groupList.update { groups }
+            },
+            onFailure = {}
+        )
+    }
+
+    fun createAndUpdateGroupList(groupName: String, groupDescription: String) {
+        viewModelScope.launch {
+            createGroup(groupName = groupName, groupDescription = groupDescription)
+            getUserGroups()
+        }
+    }
+
+    suspend fun createFollowerRequest(receiverID: Int) {
+        RetrofitManager.instance.createFollowerRequest(
+            followerRequest = FollowerRequestData(
+                senderID = userState.value.id,
+                receiverID = receiverID
+            ),
+            onSuccess = {},
+            onFailure = {}
+        )
+    }
+
+    suspend fun getRequestSender() {
+        RetrofitManager.instance.getRequestSender(
+            receiverID = userState.value.id,
+            onSuccess = { requestSenders: List<UserData> ->
+                _requestSenderList.update { requestSenders }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun createFriendAndAutoDelete(requestSenderID: Int) {
+        RetrofitManager.instance.createFriendAndAutoDelete(
+            follower = FollowerData(
+                followerID = userState.value.id,
+                followeeID = requestSenderID
+            ),
+            onSuccess = {
+                viewModelScope.launch {
+                    getRequestSender()
+                }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun deleteFriendRequest(requestSenderID: Int) {
+        RetrofitManager.instance.deleteFriendRequest(
+            senderID = requestSenderID,
+            receiverID = userState.value.id,
+            onSuccess = {
+                viewModelScope.launch {
+                    getRequestSender()
+                }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getUsersByEmail(userInputEmail: String) {
+        RetrofitManager.instance.getUsersByEmail(
+            email = userInputEmail,
+            onSuccess = { searchedUsers: List<UserData> ->
+                _searchedUserList.update {
+                    searchedUsers
+                }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getFriends() {
+        RetrofitManager.instance.getFriends(
+            userID = userState.value.id,
+            onSuccess = { friends: List<UserData> ->
+                _friendsList.update { friends }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getBothRequest() {
+        RetrofitManager.instance.getBothRequest(
+            userID = userState.value.id,
+            onSuccess = { candidates: List<UserData> ->
+                _friendCandidateList.update { candidates }
+            },
+            onFailure = {}
+        )
+    }
 
 }

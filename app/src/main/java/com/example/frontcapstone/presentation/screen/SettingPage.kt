@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import com.example.frontcapstone.components.layout.TopMenuWithBack
 
 @Composable
-fun SettingPage(navigtionBack: () -> Unit) {
+fun SettingPage(navigationBack: () -> Unit) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopMenuWithBack(title = "Settings", navigationBack = navigtionBack) },
+        topBar = { TopMenuWithBack(title = "Settings", navigationBack = navigationBack) },
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding)

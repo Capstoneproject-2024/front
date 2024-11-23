@@ -2,7 +2,6 @@ package com.example.frontcapstone.components.items
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -29,18 +28,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.frontcapstone.R
+import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.ui.theme.CancelPinkColor
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 import com.example.frontcapstone.ui.theme.UserTextPrupleColor
 
-@Preview
 @Composable
-fun FriendRequestCard() {
+fun FriendRequestCard(
+    requestSender: UserData,
+    addButtonClicked: () -> Unit,
+    deleteButtonClicked: () -> Unit
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -51,11 +53,10 @@ fun FriendRequestCard() {
             )
             .padding(horizontal = 16.dp, vertical = 12.dp), // 내부 패딩
         verticalAlignment = Alignment.CenterVertically,
-//        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
         // 프로필 이미지
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background), // 실제 프로필 이미지 리소스를 넣으세요
+            painter = painterResource(id = R.drawable.ic_launcher_background), // 실제 프로필 이미지 리소스
             contentDescription = "User Profile",
             modifier = Modifier
                 .size(50.dp)
@@ -63,11 +64,11 @@ fun FriendRequestCard() {
             contentScale = ContentScale.Crop
         )
 
-        Spacer(modifier = Modifier.width(8.dp))
+        Spacer(modifier = Modifier.width(16.dp))
 
         // 사용자 이름
         Text(
-            text = "User1234",
+            text = requestSender.nickname,
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
             color = UserTextPrupleColor,
@@ -78,7 +79,7 @@ fun FriendRequestCard() {
 
         // 친구 추가 버튼
         Button(
-            onClick = { /* TODO: Send request action */ },
+            onClick = addButtonClicked,
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = PrimaryPurpleColor,
@@ -97,8 +98,9 @@ fun FriendRequestCard() {
 
         Spacer(modifier = Modifier.width(8.dp))
 
+        //친구 요청 삭제 버튼
         IconButton(
-            onClick = {},
+            onClick = deleteButtonClicked,
             modifier = Modifier.size(24.dp)
         ) {
             Icon(

@@ -15,10 +15,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.frontcapstone.AuthManager
+import com.example.frontcapstone.presentation.screen.BookDetailPage
 import com.example.frontcapstone.presentation.screen.FindFriendPage
 import com.example.frontcapstone.presentation.screen.FriendRequestPage
 import com.example.frontcapstone.presentation.screen.GroupArchivePage
 import com.example.frontcapstone.presentation.screen.GroupMainPage
+import com.example.frontcapstone.presentation.screen.GroupNameSettingPage
 import com.example.frontcapstone.presentation.screen.GroupPage
 import com.example.frontcapstone.presentation.screen.GroupQuotePage
 import com.example.frontcapstone.presentation.screen.GroupSettingPage
@@ -32,6 +34,7 @@ import com.example.frontcapstone.presentation.screen.RegisterPage
 import com.example.frontcapstone.presentation.screen.ReviewDetailPage
 import com.example.frontcapstone.presentation.screen.ReviewPage
 import com.example.frontcapstone.presentation.screen.SearchPage
+import com.example.frontcapstone.presentation.screen.SearchPageWithoutBottomBar
 import com.example.frontcapstone.presentation.screen.SettingPage
 import com.example.frontcapstone.viemodel.MainViewModel
 
@@ -46,7 +49,7 @@ fun Navigator(
     googleSignIn: () -> Unit,
     authManager: AuthManager
 ) {
-//
+
     val userState by mainViewModel.userState.collectAsState()
 
     val navController = rememberNavController()
@@ -66,12 +69,40 @@ fun Navigator(
 
     val navigateToReviewDetail: () -> Unit = { navController.navigate("ReviewDetailPage") }
 
-    //search value 나중에 api 연결하기
     var searchText by rememberSaveable { mutableStateOf("") }
+
+    var groupNameText by rememberSaveable { mutableStateOf("") }
+    var groupDescriptionText by rememberSaveable { mutableStateOf("") }
+
     var quoteTextinReview by rememberSaveable { mutableStateOf("") }
     var quoteTextinQuote by rememberSaveable { mutableStateOf("") }
     var reviewText by rememberSaveable { mutableStateOf("") }
     var findFriendText by rememberSaveable { mutableStateOf("") }
+
+    // 해당 페이지로 이동 시 초기화
+    navController.addOnDestinationChangedListener { _, destination, _ ->
+        when (destination.route) {
+            "SearchPage" -> {
+                searchText = ""
+                mainViewModel.clearSearchedBookList()
+            }
+
+            "SearchPageWithoutBottomBar" -> {
+                searchText = ""
+                mainViewModel.clearSearchedBookList()
+            }
+
+            "ReviewPage" -> {
+                quoteTextinReview = ""
+                reviewText = ""
+            }
+
+            "QuoteReviewPage" -> quoteTextinQuote = ""
+            "FindFriendPage" -> findFriendText = ""
+
+            "GroupNameSettingPage" -> groupNameText = ""
+        }
+    }
 
     Scaffold { innerPadding ->
         NavHost(
@@ -100,19 +131,35 @@ fun Navigator(
             //BottomBar navigation
 
             composable(route = "GroupPage") {
-                GroupPage(bottomBaronClickedActions = bottomBar5onClickedActions,
+                GroupPage(
+                    bottomBaronClickedActions = bottomBar5onClickedActions,
                     onCardClicked = { navController.navigate("GroupMainPage") },
-                    onEditClicked = { navController.navigate("GroupSettingPage") })
+                    onEditClicked = { navController.navigate("GroupSettingPage") },
+                    onNewGroupClicked = { navController.navigate("GroupNameSettingPage") },
+                    mainViewModel = mainViewModel
+                )
             }
             composable(route = "SearchPage") {
                 SearchPage(
                     bottomBaronClickedActions = bottomBar5onClickedActions,
                     searchText = searchText,
                     onSearchValueChange = { searchText = it },
-                    mainViewModel = mainViewModel
+                    mainViewModel = mainViewModel,
+                    navigateToBookDetail = {
+                        navController.navigate("BookDetailPage")
+                    }
                 )
-
             }
+
+            composable(route = "SearchPageWithoutBottomBar") {
+                SearchPageWithoutBottomBar(
+                    searchText = searchText,
+                    onSearchValueChange = { searchText = it },
+                    mainViewModel = mainViewModel,
+                    navigationBack = { navigationBack() }
+                )
+            }
+
             composable(route = "MainPage") {
                 MainPage(
                     bottomBaronClickedActions = bottomBar5onClickedActions,
@@ -142,29 +189,37 @@ fun Navigator(
                     quoteText = quoteTextinReview,
                     onQuoteTextChange = { quoteTextinReview = it },
                     reviewText = reviewText,
-                    onReviewTextChange = { reviewText = it }
+                    onReviewTextChange = { reviewText = it },
+                    onSelectButtonClicked = { navController.navigate("SearchPageWithoutBottomBar") },
+                    onBookClicked = { navController.navigate("SearchPageWithoutBottomBar") },
+                    mainViewModel = mainViewModel
                 )
             }
+
             //SettingPage이동
             composable(route = "SettingPage") {
-                SettingPage(navigtionBack = navigationBack)
+                SettingPage(navigationBack = navigationBack)
             }
             //Find Friend Page 이동
             composable(route = "FindFriendPage") {
                 FindFriendPage(
-                    navigtionBack = navigationBack,
+                    navigationBack = navigationBack,
                     findFriendText = findFriendText,
-                    onFindFriendTextChanged = { findFriendText = it }
+                    onFindFriendTextChanged = { findFriendText = it },
+                    mainViewModel = mainViewModel
                 )
             }
 
             composable(route = "GroupSettingPage") {
-                GroupSettingPage(navigtionBack = navigationBack)
+                GroupSettingPage(
+                    navigationBack = navigationBack,
+                    bottomBaronClickedActions = bottomBar3onClickedActions,
+                )
             }
 
             composable(route = "GroupMainPage") {
                 GroupMainPage(
-                    navigtionBack = navigationBack,
+                    navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
                     onReviewClicked = navigateToReviewDetail
                 )
@@ -180,7 +235,7 @@ fun Navigator(
             }
             composable(route = "GroupArchivePage") {
                 GroupArchivePage(
-                    navigtionBack = navigationBack,
+                    navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
                     onReviewClicked = navigateToReviewDetail
                 )
@@ -188,7 +243,8 @@ fun Navigator(
 
             composable(route = "FriendRequestPage") {
                 FriendRequestPage(
-                    navigtionBack = navigationBack,
+                    navigationBack = navigationBack,
+                    mainViewModel = mainViewModel
                 )
             }
 
@@ -205,8 +261,11 @@ fun Navigator(
                 QuoteReviewPage(
                     navigationBack = navigationBack,
                     quoteText = quoteTextinQuote,
-                    onQuoteTextChange = { quoteTextinQuote = it }
-                )
+                    onQuoteTextChange = { quoteTextinQuote = it },
+                    onSelectButtonClicked = { navController.navigate("SearchPageWithoutBottomBar") },
+                    onBookClicked = { navController.navigate("SearchPageWithoutBottomBar") },
+
+                    )
             }
 
             composable(route = "ReviewDetailPage") {
@@ -215,14 +274,32 @@ fun Navigator(
                 )
             }
 
+            composable(route = "BookDetailPage") {
+                BookDetailPage(
+                    navigationBack = navigationBack,
+                    bottomBaronClickedActions = bottomBar5onClickedActions,
+                    onFloatingButtonCLicked = { navController.navigate("ReviewPage") },
+                    mainViewModel = mainViewModel,
+                )
+            }
+
+            composable(route = "GroupNameSettingPage") {
+                GroupNameSettingPage(
+                    navigationBack = navigationBack,
+                    groupNameText = groupNameText,
+                    groupDescriptionText = groupDescriptionText,
+                    onGroupNameTextChanged = { groupNameText = it },
+                    onGroupDescriptionTextChanged = { groupDescriptionText = it },
+                    onConfirmButtonClicked = {
+                        mainViewModel.createAndUpdateGroupList(
+                            groupName = groupNameText,
+                            groupDescription = groupDescriptionText
+                        )
+                        navigationBack()
+                    },
+                )
+            }
+
         }
     }
 }
-// // 추후 nav 분류할거면 사용
-//fun NavGraphBuilder.loginGraph(navController: NavController) {
-//    navigation(startDestination = "username", route = "login") {
-//        composable("username") { ... }
-//        composable("password") { ... }
-//        composable("registration") { ... }
-//    }
-//}

@@ -24,18 +24,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.frontcapstone.R
+import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 import com.example.frontcapstone.ui.theme.UserTextPrupleColor
 
-@Preview
 @Composable
 fun SearchedFriendCard(
-//    onSendRequestClicked: () -> Unit
+    onSendRequestClicked: () -> Unit,
+    user: UserData,
+    friendCandidateList: List<UserData>,
+    friendsList: List<UserData>,
+    meID: Int
+
 ) {
     Row(
         modifier = Modifier
@@ -65,7 +69,7 @@ fun SearchedFriendCard(
 
             // 사용자 이름
             Text(
-                text = "User1234",
+                text = user.nickname,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = UserTextPrupleColor
@@ -73,20 +77,24 @@ fun SearchedFriendCard(
         }
 
         // 전송 요청 버튼
-        Button(
-            onClick = { /* TODO: Send request action */ },
-            shape = RoundedCornerShape(16.dp),
-            colors = ButtonDefaults.buttonColors(
-                containerColor = PrimaryPurpleColor,
-                contentColor = Color.Black
-            ),
-            modifier = Modifier.height(24.dp).width(90.dp),
-            contentPadding = PaddingValues(0.dp)
+        if (user !in friendsList && user !in friendCandidateList && meID != user.id) {
+            Button(
+                onClick = onSendRequestClicked,
+                shape = RoundedCornerShape(16.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = PrimaryPurpleColor,
+                    contentColor = Color.Black
+                ),
+                modifier = Modifier
+                    .height(24.dp)
+                    .width(90.dp),
+                contentPadding = PaddingValues(0.dp)
             ) {
-            Text(
-                text = "send request",
-                fontSize = 12.sp
-            )
+                Text(
+                    text = "send request",
+                    fontSize = 12.sp
+                )
+            }
         }
     }
 }

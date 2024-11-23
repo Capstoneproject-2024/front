@@ -18,18 +18,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
 import com.example.frontcapstone.components.items.SimpleBook
-import com.example.frontcapstone.components.layout.BottomFiveMenu
 import com.example.frontcapstone.components.textInput.SearchTextInput
 import com.example.frontcapstone.viemodel.MainViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun SearchPage(
-    bottomBaronClickedActions: List<() -> Unit>,
+fun SearchPageWithoutBottomBar(
+    navigationBack: () -> Unit,
     searchText: String,
     onSearchValueChange: (String) -> Unit,
     mainViewModel: MainViewModel,
-    navigateToBookDetail: () -> Unit
 ) {
     val books by mainViewModel.searchedBooks.collectAsState(initial = emptyList())
     val focusManager = LocalFocusManager.current
@@ -51,11 +49,6 @@ fun SearchPage(
                 }
             )
         },
-        bottomBar = {
-            BottomFiveMenu(
-                onClickedActions = bottomBaronClickedActions
-            )
-        }
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -77,7 +70,7 @@ fun SearchPage(
                         onClicked = {
                             coroutineScope.launch {
                                 mainViewModel.searchedBook(it.id)
-                                navigateToBookDetail()
+                                navigationBack()
                             }
                         }
                     )
