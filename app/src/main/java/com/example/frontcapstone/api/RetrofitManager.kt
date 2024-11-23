@@ -18,7 +18,7 @@ class RetrofitManager {
     }
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://172.30.1.47:8000")
+        .baseUrl("http://34.64.247.136:8001")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private val apiService = retrofit.create(ApiService::class.java)

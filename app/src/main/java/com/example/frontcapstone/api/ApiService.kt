@@ -20,17 +20,17 @@ import retrofit2.http.Query
 interface ApiService {
 
     //auth 관련
-    @POST("create_user")
+    @POST("/user/create_user")
     suspend fun createUser(
         @Body userInput: UserInput
     ): Response<UserUIState>
 
-    @GET("get_user")
+    @GET("/user/get_user")
     suspend fun getUser(
         @Query("id") id: Int
     ): Response<UserUIState>
 
-    @GET("get_user_email")
+    @GET("/user/get_user_email")
     suspend fun getUserEmail(
         @Query("email") email: String
     ): Response<UserUIState>
