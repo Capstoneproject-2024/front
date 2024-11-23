@@ -24,7 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.frontcapstone.R
@@ -32,11 +31,12 @@ import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 import com.example.frontcapstone.ui.theme.UserTextPrupleColor
 
-@Preview
 @Composable
 fun SearchedFriendCard(
-//    onSendRequestClicked: () -> Unit
-) {
+//    onSendRequestClicked: () -> Unit,
+    name: String,
+
+    ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -65,7 +65,7 @@ fun SearchedFriendCard(
 
             // 사용자 이름
             Text(
-                text = "User1234",
+                text = name,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = UserTextPrupleColor
@@ -80,9 +80,11 @@ fun SearchedFriendCard(
                 containerColor = PrimaryPurpleColor,
                 contentColor = Color.Black
             ),
-            modifier = Modifier.height(24.dp).width(90.dp),
+            modifier = Modifier
+                .height(24.dp)
+                .width(90.dp),
             contentPadding = PaddingValues(0.dp)
-            ) {
+        ) {
             Text(
                 text = "send request",
                 fontSize = 12.sp

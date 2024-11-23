@@ -197,7 +197,8 @@ fun Navigator(
                 FindFriendPage(
                     navigationBack = navigationBack,
                     findFriendText = findFriendText,
-                    onFindFriendTextChanged = { findFriendText = it }
+                    onFindFriendTextChanged = { findFriendText = it },
+                    mainViewModel = mainViewModel
                 )
             }
 

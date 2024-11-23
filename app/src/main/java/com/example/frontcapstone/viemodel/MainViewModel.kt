@@ -19,9 +19,11 @@ import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
 
+    //로그인 관련
     private val _userState = MutableStateFlow(UserUIState())
     val userState: StateFlow<UserUIState> = _userState.asStateFlow()
 
+    //search 관련
     private val _searchedBooks =
         MutableStateFlow<List<BookDataWithoutDesc>>(emptyList())//MutableStateFlow(mutableListOf<BookData>())
     val searchedBooks: StateFlow<List<BookDataWithoutDesc>> = _searchedBooks.asStateFlow()
@@ -29,11 +31,16 @@ class MainViewModel : ViewModel() {
     private val _chosenBook = MutableStateFlow(BookData())
     val chosenBook: StateFlow<BookData> = _chosenBook.asStateFlow()
 
+    //group관련
     private val _groupList = MutableStateFlow<List<GroupData>>(emptyList())
     val groupList: StateFlow<List<GroupData>> = _groupList.asStateFlow()
 
+    //friend  관련
     private val _requestSenderList = MutableStateFlow<List<UserData>>(emptyList())
     val requestSenderList: StateFlow<List<UserData>> = _requestSenderList.asStateFlow()
+
+    private val _searchedUserList = MutableStateFlow<List<UserData>>(emptyList())
+    val searchedUserList: StateFlow<List<UserData>> = _searchedUserList.asStateFlow()
 
 
     fun updateUserState(id: Int, nickname: String) {
@@ -196,6 +203,18 @@ class MainViewModel : ViewModel() {
             onSuccess = {
                 viewModelScope.launch {
                     getRequestSender()
+                }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getUsersByEmail(userInputEmail: String) {
+        RetrofitManager.instance.getUsersByEmail(
+            email = userInputEmail,
+            onSuccess = { searchedUsers: List<UserData> ->
+                _searchedUserList.update {
+                    searchedUsers
                 }
             },
             onFailure = {}

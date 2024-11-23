@@ -1,6 +1,7 @@
 package com.example.frontcapstone.components.textInput
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -28,6 +30,7 @@ import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 fun SearchFriendTextInput(
     findFriendText: String,
     onFindFriendTextChanged: (String) -> Unit,
+    onKeyboardDone: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -42,7 +45,9 @@ fun SearchFriendTextInput(
             imageVector = Icons.Default.Search,
             contentDescription = "Search Icon",
             tint = Color.White,
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier
+                .size(24.dp)
+                .clickable { }
         )
 
         Spacer(modifier = Modifier.width(8.dp))
@@ -69,6 +74,9 @@ fun SearchFriendTextInput(
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done
             ),
+            keyboardActions = KeyboardActions(
+                onDone = { onKeyboardDone() }
+            )
         )
     }
 }

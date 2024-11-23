@@ -19,6 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +43,9 @@ fun GroupNameSettingPage(
     onGroupNameTextChanged: (String) -> Unit,
     onConfirmButtonClicked: () -> Unit,
 ) {
+    // 경고 메시지 상태 관리
+    var showError by rememberSaveable { mutableStateOf(false) }
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -58,7 +65,10 @@ fun GroupNameSettingPage(
         ) {
             TextField(
                 value = groupNameText,
-                onValueChange = onGroupNameTextChanged,
+                onValueChange = {
+                    onGroupNameTextChanged(it)
+                    showError = it.isBlank() // 빈 문자열일 경우 에러 표시
+                },
                 placeholder = {
                     Text(
                         text = "Write Group Name",
@@ -91,7 +101,10 @@ fun GroupNameSettingPage(
 
             TextField(
                 value = groupDescriptionText,
-                onValueChange = onGroupDescriptionTextChanged,
+                onValueChange = {
+                    onGroupDescriptionTextChanged(it)
+                    showError = it.isBlank()
+                },
                 placeholder = {
                     Text(
                         text = "Write Group Description",
@@ -120,10 +133,25 @@ fun GroupNameSettingPage(
                 )
             )
 
+            if (showError) {
+                Text(
+                    text = "Group name and description cannot be empty!",
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { onConfirmButtonClicked() },
+                onClick = {
+                    if (groupNameText.isBlank() || groupDescriptionText.isBlank()) {
+                        showError = true // 빈 문자열일 경우 경고 표시
+                    } else {
+                        onConfirmButtonClicked() // 정상적인 경우에만 동작
+                    }
+                },
                 shape = RoundedCornerShape(6.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = PrimaryPurpleColor,
