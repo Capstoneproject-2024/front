@@ -9,8 +9,10 @@ import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.Review
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserUIState
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -47,6 +49,13 @@ class MainViewModel : ViewModel() {
     val friendsList: StateFlow<List<UserData>> = _friendsList.asStateFlow()
     private val _friendCandidateList = MutableStateFlow<List<UserData>>(emptyList())
     val friendCandidateList: StateFlow<List<UserData>> = _friendCandidateList.asStateFlow()
+
+
+    //review 관련
+    private val _myReviewList = MutableStateFlow<List<Review>>(emptyList())
+    val myReviewList: StateFlow<List<Review>> = _myReviewList.asStateFlow()
+    private val _myReviewListBookList = MutableStateFlow<List<BookData>>(emptyList())
+    val myReviewListBookList: StateFlow<List<BookData>> = _myReviewListBookList.asStateFlow()
 
 
     fun updateUserState(id: Int, nickname: String) {
@@ -135,6 +144,19 @@ class MainViewModel : ViewModel() {
             },
             onFailure = {}
         )
+    }
+
+    suspend fun getBookByID(id: Int): BookData {
+        val returnBook = CompletableDeferred<BookData>()
+        RetrofitManager.instance.getBookByID(id = id,
+            onSuccess = { book: BookData ->
+                returnBook.complete(book)
+            },
+            onFailure = {
+                returnBook.completeExceptionally(RuntimeException("Failed to fetch book data"))
+            }
+        )
+        return returnBook.await()
     }
 
     fun clearSearchThings() {
@@ -256,6 +278,31 @@ class MainViewModel : ViewModel() {
             },
             onFailure = {}
         )
+    }
+
+    fun clearRequestSenderList() {
+        _requestSenderList.update { emptyList() }
+    }
+
+    fun clearAboutFindFriendPageLists() {
+        _friendsList.update { emptyList() }
+        _friendCandidateList.update { emptyList() }
+        _searchedUserList.update { emptyList() }
+    }
+
+
+    suspend fun getUserReviews() {
+        RetrofitManager.instance.getUserReviews(
+            userID = userState.value.id,
+            onSuccess = { reviews: List<Review> ->
+                _myReviewList.update { reviews }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getUserReviewsBookList() {
+
     }
 
 }

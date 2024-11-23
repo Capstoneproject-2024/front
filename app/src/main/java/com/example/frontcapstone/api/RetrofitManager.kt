@@ -6,20 +6,28 @@ import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.LocalDateTimeAdapter
+import com.example.frontcapstone.api.data.Review
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserInput
 import com.example.frontcapstone.api.data.UserUIState
+import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
 
 class RetrofitManager {
     companion object {
         val instance: RetrofitManager by lazy { RetrofitManager() }
     }
 
+    private val gson = GsonBuilder()
+        .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
+        .create()
+
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://34.64.247.136:8001")
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
     private val apiService = retrofit.create(ApiService::class.java)
 
@@ -339,4 +347,26 @@ class RetrofitManager {
         }
     }
 
+    suspend fun getUserReviews(
+        userID: Int,
+        onSuccess: (List<Review>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getUserReviews(userID)
+            if (response.isSuccessful) {
+                val userReviewList = response.body()
+                if (userReviewList != null) {
+                    onSuccess(userReviewList)
+                }
+
+            } else {
+                Log.e("ReviewAPI-getUserReviews-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("ReviewAPI-getUserReviews-Request", e.toString())
+//            onFailure()
+        }
+    }
 }
