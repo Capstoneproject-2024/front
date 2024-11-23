@@ -17,18 +17,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.components.items.BookDetail
 import com.example.frontcapstone.components.items.RatingBar
 import com.example.frontcapstone.components.layout.WriteReviewTopMenu
 import com.example.frontcapstone.components.textInput.QuoteTextInput
 import com.example.frontcapstone.components.textInput.ReviewTextInput
 import com.example.frontcapstone.viemodel.MainViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun ReviewPage(
@@ -43,8 +47,12 @@ fun ReviewPage(
     mainViewModel: MainViewModel
 ) {
     val chosenBook by mainViewModel.chosenBook.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+    val user by mainViewModel.userState.collectAsState()
+
     var rating by rememberSaveable { mutableFloatStateOf(2.5f) } // 초기 별점
-    var selectedOption by rememberSaveable { mutableStateOf("Public") } // 기본 선택값: Public
+    var selectedOption by rememberSaveable { mutableStateOf("public") } // 기본 선택값: Public
+    var showError by rememberSaveable { mutableStateOf(false) }
 
 
     Scaffold(
@@ -52,7 +60,26 @@ fun ReviewPage(
         topBar = {
             WriteReviewTopMenu(
                 navigationBack = navigationBack,
-                onClickPost = { } //onClickPost
+                onClickPost = {
+                    if (reviewText.isBlank() || quoteText.isBlank()) {
+                        showError = true // 빈 문자열일 경우 경고 표시
+                    } else {
+                        coroutineScope.launch {
+                            mainViewModel.createReview(
+                                postReview = PostReview(
+                                    userID = user.id,
+                                    bookID = chosenBook.id,
+                                    rating = rating,
+                                    review = reviewText,
+                                    quote = quoteText
+                                ),
+                                visibilityLevel = selectedOption
+                            )
+                            mainViewModel.clearChosenBook()
+                            navigationBack()
+                        }
+                    }
+                }
             )
         },
     ) { innerPadding ->
@@ -77,9 +104,23 @@ fun ReviewPage(
                     onClicked = onSelectButtonClicked
                 )
             }
-            QuoteTextInput(quoteText = quoteText, onQuoteTextChange = onQuoteTextChange)
-            ReviewTextInput(reviewText = reviewText, onReviewTextChange = onReviewTextChange)
+            QuoteTextInput(quoteText = quoteText, onQuoteTextChange = {
+                onQuoteTextChange(it)
+                showError = it.isBlank()
+            })
+            ReviewTextInput(reviewText = reviewText, onReviewTextChange = {
+                onReviewTextChange(it)
+                showError = it.isBlank()
+            })
 
+            if (showError) {
+                Text(
+                    text = "review and quote cannot be empty!",
+                    color = Color.Red,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
 
             // RatingBar
             RatingBar(
@@ -96,15 +137,15 @@ fun ReviewPage(
                 // Public Radio Button
                 RadioButtonWithLabel(
                     label = "Public",
-                    isSelected = selectedOption == "Public",
-                    onClick = { selectedOption = "Public" }
+                    isSelected = selectedOption == "public",
+                    onClick = { selectedOption = "public" }
                 )
 
                 // Private Radio Button
                 RadioButtonWithLabel(
                     label = "Private",
-                    isSelected = selectedOption == "Private",
-                    onClick = { selectedOption = "Private" }
+                    isSelected = selectedOption == "private",
+                    onClick = { selectedOption = "private" }
                 )
             }
 

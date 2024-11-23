@@ -9,6 +9,7 @@ import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.Review
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserUIState
@@ -301,8 +302,13 @@ class MainViewModel : ViewModel() {
         )
     }
 
-    suspend fun getUserReviewsBookList() {
-
+    suspend fun createReview(postReview: PostReview, visibilityLevel: String) {
+        RetrofitManager.instance.createReview(
+            review = postReview,
+            visibilityLevel = visibilityLevel,
+            onSuccess = {},
+            onFailure = {}
+        )
     }
 
 }

@@ -7,6 +7,7 @@ import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.LocalDateTimeAdapter
+import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.Review
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserInput
@@ -366,6 +367,27 @@ class RetrofitManager {
             }
         } catch (e: Exception) {
             Log.e("ReviewAPI-getUserReviews-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun createReview(
+        review: PostReview,
+        visibilityLevel: String,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.createReview(review = review, visibilityLevel = visibilityLevel)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("FriendAPI-create&autoDelete-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Friend-create&autoDelete-Request", e.toString())
 //            onFailure()
         }
     }
