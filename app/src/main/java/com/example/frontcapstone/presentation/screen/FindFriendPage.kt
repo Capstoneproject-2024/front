@@ -25,6 +25,10 @@ fun FindFriendPage(
     mainViewModel: MainViewModel
 ) {
     val searchedUserList by mainViewModel.searchedUserList.collectAsState()
+    val friendsList by mainViewModel.friendsList.collectAsState()
+    val friendCandidateList by mainViewModel.friendCandidateList.collectAsState()
+    val userState by mainViewModel.userState.collectAsState()
+
     val coroutineScope = rememberCoroutineScope()
 
     Scaffold(
@@ -42,6 +46,8 @@ fun FindFriendPage(
                     onFindFriendTextChanged = onFindFriendTextChanged,
                     onKeyboardDone = {
                         coroutineScope.launch {
+                            mainViewModel.getFriends()
+                            mainViewModel.getBothRequest()
                             mainViewModel.getUsersByEmail(findFriendText)
                         }
                     }
@@ -49,7 +55,16 @@ fun FindFriendPage(
             }
             items(searchedUserList) { user ->
                 SearchedFriendCard(
-                    name = user.nickname
+                    user = user,
+                    friendsList = friendsList,
+                    friendCandidateList = friendCandidateList,
+                    meID = userState.id,
+                    onSendRequestClicked = {
+                        coroutineScope.launch {
+                            launch { mainViewModel.createFollowerRequest(receiverID = user.id) }.join()
+                            launch { mainViewModel.getBothRequest() }.join()
+                        }
+                    }
                 )
             }
         }

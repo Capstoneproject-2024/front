@@ -88,4 +88,14 @@ interface ApiService {
         @Query("senderID") senderID: Int,
         @Query("receiverID") receiverID: Int
     ): Response<SuccessResponse>
+
+    @GET("/friend/get_friends")
+    suspend fun getFriends(
+        @Query("userID") userID: Int,
+    ): Response<List<UserData>>
+
+    @GET("/friend/get_both_request")
+    suspend fun getBothRequest(
+        @Query("userID") userID: Int,
+    ): Response<List<UserData>>
 }

@@ -293,4 +293,50 @@ class RetrofitManager {
         }
     }
 
+    suspend fun getFriends(
+        userID: Int,
+        onSuccess: (List<UserData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getFriends(userID)
+            if (response.isSuccessful) {
+                val friendList = response.body()
+                if (friendList != null) {
+                    onSuccess(friendList)
+                }
+
+            } else {
+                Log.e("FriendAPI-getReceivers-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Friend-getReceivers-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getBothRequest(
+        userID: Int,
+        onSuccess: (List<UserData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getBothRequest(userID)
+            if (response.isSuccessful) {
+                val friendCandidateList = response.body()
+                if (friendCandidateList != null) {
+                    onSuccess(friendCandidateList)
+                }
+
+            } else {
+                Log.e("FriendAPI-getReceivers-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Friend-getReceivers-Request", e.toString())
+//            onFailure()
+        }
+    }
+
 }

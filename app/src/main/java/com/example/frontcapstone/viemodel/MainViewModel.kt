@@ -7,6 +7,7 @@ import com.example.frontcapstone.api.RetrofitManager
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.FollowerData
+import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserUIState
@@ -41,6 +42,11 @@ class MainViewModel : ViewModel() {
 
     private val _searchedUserList = MutableStateFlow<List<UserData>>(emptyList())
     val searchedUserList: StateFlow<List<UserData>> = _searchedUserList.asStateFlow()
+
+    private val _friendsList = MutableStateFlow<List<UserData>>(emptyList())
+    val friendsList: StateFlow<List<UserData>> = _friendsList.asStateFlow()
+    private val _friendCandidateList = MutableStateFlow<List<UserData>>(emptyList())
+    val friendCandidateList: StateFlow<List<UserData>> = _friendCandidateList.asStateFlow()
 
 
     fun updateUserState(id: Int, nickname: String) {
@@ -171,6 +177,17 @@ class MainViewModel : ViewModel() {
         }
     }
 
+    suspend fun createFollowerRequest(receiverID: Int) {
+        RetrofitManager.instance.createFollowerRequest(
+            followerRequest = FollowerRequestData(
+                senderID = userState.value.id,
+                receiverID = receiverID
+            ),
+            onSuccess = {},
+            onFailure = {}
+        )
+    }
+
     suspend fun getRequestSender() {
         RetrofitManager.instance.getRequestSender(
             receiverID = userState.value.id,
@@ -220,4 +237,25 @@ class MainViewModel : ViewModel() {
             onFailure = {}
         )
     }
+
+    suspend fun getFriends() {
+        RetrofitManager.instance.getFriends(
+            userID = userState.value.id,
+            onSuccess = { friends: List<UserData> ->
+                _friendsList.update { friends }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getBothRequest() {
+        RetrofitManager.instance.getBothRequest(
+            userID = userState.value.id,
+            onSuccess = { candidates: List<UserData> ->
+                _friendCandidateList.update { candidates }
+            },
+            onFailure = {}
+        )
+    }
+
 }
