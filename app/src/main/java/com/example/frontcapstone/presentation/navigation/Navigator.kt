@@ -271,6 +271,7 @@ fun Navigator(
             composable(route = "ReviewDetailPage") {
                 ReviewDetailPage(
                     navigationBack = navigationBack,
+                    mainViewModel = mainViewModel
                 )
             }
 

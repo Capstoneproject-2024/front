@@ -57,6 +57,9 @@ class MainViewModel : ViewModel() {
     val mainTimelineReviewList: StateFlow<List<ReviewWithBook>> =
         _mainTimelineReviewList.asStateFlow()
 
+    private val _chosenReview = MutableStateFlow(ReviewWithBook())
+    val chosenReview: StateFlow<ReviewWithBook> = _chosenReview.asStateFlow()
+
 
     fun updateUserState(id: Int, nickname: String) {
         _userState.update {
@@ -308,6 +311,12 @@ class MainViewModel : ViewModel() {
             onSuccess = {},
             onFailure = {}
         )
+    }
+
+    fun updateChosenReview(reviewWithBook: ReviewWithBook) {
+        _chosenReview.update {
+            reviewWithBook
+        }
     }
 
 }

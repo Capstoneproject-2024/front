@@ -46,7 +46,10 @@ fun MainPage(
         ) {
             itemsIndexed(mainTimelineReviewList) { index, review ->
                 ReviewFrame(
-                    onClicked = onReviewClicked,
+                    onClicked = {
+                        mainViewModel.updateChosenReview(review)
+                        onReviewClicked()
+                    },
                     reviewWithBook = review,
                 )
 
