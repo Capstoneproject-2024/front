@@ -8,6 +8,7 @@ import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.LocalDateTimeAdapter
+import com.example.frontcapstone.api.data.PostComment
 import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.UserData
@@ -414,6 +415,26 @@ class RetrofitManager {
             }
         } catch (e: Exception) {
             Log.e("Comment-getComments-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun createComment(
+        postComment: PostComment,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.createComment(postComment = postComment)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("Comment-create-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Comment-create-Request", e.toString())
 //            onFailure()
         }
     }

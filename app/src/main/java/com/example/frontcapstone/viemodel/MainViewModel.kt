@@ -10,6 +10,7 @@ import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.PostComment
 import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.UserData
@@ -332,6 +333,18 @@ class MainViewModel : ViewModel() {
             reviewID = reviewID,
             onSuccess = { comments: List<Comment> ->
                 _chosenReviewCommentList.update { comments }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun createComment(postComment: PostComment) {
+        RetrofitManager.instance.createComment(
+            postComment = postComment,
+            onSuccess = {
+                viewModelScope.launch {
+                    getComments(postComment.reviewID)
+                }
             },
             onFailure = {}
         )

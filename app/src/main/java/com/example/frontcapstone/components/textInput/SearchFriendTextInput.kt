@@ -47,7 +47,7 @@ fun SearchFriendTextInput(
             tint = Color.White,
             modifier = Modifier
                 .size(24.dp)
-                .clickable { }
+                .clickable { onKeyboardDone() }
         )
 
         Spacer(modifier = Modifier.width(8.dp))

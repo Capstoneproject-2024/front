@@ -79,6 +79,8 @@ fun Navigator(
     var reviewText by rememberSaveable { mutableStateOf("") }
     var findFriendText by rememberSaveable { mutableStateOf("") }
 
+    var commentText by rememberSaveable { mutableStateOf("") }
+
     // 해당 페이지로 이동 시 초기화
     navController.addOnDestinationChangedListener { _, destination, _ ->
         when (destination.route) {
@@ -108,6 +110,8 @@ fun Navigator(
 
             "FriendRequestPage" -> mainViewModel.clearRequestSenderList()
 
+            "ReviewDetailPage" -> commentText = ""
+
         }
     }
 
@@ -125,15 +129,20 @@ fun Navigator(
                     onClick = {
                         googleSignIn()
                     },
-                    onEmailClick={
+                    onEmailClick = {
                         navController.navigate("RegisterPage")
                     }
                 )
             }
-            composable(route = "RegisterPage"){
+            composable(route = "RegisterPage") {
                 RegisterPage(
-                    tryAuthWithEmailAndPassword =  { email:String, password:String, onAuthFailure:()->Unit, onFailure:()->Unit ->
-                        authManager.tryAuthWithEmailAndPassword(email,password,onAuthFailure,onFailure)
+                    tryAuthWithEmailAndPassword = { email: String, password: String, onAuthFailure: () -> Unit, onFailure: () -> Unit ->
+                        authManager.tryAuthWithEmailAndPassword(
+                            email,
+                            password,
+                            onAuthFailure,
+                            onFailure
+                        )
                     }
                 )
             }
@@ -282,6 +291,8 @@ fun Navigator(
             composable(route = "ReviewDetailPage") {
                 ReviewDetailPage(
                     navigationBack = navigationBack,
+                    commentText = commentText,
+                    onCommentTextChanged = { commentText = it },
                     mainViewModel = mainViewModel
                 )
             }

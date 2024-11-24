@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.frontcapstone.components.buttons.ReviewFrame
@@ -18,7 +17,6 @@ import com.example.frontcapstone.components.items.Line
 import com.example.frontcapstone.components.layout.BottomFiveMenu
 import com.example.frontcapstone.components.layout.TopMenuWithoutBack
 import com.example.frontcapstone.viemodel.MainViewModel
-import kotlinx.coroutines.launch
 
 @Composable
 fun MainPage(
@@ -28,7 +26,6 @@ fun MainPage(
     mainViewModel: MainViewModel
 ) {
     val mainTimelineReviewList by mainViewModel.mainTimelineReviewList.collectAsState()
-    val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         mainViewModel.getTimelineReview()
@@ -51,9 +48,6 @@ fun MainPage(
                 ReviewFrame(
                     onClicked = {
                         mainViewModel.updateChosenReview(review)
-                        coroutineScope.launch {
-                            mainViewModel.getComments(reviewID = review.id)
-                        }
                         onReviewClicked()
                     },
                     reviewWithBook = review,

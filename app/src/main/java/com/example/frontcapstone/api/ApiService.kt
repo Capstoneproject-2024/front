@@ -6,6 +6,7 @@ import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.PostComment
 import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.SuccessResponse
@@ -122,5 +123,9 @@ interface ApiService {
         @Query("userID") userID: Int,
     ): Response<List<Comment>>
 
+    @POST("/comment/create_comment")
+    suspend fun createComment(
+        @Body postComment: PostComment
+    ): Response<SuccessResponse>
 
 }
