@@ -22,6 +22,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,6 +48,12 @@ fun GroupSettingPage(
     mainViewModel: MainViewModel
 ) {
     val coroutineScope = rememberCoroutineScope()
+    val memberList by mainViewModel.memberList.collectAsState()
+
+    LaunchedEffect(Unit) {
+        mainViewModel.getMembers(mainViewModel.chosenGroup.value.groupID)
+    }
+
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -104,15 +113,25 @@ fun GroupSettingPage(
                             }
                         }
                     }
-                    val temps: List<String> = List(40) { "$it" }
                     LazyColumn(
                         modifier = Modifier
                             .clip(RoundedCornerShape(12.dp))
                             .height(400.dp)
                             .padding(4.dp)
                     ) {
-                        items(temps) { temp ->
-                            GroupUserSlot()
+                        items(memberList) { member ->
+                            GroupUserSlot(
+                                user = member,
+                                onDeleteClicked = {
+                                    coroutineScope.launch {
+                                        mainViewModel.deleteMember(
+                                            deleteMemberID = member.id,
+                                            groupID = mainViewModel.chosenGroup.value.groupID
+                                        )
+                                        mainViewModel.getMembers(groupID = mainViewModel.chosenGroup.value.groupID)
+                                    }
+                                }
+                            )
                         }
                     }
                 }
