@@ -6,16 +6,25 @@ import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.LocalDateTimeAdapter
+import com.example.frontcapstone.api.data.PostReview
+import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserInput
 import com.example.frontcapstone.api.data.UserUIState
+import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
 
 class RetrofitManager {
     companion object {
         val instance: RetrofitManager by lazy { RetrofitManager() }
     }
+
+    private val gson = GsonBuilder()
+        .registerTypeAdapter(LocalDateTime::class.java, LocalDateTimeAdapter())
+        .create()
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://34.64.247.136:8000")
@@ -339,4 +348,47 @@ class RetrofitManager {
         }
     }
 
+    suspend fun getTimelineReview(
+        userID: Int,
+        onSuccess: (List<ReviewWithBook>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getTimelineReview(userID)
+            if (response.isSuccessful) {
+                val userMainTimeline = response.body()
+                if (userMainTimeline != null) {
+                    onSuccess(userMainTimeline)
+                }
+
+            } else {
+                Log.e("ReviewAPI-getUserReviews-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("ReviewAPI-getUserReviews-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun createReview(
+        review: PostReview,
+        visibilityLevel: String,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.createReview(review = review, visibilityLevel = visibilityLevel)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("FriendAPI-create&autoDelete-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Friend-create&autoDelete-Request", e.toString())
+//            onFailure()
+        }
+    }
 }

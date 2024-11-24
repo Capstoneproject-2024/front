@@ -20,6 +20,10 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,21 +32,19 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.frontcapstone.R
-import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.components.items.FixedRatingBar
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
-import java.time.format.DateTimeFormatter
 
 @Composable
-fun ReviewFrame(
+fun LegacyReviewFrame(
     onClicked: () -> Unit,
-    reviewWithBook: ReviewWithBook,
 ) {
+    var rating by rememberSaveable { mutableFloatStateOf(2.5f) }
+
     Card(
         modifier = Modifier
             .clickable { onClicked() }
@@ -59,7 +61,7 @@ fun ReviewFrame(
         ) {
 
             AsyncImage(
-                model = reviewWithBook.image,
+                model = "https://shopping-phinf.pstatic.net/main_3245996/32459963667.20221019105132.jpg",
                 contentDescription = "Book Cover",
                 modifier = Modifier
                     .width(98.72.dp)
@@ -83,8 +85,8 @@ fun ReviewFrame(
 
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background), //사용자 이미지 리소스
-                        contentDescription = "user Cover",
+                        painter = painterResource(id = R.drawable.ic_launcher_background), // 책 커버 이미지 리소스
+                        contentDescription = "Book Cover",
                         modifier = Modifier
                             .clip(CircleShape)
                             .size(30.dp),
@@ -92,16 +94,14 @@ fun ReviewFrame(
                     )
 
                     FixedRatingBar(
-                        rating = reviewWithBook.rating,
+                        rating = rating,
                     )
                 }
 
                 Text(
-                    text = "${reviewWithBook.name} | ${reviewWithBook.year} | ${reviewWithBook.author}",
+                    text = "해리포터 | 1997 | JK 롤링",
                     color = Color.White,
-                    fontSize = 12.sp,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    fontSize = 12.sp
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
@@ -139,8 +139,9 @@ fun ReviewFrame(
                         }
 
 
+                        // TextField for input
                         Text(
-                            text = reviewWithBook.quote,
+                            text = "Lorem ipsum dolor sit amet sdf consectetur.",
                             color = Color.Black,
                             modifier = Modifier
                                 .background(PrimaryPurpleColor, shape = RoundedCornerShape(8.dp))
@@ -173,7 +174,7 @@ fun ReviewFrame(
 
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = reviewWithBook.reviewDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
+                    text = "2024.05.24",
                     color = Color.White,
                     textAlign = TextAlign.End,
                     fontSize = 8.sp

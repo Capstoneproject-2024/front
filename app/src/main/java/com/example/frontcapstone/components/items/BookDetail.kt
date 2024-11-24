@@ -59,6 +59,8 @@ fun BookDetail(
                 text = "${name} | ${year} | ${author}",
                 color = PrimaryPurpleColor,
                 fontSize = 16.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
             )
 
             Text(

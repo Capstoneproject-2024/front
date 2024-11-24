@@ -98,9 +98,16 @@ fun Navigator(
             }
 
             "QuoteReviewPage" -> quoteTextinQuote = ""
-            "FindFriendPage" -> findFriendText = ""
 
             "GroupNameSettingPage" -> groupNameText = ""
+
+            "FindFriendPage" -> {
+                findFriendText = ""
+                mainViewModel.clearAboutFindFriendPageLists()
+            }
+
+            "FriendRequestPage" -> mainViewModel.clearRequestSenderList()
+
         }
     }
 
@@ -167,7 +174,8 @@ fun Navigator(
                 MainPage(
                     bottomBaronClickedActions = bottomBar5onClickedActions,
                     onFloatingButtonCLicked = { navController.navigate("ReviewPage") },
-                    onReviewClicked = navigateToReviewDetail
+                    onReviewClicked = navigateToReviewDetail,
+                    mainViewModel = mainViewModel
                 )
             }
             composable(route = "NoticePage") {
@@ -274,6 +282,7 @@ fun Navigator(
             composable(route = "ReviewDetailPage") {
                 ReviewDetailPage(
                     navigationBack = navigationBack,
+                    mainViewModel = mainViewModel
                 )
             }
 

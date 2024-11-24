@@ -9,8 +9,11 @@ import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.PostReview
+import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserUIState
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -47,6 +50,15 @@ class MainViewModel : ViewModel() {
     val friendsList: StateFlow<List<UserData>> = _friendsList.asStateFlow()
     private val _friendCandidateList = MutableStateFlow<List<UserData>>(emptyList())
     val friendCandidateList: StateFlow<List<UserData>> = _friendCandidateList.asStateFlow()
+
+
+    //review 관련
+    private val _mainTimelineReviewList = MutableStateFlow<List<ReviewWithBook>>(emptyList())
+    val mainTimelineReviewList: StateFlow<List<ReviewWithBook>> =
+        _mainTimelineReviewList.asStateFlow()
+
+    private val _chosenReview = MutableStateFlow(ReviewWithBook())
+    val chosenReview: StateFlow<ReviewWithBook> = _chosenReview.asStateFlow()
 
 
     fun updateUserState(id: Int, nickname: String) {
@@ -135,6 +147,19 @@ class MainViewModel : ViewModel() {
             },
             onFailure = {}
         )
+    }
+
+    suspend fun getBookByID(id: Int): BookData {
+        val returnBook = CompletableDeferred<BookData>()
+        RetrofitManager.instance.getBookByID(id = id,
+            onSuccess = { book: BookData ->
+                returnBook.complete(book)
+            },
+            onFailure = {
+                returnBook.completeExceptionally(RuntimeException("Failed to fetch book data"))
+            }
+        )
+        return returnBook.await()
     }
 
     fun clearSearchThings() {
@@ -256,6 +281,42 @@ class MainViewModel : ViewModel() {
             },
             onFailure = {}
         )
+    }
+
+    fun clearRequestSenderList() {
+        _requestSenderList.update { emptyList() }
+    }
+
+    fun clearAboutFindFriendPageLists() {
+        _friendsList.update { emptyList() }
+        _friendCandidateList.update { emptyList() }
+        _searchedUserList.update { emptyList() }
+    }
+
+
+    suspend fun getTimelineReview() {
+        RetrofitManager.instance.getTimelineReview(
+            userID = userState.value.id,
+            onSuccess = { reviews: List<ReviewWithBook> ->
+                _mainTimelineReviewList.update { reviews }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun createReview(postReview: PostReview, visibilityLevel: String) {
+        RetrofitManager.instance.createReview(
+            review = postReview,
+            visibilityLevel = visibilityLevel,
+            onSuccess = {},
+            onFailure = {}
+        )
+    }
+
+    fun updateChosenReview(reviewWithBook: ReviewWithBook) {
+        _chosenReview.update {
+            reviewWithBook
+        }
     }
 
 }

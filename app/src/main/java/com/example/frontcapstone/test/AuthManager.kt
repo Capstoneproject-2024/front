@@ -85,11 +85,16 @@ class AuthManager(
         } catch (e: ApiException) {
             // 예외 처리
             Log.e("AuthManager", "Google sign-in failed", e)
+            Log.e(
+                "GoogleSignIn",
+                "Sign-in failed with error code: ${e.statusCode}, message: ${e.message}"
+            )
+            Log.e("GoogleSignIn", "Sign-in failure status: ${e.status}")
         }
     }
 
 
-    fun signOut(){
+    fun signOut() {
         auth.signOut()
     }
 

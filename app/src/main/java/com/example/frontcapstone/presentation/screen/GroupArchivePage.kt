@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.frontcapstone.components.buttons.LegacyReviewFrame
 import com.example.frontcapstone.components.buttons.PastQuestionButton
-import com.example.frontcapstone.components.buttons.ReviewFrame
 import com.example.frontcapstone.components.items.BookRecomendationCard
 import com.example.frontcapstone.components.items.Line
 import com.example.frontcapstone.components.layout.BottomThreeMenu
@@ -51,7 +51,7 @@ fun GroupArchivePage(
             // List items with ReviewFrame and Line
             val temps: List<String> = List(2) { "$it" }
             itemsIndexed(temps) { index, temp ->
-                ReviewFrame(onClicked = onReviewClicked)
+                LegacyReviewFrame(onClicked = onReviewClicked)
                 if (index < temps.size - 1) { // 마지막 아이템이 아닌 경우에만 Line 추가
                     Line()
                 }

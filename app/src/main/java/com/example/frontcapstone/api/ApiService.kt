@@ -5,6 +5,8 @@ import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.PostReview
+import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.SuccessResponse
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserInput
@@ -98,4 +100,17 @@ interface ApiService {
     suspend fun getBothRequest(
         @Query("userID") userID: Int,
     ): Response<List<UserData>>
+
+
+    //review 관련
+    @GET("/review/get_timeline_reviews")
+    suspend fun getTimelineReview(
+        @Query("userID") userID: Int,
+    ): Response<List<ReviewWithBook>>
+
+    @POST("/review/create_review/{visibilityLevel}")
+    suspend fun createReview(
+        @Path("visibilityLevel") visibilityLevel: String,
+        @Body review: PostReview
+    ): Response<SuccessResponse>
 }

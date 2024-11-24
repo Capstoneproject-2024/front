@@ -10,7 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.frontcapstone.components.buttons.ReviewFrame
+import com.example.frontcapstone.components.buttons.LegacyReviewFrame
 import com.example.frontcapstone.components.buttons.WrittingFloatingButton
 import com.example.frontcapstone.components.items.Line
 import com.example.frontcapstone.components.items.QuoteQuestionCard
@@ -56,7 +56,7 @@ fun QuoteQuestionPage(
             // List items with ReviewFrame and Line
             val temps: List<String> = List(1) { "$it" }
             itemsIndexed(temps) { index, temp ->
-                ReviewFrame(onClicked = onReviewClicked)
+                LegacyReviewFrame(onClicked = onReviewClicked)
                 if (index < temps.size - 1) { // 마지막 아이템이 아닌 경우에만 Line 추가
                     Line()
                 }
