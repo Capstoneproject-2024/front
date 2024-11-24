@@ -13,7 +13,7 @@
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
-
+app/*.json
 # Package Files #
 *.jar
 *.war
@@ -22,6 +22,7 @@
 *.zip
 *.tar.gz
 *.rar
+app/src/main/res/values/value.xml
 *.json
 
 
@@ -124,7 +125,6 @@ obj/
 .idea/migrations.xml
 .idea/deploymentTargetSelector.xml
 
-
 # Legacy Eclipse project files
 .classpath
 .project
@@ -159,3 +159,6 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio,kotlin
+
+#for client id
+value.xml
