@@ -27,8 +27,8 @@ class RetrofitManager {
         .create()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://34.64.247.136:8000")
-        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl("http://34.64.247.136:8001")
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
     private val apiService = retrofit.create(ApiService::class.java)
 
@@ -52,7 +52,7 @@ class RetrofitManager {
                 Log.e(
                     "API-Request 1",
                     "Error: ${response.errorBody()}"
-                ) // TODO 여기서  Error: okhttp3.ResponseBody$Companion$asResponseBody$1@564d011
+                ) // 여기서  Error: okhttp3.ResponseBody$Companion$asResponseBody$1@564d011
                 onFailure()
             }
         } catch (e: Exception) {
