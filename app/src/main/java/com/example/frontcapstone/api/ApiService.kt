@@ -6,6 +6,7 @@ import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.GroupMemberData
 import com.example.frontcapstone.api.data.PostComment
 import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
@@ -64,6 +65,26 @@ interface ApiService {
     suspend fun getUserGroups(
         @Query("userID") userID: Int,
     ): Response<List<GroupData>>
+
+    @DELETE("/group/delete_group")
+    suspend fun deleteGroup(
+        @Query("groupID") groupID: Int,
+    ): Response<SuccessResponse>
+
+    @POST("/group/create_member")
+    suspend fun createMember(
+        @Body groupMemberData: GroupMemberData
+    ): Response<SuccessResponse>
+
+    @GET("/group/get_members")
+    suspend fun getMembers(
+        @Query("groupID") groupID: Int
+    ): Response<List<UserData>>
+
+    @DELETE("/group/delete_member")
+    suspend fun deleteMember(
+        @Query("deleteMemberID") deleteMemberID: Int
+    ): Response<SuccessResponse>
 
 
     //friend_router 관련

@@ -33,7 +33,7 @@ fun FindFriendPage(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopMenuWithBack(title = "Find Friend", navigationBack = navigationBack) },
+        topBar = { TopMenuWithBack(title = "Find User", navigationBack = navigationBack) },
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier

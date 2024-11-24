@@ -19,6 +19,7 @@ import com.example.frontcapstone.presentation.screen.BookDetailPage
 import com.example.frontcapstone.presentation.screen.FindFriendPage
 import com.example.frontcapstone.presentation.screen.FriendRequestPage
 import com.example.frontcapstone.presentation.screen.GroupArchivePage
+import com.example.frontcapstone.presentation.screen.GroupFindFriendPage
 import com.example.frontcapstone.presentation.screen.GroupMainPage
 import com.example.frontcapstone.presentation.screen.GroupNameSettingPage
 import com.example.frontcapstone.presentation.screen.GroupPage
@@ -80,6 +81,8 @@ fun Navigator(
     var findFriendText by rememberSaveable { mutableStateOf("") }
 
     var commentText by rememberSaveable { mutableStateOf("") }
+
+    var groupFriendFindTest by rememberSaveable { mutableStateOf("") }
 
     // 해당 페이지로 이동 시 초기화
     navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -234,6 +237,8 @@ fun Navigator(
                 GroupSettingPage(
                     navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
+                    moveToGroupFindFriendPage = { navController.navigate("GroupFindFriendPage") },
+                    mainViewModel = mainViewModel
                 )
             }
 
@@ -323,6 +328,14 @@ fun Navigator(
                 )
             }
 
+            composable(route = "GroupFindFriendPage") {
+                GroupFindFriendPage(
+                    navigationBack = navigationBack,
+                    groupFindFriendText = groupFriendFindTest,
+                    onGroupFindFriendTextChanged = { groupFriendFindTest = it },
+                    mainViewModel = mainViewModel
+                )
+            }
         }
     }
 }

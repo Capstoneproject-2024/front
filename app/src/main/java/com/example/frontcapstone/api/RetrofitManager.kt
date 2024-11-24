@@ -7,6 +7,7 @@ import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.GroupMemberData
 import com.example.frontcapstone.api.data.LocalDateTimeAdapter
 import com.example.frontcapstone.api.data.PostComment
 import com.example.frontcapstone.api.data.PostReview
@@ -198,6 +199,87 @@ class RetrofitManager {
 //            onFailure()
         }
     }
+
+    suspend fun deleteGroup(
+        groupID: Int,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.deleteGroup(groupID = groupID)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("Group-delete-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Group-delete-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun createMember(
+        groupMemberData: GroupMemberData,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.createMember(groupMemberData = groupMemberData)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("Group-memberCreate-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Group-memberCreate-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getMembers(
+        groupID: Int,
+        onSuccess: (List<UserData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getMembers(groupID)
+            if (response.isSuccessful) {
+                val memberList = response.body()
+                if (memberList != null) {
+                    onSuccess(memberList)
+                }
+
+            } else {
+                Log.e("GroupAPI-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("GroupAPI-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun deleteMember(
+        deleteMemberID: Int,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.deleteMember(deleteMemberID = deleteMemberID)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("Group-memberDelete-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Group-memberDelete-Request", e.toString())
+//            onFailure()
+        }
+    }
+
 
     suspend fun getUsersByEmail(
         email: String,
@@ -438,4 +520,5 @@ class RetrofitManager {
 //            onFailure()
         }
     }
+
 }

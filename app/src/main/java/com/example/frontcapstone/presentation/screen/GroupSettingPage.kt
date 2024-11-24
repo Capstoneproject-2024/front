@@ -22,6 +22,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,12 +34,18 @@ import com.example.frontcapstone.components.items.GroupUserSlot
 import com.example.frontcapstone.components.layout.BottomThreeMenu
 import com.example.frontcapstone.components.layout.TopMenuWithBack
 import com.example.frontcapstone.ui.theme.TopAppbarBackgroundColor
+import com.example.frontcapstone.viemodel.MainViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun GroupSettingPage(
     navigationBack: () -> Unit,
+    moveToGroupFindFriendPage: () -> Unit,
     bottomBaronClickedActions: List<() -> Unit>,
+    mainViewModel: MainViewModel
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -83,7 +90,7 @@ fun GroupSettingPage(
                                 fontSize = 20.sp
                             )
                             IconButton(
-                                onClick = { },
+                                onClick = moveToGroupFindFriendPage, //add 친구 버튼으로 이동
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .size(33.dp)
@@ -112,7 +119,12 @@ fun GroupSettingPage(
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = {},
+                onClick = {
+                    coroutineScope.launch {
+                        mainViewModel.deleteGroup(mainViewModel.chosenGroup.value.groupID)
+                        navigationBack()
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp),

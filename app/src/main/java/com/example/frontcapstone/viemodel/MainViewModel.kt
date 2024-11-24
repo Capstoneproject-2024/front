@@ -10,6 +10,7 @@ import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.GroupMemberData
 import com.example.frontcapstone.api.data.PostComment
 import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
@@ -40,6 +41,12 @@ class MainViewModel : ViewModel() {
     //group관련
     private val _groupList = MutableStateFlow<List<GroupData>>(emptyList())
     val groupList: StateFlow<List<GroupData>> = _groupList.asStateFlow()
+
+    private val _chosenGroup = MutableStateFlow(GroupData())
+    val chosenGroup: StateFlow<GroupData> = _chosenGroup.asStateFlow()
+
+    private val _memberList = MutableStateFlow<List<UserData>>(emptyList())
+    val memberList: StateFlow<List<UserData>> = _memberList.asStateFlow()
 
     //friend  관련
     private val _requestSenderList = MutableStateFlow<List<UserData>>(emptyList())
@@ -207,6 +214,51 @@ class MainViewModel : ViewModel() {
             getUserGroups()
         }
     }
+
+    fun updateChosenGroup(groupData: GroupData) {
+        _chosenGroup.update {
+            groupData
+        }
+    }
+
+    suspend fun deleteGroup(groupID: Int) {
+        RetrofitManager.instance.deleteGroup(
+            groupID = groupID,
+            onSuccess = { },
+            onFailure = {}
+        )
+    }
+
+    suspend fun createMember(groupMemberData: GroupMemberData) {
+        RetrofitManager.instance.createMember(
+            groupMemberData = groupMemberData,
+            onSuccess = { },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getMembers(groupID: Int) {
+        RetrofitManager.instance.getMembers(
+            groupID = groupID,
+            onSuccess = { members: List<UserData> ->
+                _memberList.update { members }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun deleteMember(deleteMemberID: Int, groupID: Int) {
+        RetrofitManager.instance.deleteMember(
+            deleteMemberID = deleteMemberID,
+            onSuccess = {
+                viewModelScope.launch {
+                    getMembers(groupID)
+                }
+            },
+            onFailure = {}
+        )
+    }
+
 
     suspend fun createFollowerRequest(receiverID: Int) {
         RetrofitManager.instance.createFollowerRequest(
