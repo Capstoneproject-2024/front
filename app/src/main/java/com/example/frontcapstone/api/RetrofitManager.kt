@@ -8,7 +8,7 @@ import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.LocalDateTimeAdapter
 import com.example.frontcapstone.api.data.PostReview
-import com.example.frontcapstone.api.data.Review
+import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserInput
 import com.example.frontcapstone.api.data.UserUIState
@@ -348,17 +348,17 @@ class RetrofitManager {
         }
     }
 
-    suspend fun getUserReviews(
+    suspend fun getTimelineReview(
         userID: Int,
-        onSuccess: (List<Review>) -> Unit,
+        onSuccess: (List<ReviewWithBook>) -> Unit,
         onFailure: () -> Unit
     ) {
         try {
-            val response = apiService.getUserReviews(userID)
+            val response = apiService.getTimelineReview(userID)
             if (response.isSuccessful) {
-                val userReviewList = response.body()
-                if (userReviewList != null) {
-                    onSuccess(userReviewList)
+                val userMainTimeline = response.body()
+                if (userMainTimeline != null) {
+                    onSuccess(userMainTimeline)
                 }
 
             } else {

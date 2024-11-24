@@ -6,7 +6,7 @@ import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.PostReview
-import com.example.frontcapstone.api.data.Review
+import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.SuccessResponse
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserInput
@@ -103,10 +103,10 @@ interface ApiService {
 
 
     //review 관련
-    @GET("/review/get_user_reviews")
-    suspend fun getUserReviews(
+    @GET("/review/get_timeline_reviews")
+    suspend fun getTimelineReview(
         @Query("userID") userID: Int,
-    ): Response<List<Review>>
+    ): Response<List<ReviewWithBook>>
 
     @POST("/review/create_review/{visibilityLevel}")
     suspend fun createReview(

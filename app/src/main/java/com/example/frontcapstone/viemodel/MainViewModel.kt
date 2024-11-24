@@ -10,7 +10,7 @@ import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.PostReview
-import com.example.frontcapstone.api.data.Review
+import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserUIState
 import kotlinx.coroutines.CompletableDeferred
@@ -53,10 +53,9 @@ class MainViewModel : ViewModel() {
 
 
     //review 관련
-    private val _myReviewList = MutableStateFlow<List<Review>>(emptyList())
-    val myReviewList: StateFlow<List<Review>> = _myReviewList.asStateFlow()
-    private val _myReviewListBookList = MutableStateFlow<List<BookData>>(emptyList())
-    val myReviewListBookList: StateFlow<List<BookData>> = _myReviewListBookList.asStateFlow()
+    private val _mainTimelineReviewList = MutableStateFlow<List<ReviewWithBook>>(emptyList())
+    val mainTimelineReviewList: StateFlow<List<ReviewWithBook>> =
+        _mainTimelineReviewList.asStateFlow()
 
 
     fun updateUserState(id: Int, nickname: String) {
@@ -292,11 +291,11 @@ class MainViewModel : ViewModel() {
     }
 
 
-    suspend fun getUserReviews() {
-        RetrofitManager.instance.getUserReviews(
+    suspend fun getTimelineReview() {
+        RetrofitManager.instance.getTimelineReview(
             userID = userState.value.id,
-            onSuccess = { reviews: List<Review> ->
-                _myReviewList.update { reviews }
+            onSuccess = { reviews: List<ReviewWithBook> ->
+                _mainTimelineReviewList.update { reviews }
             },
             onFailure = {}
         )

@@ -37,7 +37,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun ReviewPage(
     navigationBack: () -> Unit,
-//    onClickPost: () -> Unit,
     onQuoteTextChange: (String) -> Unit,
     quoteText: String,
     reviewText: String,
@@ -51,7 +50,7 @@ fun ReviewPage(
     val user by mainViewModel.userState.collectAsState()
 
     var rating by rememberSaveable { mutableFloatStateOf(2.5f) } // 초기 별점
-    var selectedOption by rememberSaveable { mutableStateOf("public") } // 기본 선택값: Public
+    var selectedOption by rememberSaveable { mutableStateOf("public") } // 기본 선택값: public
     var showError by rememberSaveable { mutableStateOf(false) }
 
 

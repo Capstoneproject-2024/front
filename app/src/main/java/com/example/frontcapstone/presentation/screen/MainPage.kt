@@ -25,10 +25,10 @@ fun MainPage(
     onReviewClicked: () -> Unit,
     mainViewModel: MainViewModel
 ) {
-    val myReviewList by mainViewModel.myReviewList.collectAsState()
+    val mainTimelineReviewList by mainViewModel.mainTimelineReviewList.collectAsState()
 
     LaunchedEffect(Unit) {
-        mainViewModel.getUserReviews()
+        mainViewModel.getTimelineReview()
     }
 
     Scaffold(
@@ -44,14 +44,13 @@ fun MainPage(
                 .padding(innerPadding)
                 .padding(8.dp)
         ) {
-            itemsIndexed(myReviewList) { index, review ->
+            itemsIndexed(mainTimelineReviewList) { index, review ->
                 ReviewFrame(
                     onClicked = onReviewClicked,
-                    review = review,
-//                    book = book
+                    reviewWithBook = review,
                 )
 
-                if (index < myReviewList.size - 1) { // 마지막 아이템이 아닌 경우에만 Line 추가
+                if (index < mainTimelineReviewList.size - 1) { // 마지막 아이템이 아닌 경우에만 Line 추가
                     Line()
                 }
             }

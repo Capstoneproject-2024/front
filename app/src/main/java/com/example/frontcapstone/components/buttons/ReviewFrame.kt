@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.frontcapstone.R
-import com.example.frontcapstone.api.data.Review
+import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.components.items.FixedRatingBar
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 import java.time.format.DateTimeFormatter
@@ -41,8 +41,7 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun ReviewFrame(
     onClicked: () -> Unit,
-    review: Review,
-//    book: BookData
+    reviewWithBook: ReviewWithBook,
 ) {
     Card(
         modifier = Modifier
@@ -60,7 +59,7 @@ fun ReviewFrame(
         ) {
 
             AsyncImage(
-                model = "https://shopping-phinf.pstatic.net/main_3245996/32459963667.20221019105132.jpg",//book.image,
+                model = reviewWithBook.image,
                 contentDescription = "Book Cover",
                 modifier = Modifier
                     .width(98.72.dp)
@@ -93,12 +92,12 @@ fun ReviewFrame(
                     )
 
                     FixedRatingBar(
-                        rating = review.rating,
+                        rating = reviewWithBook.rating,
                     )
                 }
 
                 Text(
-                    text = "book.name | book.year | book.author",
+                    text = "${reviewWithBook.name} | ${reviewWithBook.year} | ${reviewWithBook.author}",
                     color = Color.White,
                     fontSize = 12.sp,
                     maxLines = 1,
@@ -141,7 +140,7 @@ fun ReviewFrame(
 
 
                         Text(
-                            text = review.quote,
+                            text = reviewWithBook.quote,
                             color = Color.Black,
                             modifier = Modifier
                                 .background(PrimaryPurpleColor, shape = RoundedCornerShape(8.dp))
@@ -174,7 +173,7 @@ fun ReviewFrame(
 
                 Text(
                     modifier = Modifier.fillMaxWidth(),
-                    text = review.reviewDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
+                    text = reviewWithBook.reviewDate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd")),
                     color = Color.White,
                     textAlign = TextAlign.End,
                     fontSize = 8.sp
