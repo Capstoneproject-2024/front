@@ -41,7 +41,7 @@ fun RegisterPage(
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Top
     ) {
         // 이메일 입력 필드
         OutlinedTextField(
@@ -67,7 +67,19 @@ fun RegisterPage(
         // 회원가입 버튼
         Button(
             onClick = {
+                val emailRegex = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}".toRegex()
+
                 if (email.isNotBlank() && password.isNotBlank()) {
+                    if (!emailRegex.matches(email)) {
+                        errorMessage = "올바른 이메일 형식을 입력해주세요"
+                        showErrorDialog = true
+                        return@Button
+                    }
+                    if(password.length<6){
+                        errorMessage = "비밀번호는 6자리 이상으로 입력해주세요"
+                        showErrorDialog = true
+                        return@Button
+                    }
                     coroutineScope.launch {
                         tryAuthWithEmailAndPassword(
                             email,

@@ -31,7 +31,8 @@ import kotlin.math.round
 fun LoginPage(
     mainViewModel: MainViewModel,
     authManager: AuthManager,
-    onClick:()->Unit
+    onClick:()->Unit,
+    onEmailClick :()->Unit
 ) {
 
     Scaffold(
@@ -85,7 +86,7 @@ fun LoginPage(
                 modifier = Modifier.size(10.dp)
             )
             ElevatedButton(
-                onClick = { authManager.signOut() },
+                onClick = onEmailClick,
                 elevation = ButtonDefaults.elevatedButtonElevation(
                     defaultElevation = 4.dp,
                     pressedElevation = 8.dp

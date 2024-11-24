@@ -117,10 +117,13 @@ fun Navigator(
 
                     onClick = {
                         googleSignIn()
+                    },
+                    onEmailClick={
+                        navController.navigate("RegisterPage")
                     }
                 )
             }
-            composable(route = "RegieterPage"){
+            composable(route = "RegisterPage"){
                 RegisterPage(
                     tryAuthWithEmailAndPassword =  { email:String, password:String, onAuthFailure:()->Unit, onFailure:()->Unit ->
                         authManager.tryAuthWithEmailAndPassword(email,password,onAuthFailure,onFailure)
