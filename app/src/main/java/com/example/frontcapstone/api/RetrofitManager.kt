@@ -280,6 +280,36 @@ class RetrofitManager {
         }
     }
 
+    suspend fun getSearchedNonMemberFriends(
+        userID: Int,
+        groupID: Int,
+        email: String,
+        onSuccess: (List<UserData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getSearchedNonMemberFriends(
+                groupID = groupID,
+                userID = userID,
+                email = email,
+            )
+            Log.d("response", response.toString())
+            if (response.isSuccessful) {
+                val nonMemberList = response.body()
+                if (nonMemberList != null) {
+                    onSuccess(nonMemberList)
+                }
+
+            } else {
+                Log.e("member-getnon-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("member-non-Request", e.toString())
+//            onFailure()
+        }
+    }
+
 
     suspend fun getUsersByEmail(
         email: String,

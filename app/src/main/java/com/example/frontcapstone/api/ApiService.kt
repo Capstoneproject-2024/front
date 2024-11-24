@@ -86,6 +86,13 @@ interface ApiService {
         @Query("deleteMemberID") deleteMemberID: Int
     ): Response<SuccessResponse>
 
+    @GET("/group/get_searched_nonMember_friends")
+    suspend fun getSearchedNonMemberFriends(
+        @Query("groupID") groupID: Int,
+        @Query("userID") userID: Int,
+        @Query("email") email: String,
+    ): Response<List<UserData>>
+
 
     //friend_router 관련
     @GET("/friend/get_users_by_email")

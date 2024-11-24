@@ -16,7 +16,6 @@ import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserUIState
-import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -47,6 +46,10 @@ class MainViewModel : ViewModel() {
 
     private val _memberList = MutableStateFlow<List<UserData>>(emptyList())
     val memberList: StateFlow<List<UserData>> = _memberList.asStateFlow()
+
+    private val _searchedNonMemberList = MutableStateFlow<List<UserData>>(emptyList())
+    val searchedNonMemberList: StateFlow<List<UserData>> = _searchedNonMemberList.asStateFlow()
+
 
     //friend  관련
     private val _requestSenderList = MutableStateFlow<List<UserData>>(emptyList())
@@ -162,18 +165,18 @@ class MainViewModel : ViewModel() {
         )
     }
 
-    suspend fun getBookByID(id: Int): BookData {
-        val returnBook = CompletableDeferred<BookData>()
-        RetrofitManager.instance.getBookByID(id = id,
-            onSuccess = { book: BookData ->
-                returnBook.complete(book)
-            },
-            onFailure = {
-                returnBook.completeExceptionally(RuntimeException("Failed to fetch book data"))
-            }
-        )
-        return returnBook.await()
-    }
+//    suspend fun getBookByID(id: Int): BookData {
+//        val returnBook = CompletableDeferred<BookData>()
+//        RetrofitManager.instance.getBookByID(id = id,
+//            onSuccess = { book: BookData ->
+//                returnBook.complete(book)
+//            },
+//            onFailure = {
+//                returnBook.completeExceptionally(RuntimeException("Failed to fetch book data"))
+//            }
+//        )
+//        return returnBook.await()
+//    }
 
     fun clearSearchThings() {
         _searchedBooks.update { emptyList() }
@@ -254,6 +257,20 @@ class MainViewModel : ViewModel() {
                 viewModelScope.launch {
                     getMembers(groupID)
                 }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getSearchedNonMemberFriends(
+        email: String,
+    ) {
+        RetrofitManager.instance.getSearchedNonMemberFriends(
+            groupID = chosenGroup.value.groupID,
+            userID = userState.value.id,
+            email = email,
+            onSuccess = { nonMembers: List<UserData> ->
+                _searchedNonMemberList.update { nonMembers }
             },
             onFailure = {}
         )

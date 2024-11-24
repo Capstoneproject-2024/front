@@ -34,9 +34,8 @@ import com.example.frontcapstone.ui.theme.UserTextPrupleColor
 
 @Composable
 fun SearchGroupFriendCard(
-    onSendRequestClicked: () -> Unit,
+    onAddToGroupClicked: () -> Unit,
     user: UserData,
-    memberList: List<UserData>
 ) {
     Row(
         modifier = Modifier
@@ -74,24 +73,23 @@ fun SearchGroupFriendCard(
         }
 
         // 전송 요청 버튼
-        if (user !in memberList) {
-            Button(
-                onClick = onSendRequestClicked,
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = PrimaryPurpleColor,
-                    contentColor = Color.Black
-                ),
-                modifier = Modifier
-                    .height(24.dp)
-                    .width(90.dp),
-                contentPadding = PaddingValues(0.dp)
-            ) {
-                Text(
-                    text = "add to group",
-                    fontSize = 12.sp
-                )
-            }
+        Button(
+            onClick = onAddToGroupClicked,
+            shape = RoundedCornerShape(16.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = PrimaryPurpleColor,
+                contentColor = Color.Black
+            ),
+            modifier = Modifier
+                .height(24.dp)
+                .width(90.dp),
+            contentPadding = PaddingValues(0.dp)
+        ) {
+            Text(
+                text = "add to group",
+                fontSize = 12.sp
+            )
+
         }
     }
 }
