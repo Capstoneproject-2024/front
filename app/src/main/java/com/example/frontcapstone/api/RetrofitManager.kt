@@ -3,6 +3,7 @@ package com.example.frontcapstone.api
 import android.util.Log
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
+import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
@@ -388,6 +389,31 @@ class RetrofitManager {
             }
         } catch (e: Exception) {
             Log.e("Friend-create&autoDelete-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+
+    suspend fun getComments(
+        reviewID: Int,
+        userID: Int,
+        onSuccess: (List<Comment>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getComments(reviewID = reviewID, userID = userID)
+            if (response.isSuccessful) {
+                val commentList = response.body()
+                if (commentList != null) {
+                    onSuccess(commentList)
+                }
+
+            } else {
+                Log.e("Comment-getComments-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Comment-getComments-Request", e.toString())
 //            onFailure()
         }
     }

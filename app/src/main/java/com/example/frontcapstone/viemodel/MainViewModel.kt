@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.frontcapstone.api.RetrofitManager
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
+import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
@@ -59,6 +60,10 @@ class MainViewModel : ViewModel() {
 
     private val _chosenReview = MutableStateFlow(ReviewWithBook())
     val chosenReview: StateFlow<ReviewWithBook> = _chosenReview.asStateFlow()
+
+    //comment관련
+    private val _chosenReviewCommentList = MutableStateFlow<List<Comment>>(emptyList())
+    val chosenReviewCommentList: StateFlow<List<Comment>> = _chosenReviewCommentList.asStateFlow()
 
 
     fun updateUserState(id: Int, nickname: String) {
@@ -319,4 +324,16 @@ class MainViewModel : ViewModel() {
         }
     }
 
+
+    //comment 관련
+    suspend fun getComments(reviewID: Int) {
+        RetrofitManager.instance.getComments(
+            userID = userState.value.id,
+            reviewID = reviewID,
+            onSuccess = { comments: List<Comment> ->
+                _chosenReviewCommentList.update { comments }
+            },
+            onFailure = {}
+        )
+    }
 }

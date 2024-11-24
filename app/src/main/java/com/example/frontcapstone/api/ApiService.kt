@@ -2,6 +2,7 @@ package com.example.frontcapstone.api
 
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
+import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
 import com.example.frontcapstone.api.data.GroupData
@@ -113,4 +114,13 @@ interface ApiService {
         @Path("visibilityLevel") visibilityLevel: String,
         @Body review: PostReview
     ): Response<SuccessResponse>
+
+    //comment 관련
+    @GET("/comment/get_comments")
+    suspend fun getComments(
+        @Query("reviewID") reviewID: Int,
+        @Query("userID") userID: Int,
+    ): Response<List<Comment>>
+
+
 }

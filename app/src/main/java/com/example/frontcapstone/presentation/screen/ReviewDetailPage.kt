@@ -22,6 +22,7 @@ fun ReviewDetailPage(
     mainViewModel: MainViewModel
 ) {
     val chosenReview by mainViewModel.chosenReview.collectAsState()
+    val chosenReviewCommentList by mainViewModel.chosenReviewCommentList.collectAsState() //불려지는 페이지에서 세팅해줘야함.
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -37,9 +38,10 @@ fun ReviewDetailPage(
                     reviewWithBook = chosenReview
                 )
             }
-            val temps: List<String> = List(3) { "$it" }
-            items(temps) { temp ->
-                Comment()
+            items(chosenReviewCommentList) { comment ->
+                Comment(
+                    comment = comment
+                )
             }
             item {
                 CommentTextInput()
