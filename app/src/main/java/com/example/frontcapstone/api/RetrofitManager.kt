@@ -6,10 +6,13 @@ import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
+import com.example.frontcapstone.api.data.GetQuoteAnswer
+import com.example.frontcapstone.api.data.GetQuoteQuestion
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.GroupMemberData
 import com.example.frontcapstone.api.data.LocalDateTimeAdapter
 import com.example.frontcapstone.api.data.PostComment
+import com.example.frontcapstone.api.data.PostQuoteAnswer
 import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.UserData
@@ -575,4 +578,96 @@ class RetrofitManager {
         }
     }
 
+
+    //quote 관련
+    suspend fun getPresentQuestion(
+        groupID: Int,
+        onSuccess: (GetQuoteQuestion) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getPresentQuestion(groupID = groupID)
+            if (response.isSuccessful) {
+                val quoteQuestion = response.body()
+                if (quoteQuestion != null) {
+                    onSuccess(quoteQuestion)
+                }
+
+            } else {
+                Log.e("get-present-question", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("get-present-question", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun createQuoteQuestion(
+        postQuoteAnswer: PostQuoteAnswer,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.createQuoteQuestion(postQuoteAnswer = postQuoteAnswer)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("quoteanswer-create-", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("quoteanswer-create-", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getPresentQuestionAnswers(
+        questionID: Int,
+        userID: Int,
+        onSuccess: (List<GetQuoteAnswer>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.getPresentQuestionAnswers(questionID = questionID, userID = userID)
+            if (response.isSuccessful) {
+                val quoteAnswers = response.body()
+                if (quoteAnswers != null) {
+                    onSuccess(quoteAnswers)
+                }
+
+            } else {
+                Log.e("QuoteAnswers-get", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("QuoteAnswers-get", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getPastQuestion(
+        groupID: Int,
+        onSuccess: (GetQuoteQuestion) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getPastQuestion(groupID = groupID)
+            if (response.isSuccessful) {
+                val PastQuoteQuestion = response.body()
+                if (PastQuoteQuestion != null) {
+                    onSuccess(PastQuoteQuestion)
+                }
+
+            } else {
+                Log.e("get-past-question", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("get-past-question", e.toString())
+//            onFailure()
+        }
+    }
 }

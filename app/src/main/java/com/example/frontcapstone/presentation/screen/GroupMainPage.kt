@@ -46,7 +46,10 @@ fun GroupMainPage(
             verticalArrangement = Arrangement.spacedBy(10.dp) // 각 아이템 사이에 간격 추가
         ) {
             item {
-                QuestionButtonWithoutEdit(modifier = Modifier.padding(top = 20.dp))
+                QuestionButtonWithoutEdit(
+                    modifier = Modifier.padding(top = 20.dp),
+                    onClick = bottomBaronClickedActions[0]
+                )
             }
 
             // List items with ReviewFrame and Line

@@ -20,12 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.frontcapstone.api.data.GetQuoteQuestion
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 import com.example.frontcapstone.ui.theme.QuoteQuestionMintTextColor
 
 @Composable
 fun PastQuestionButton(
     modifier: Modifier = Modifier,
+    pastQuestion: GetQuoteQuestion
 ) {
     Row(
         modifier = modifier
@@ -64,7 +66,7 @@ fun PastQuestionButton(
                 fontSize = 24.sp,
             )
             Text(
-                text = "Lorem ipsum dolor sit amet  dfd sdfss consectetur.",
+                text = pastQuestion.question,
                 color = Color.White,
                 fontSize = 16.sp
             )

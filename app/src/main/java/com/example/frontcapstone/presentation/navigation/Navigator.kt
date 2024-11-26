@@ -221,7 +221,13 @@ fun Navigator(
 
             //SettingPage이동
             composable(route = "SettingPage") {
-                SettingPage(navigationBack = navigationBack)
+                SettingPage(
+//                    navigationBack = navigationBack,
+//                    onLogoutClick = {
+//                        authManager.instance.signOut()
+//                    mainViewModel.updateUserState(id = 0, nickname = "") //Todo 이때 어떻게 화면 바꾸는지 확인하기
+//                    },
+                )
             }
             //Find Friend Page 이동
             composable(route = "FindFriendPage") {
@@ -256,14 +262,15 @@ fun Navigator(
                     bottomBaronClickedActions = bottomBar3onClickedActions,
                     onQuoteQuestionClicked = { navController.navigate("QuoteQuestionPage") },
                     onEditButtonClicked = { navController.navigate("QuoteReviewPage") },
-                    onReviewClicked = navigateToReviewDetail
+                    mainViewModel = mainViewModel
                 )
             }
             composable(route = "GroupArchivePage") {
                 GroupArchivePage(
                     navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
-                    onReviewClicked = navigateToReviewDetail
+                    onReviewClicked = navigateToReviewDetail,
+                    mainViewModel = mainViewModel
                 )
             }
 
@@ -290,8 +297,8 @@ fun Navigator(
                     onQuoteTextChange = { quoteTextinQuote = it },
                     onSelectButtonClicked = { navController.navigate("SearchPageWithoutBottomBar") },
                     onBookClicked = { navController.navigate("SearchPageWithoutBottomBar") },
-
-                    )
+                    mainViewModel = mainViewModel
+                )
             }
 
             composable(route = "ReviewDetailPage") {

@@ -9,9 +9,12 @@ import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
+import com.example.frontcapstone.api.data.GetQuoteAnswer
+import com.example.frontcapstone.api.data.GetQuoteQuestion
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.GroupMemberData
 import com.example.frontcapstone.api.data.PostComment
+import com.example.frontcapstone.api.data.PostQuoteAnswer
 import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.UserData
@@ -81,6 +84,20 @@ class MainViewModel : ViewModel() {
     private val _chosenReviewCommentList = MutableStateFlow<List<Comment>>(emptyList())
     val chosenReviewCommentList: StateFlow<List<Comment>> = _chosenReviewCommentList.asStateFlow()
 
+
+    //quote 관련
+    private val _presentQuoteQuestion = MutableStateFlow(GetQuoteQuestion())
+    val presentQuoteQuestion: StateFlow<GetQuoteQuestion> =
+        _presentQuoteQuestion.asStateFlow()
+
+    private val _pastQuoteQuestion = MutableStateFlow(GetQuoteQuestion())
+    val pastQuoteQuestion: StateFlow<GetQuoteQuestion> = _pastQuoteQuestion.asStateFlow()
+
+    private val _presentQuoteAnswers = MutableStateFlow<List<GetQuoteAnswer>>(emptyList())
+    val presentQuoteAnswers: StateFlow<List<GetQuoteAnswer>> = _presentQuoteAnswers.asStateFlow()
+
+    private val _pastQuoteAnswers = MutableStateFlow<List<GetQuoteAnswer>>(emptyList())
+    val pastQuoteAnswers: StateFlow<List<GetQuoteAnswer>> = _pastQuoteAnswers.asStateFlow()
 
     fun updateUserState(id: Int, nickname: String) {
         _userState.update {
@@ -431,6 +448,60 @@ class MainViewModel : ViewModel() {
                 viewModelScope.launch {
                     getComments(postComment.reviewID)
                 }
+            },
+            onFailure = {}
+        )
+    }
+
+
+    //quote 관련
+    suspend fun getPresentQuestion() {
+        RetrofitManager.instance.getPresentQuestion(
+            groupID = chosenGroup.value.groupID,
+            onSuccess = { question: GetQuoteQuestion ->
+                _presentQuoteQuestion.update { question }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun createQuoteQuestion(
+        postQuoteAnswer: PostQuoteAnswer
+    ) {
+        RetrofitManager.instance.createQuoteQuestion(
+            postQuoteAnswer = postQuoteAnswer,
+            onSuccess = { },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getPresentQuestionAnswers() {
+        RetrofitManager.instance.getPresentQuestionAnswers(
+            userID = userState.value.id,
+            questionID = presentQuoteQuestion.value.id,
+            onSuccess = { quoteAnswers: List<GetQuoteAnswer> ->
+                _presentQuoteAnswers.update { quoteAnswers }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getPastQuestion() {
+        RetrofitManager.instance.getPastQuestion(
+            groupID = chosenGroup.value.groupID,
+            onSuccess = { question: GetQuoteQuestion ->
+                _pastQuoteQuestion.update { question }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getPastQuestionAnswers() {
+        RetrofitManager.instance.getPresentQuestionAnswers( // questionID를 달리 하면 그때 당시의 answer얻기 가능
+            userID = userState.value.id,
+            questionID = pastQuoteQuestion.value.id,
+            onSuccess = { quoteAnswers: List<GetQuoteAnswer> ->
+                _pastQuoteAnswers.update { quoteAnswers }
             },
             onFailure = {}
         )

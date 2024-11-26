@@ -5,9 +5,12 @@ import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
+import com.example.frontcapstone.api.data.GetQuoteAnswer
+import com.example.frontcapstone.api.data.GetQuoteQuestion
 import com.example.frontcapstone.api.data.GroupData
 import com.example.frontcapstone.api.data.GroupMemberData
 import com.example.frontcapstone.api.data.PostComment
+import com.example.frontcapstone.api.data.PostQuoteAnswer
 import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.SuccessResponse
@@ -163,4 +166,26 @@ interface ApiService {
         @Body postComment: PostComment
     ): Response<SuccessResponse>
 
+
+    //quote; 관련
+    @GET("/quote/get_present_question")
+    suspend fun getPresentQuestion(
+        @Query("groupID") groupID: Int,
+    ): Response<GetQuoteQuestion>
+
+    @POST("/quote/create_quote_answer")
+    suspend fun createQuoteQuestion(
+        @Body postQuoteAnswer: PostQuoteAnswer
+    ): Response<SuccessResponse>
+
+    @GET("/quote/get_present_question_answers")
+    suspend fun getPresentQuestionAnswers(
+        @Query("questionID") questionID: Int,
+        @Query("userID") userID: Int,
+    ): Response<List<GetQuoteAnswer>>
+
+    @GET("/quote/get_past_question")
+    suspend fun getPastQuestion(
+        @Query("groupID") groupID: Int,
+    ): Response<GetQuoteQuestion>
 }
