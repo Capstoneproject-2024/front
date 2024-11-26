@@ -246,7 +246,8 @@ fun Navigator(
                 GroupMainPage(
                     navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
-                    onReviewClicked = navigateToReviewDetail
+                    onReviewClicked = navigateToReviewDetail,
+                    mainViewModel = mainViewModel
                 )
             }
             composable(route = "GroupQuotePage") {

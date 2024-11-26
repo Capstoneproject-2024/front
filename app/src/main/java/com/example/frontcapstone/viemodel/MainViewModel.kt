@@ -72,6 +72,11 @@ class MainViewModel : ViewModel() {
     private val _chosenReview = MutableStateFlow(ReviewWithBook())
     val chosenReview: StateFlow<ReviewWithBook> = _chosenReview.asStateFlow()
 
+    private val _groupTimelineReviewList = MutableStateFlow<List<ReviewWithBook>>(emptyList())
+    val groupTimelineReviewList: StateFlow<List<ReviewWithBook>> =
+        _groupTimelineReviewList.asStateFlow()
+
+
     //comment관련
     private val _chosenReviewCommentList = MutableStateFlow<List<Comment>>(emptyList())
     val chosenReviewCommentList: StateFlow<List<Comment>> = _chosenReviewCommentList.asStateFlow()
@@ -392,6 +397,18 @@ class MainViewModel : ViewModel() {
         _chosenReview.update {
             reviewWithBook
         }
+    }
+
+
+    suspend fun getGroupTimelineReviews() {
+        RetrofitManager.instance.getGroupTimelineReviews(
+            userID = userState.value.id,
+            groupID = chosenGroup.value.groupID,
+            onSuccess = { reviews: List<ReviewWithBook> ->
+                _groupTimelineReviewList.update { reviews }
+            },
+            onFailure = {}
+        )
     }
 
 

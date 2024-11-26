@@ -144,6 +144,13 @@ interface ApiService {
         @Body review: PostReview
     ): Response<SuccessResponse>
 
+    @GET("/review/get_group_timeline_reviews")
+    suspend fun getGroupTimelineReviews(
+        @Query("userID") userID: Int,
+        @Query("groupID") groupID: Int,
+    ): Response<List<ReviewWithBook>>
+
+
     //comment 관련
     @GET("/comment/get_comments")
     suspend fun getComments(

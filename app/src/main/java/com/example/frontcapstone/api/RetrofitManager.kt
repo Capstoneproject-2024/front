@@ -506,6 +506,30 @@ class RetrofitManager {
         }
     }
 
+    suspend fun getGroupTimelineReviews(
+        userID: Int,
+        groupID: Int,
+        onSuccess: (List<ReviewWithBook>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getGroupTimelineReviews(userID = userID, groupID = groupID)
+            if (response.isSuccessful) {
+                val userGroupMainTimeline = response.body()
+                if (userGroupMainTimeline != null) {
+                    onSuccess(userGroupMainTimeline)
+                }
+
+            } else {
+                Log.e("ReviewAPI-getGroupTimeline", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("ReviewAPI-getGroupTimeline", e.toString())
+//            onFailure()
+        }
+    }
+
 
     suspend fun getComments(
         reviewID: Int,
