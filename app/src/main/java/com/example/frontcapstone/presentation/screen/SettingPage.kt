@@ -129,6 +129,7 @@ fun SettingPage(
                                     nickname = nickname,
                                     onSuccess = {
                                         mainViewModel.updateUserState(nickname = nickname)
+                                        nickname = mainViewModel.userState.value.nickname
                                         // 성공 시 처리
                                     },
                                     onFailure = {
