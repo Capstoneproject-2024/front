@@ -37,6 +37,8 @@ fun MyPage(
 
     LaunchedEffect(Unit) {
         mainViewModel.getRequestSender()
+        mainViewModel.getFriends()
+        mainViewModel.getMyReview()
     }
 
     Scaffold(

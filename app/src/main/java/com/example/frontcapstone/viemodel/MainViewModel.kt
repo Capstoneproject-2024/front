@@ -398,7 +398,7 @@ class MainViewModel : ViewModel() {
         RetrofitManager.instance.getReviews(
             id = userState.value.id,
             onSuccess = { reviews: List<ReviewWithBook> ->
-                _mainTimelineReviewList.update { reviews }
+                _myReviewList.update { reviews }
             },
             onFailure = {}
         )

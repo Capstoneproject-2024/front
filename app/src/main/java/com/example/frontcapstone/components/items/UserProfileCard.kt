@@ -1,5 +1,6 @@
 package com.example.frontcapstone.components.items
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -45,6 +46,7 @@ fun UserProfileCard(
     onClickReview: ()->Unit
 ) {
     val friendsList by mainViewModel.friendsList.collectAsState()
+    Log.d("friend",friendsList.size.toString())
     val reviewList by mainViewModel.myReviewList.collectAsState()
 
     // mainViewModel.getReviewList()
@@ -133,7 +135,7 @@ fun UserProfileCard(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Start,
+            horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
             StatItem(title = "reviews", count = "${reviewList.size}",onClickReview = onClickReview)
@@ -147,7 +149,8 @@ fun UserProfileCard(
 fun StatItem(title: String, count: String,onClickReview:()->Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        //modifier = Modifier.clickable{onClickReview()}
+
+        modifier = Modifier.clickable{onClickReview()}
     ) {
         Text(text = count, fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.White)
         Text(text = title, fontSize = 12.sp, color = Color.White, textAlign = TextAlign.Center)

@@ -236,11 +236,13 @@ fun Navigator(
             //SettingPage이동
             composable(route = "SettingPage") {
                 SettingPage(
-//                    navigationBack = navigationBack,
-//                    onLogoutClick = {
-//                        authManager.instance.signOut()
-//                    mainViewModel.updateUserState(id = 0, nickname = "") //Todo 이때 어떻게 화면 바꾸는지 확인하기
-//                    },
+                    navigationBack = navigationBack,
+                    onLogoutClick = {
+                        authManager.signOut()
+                        mainViewModel.updateUserState(id = 0, nickname = "") //Todo 이때 어떻게 화면 바꾸는지 확인하기
+
+                    },
+                    mainViewModel = mainViewModel
                 )
             }
             //Find Friend Page 이동

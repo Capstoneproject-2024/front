@@ -20,6 +20,8 @@ import com.example.frontcapstone.api.data.UserUIState
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -33,6 +35,13 @@ interface ApiService {
         @Body userInput: UserInput
     ): Response<UserUIState>
 
+    data class UpdateUserRequest(
+        val id: Int,
+        val nickname: String
+    )
+
+    @POST("/user/update_user")
+    suspend fun updateUser(@Body userRequest: UpdateUserRequest): Response<UserUIState>
     @GET("/user/get_user")
     suspend fun getUser(
         @Query("id") id: Int

@@ -25,6 +25,7 @@ import com.example.frontcapstone.components.buttons.ReviewFrame
 import com.example.frontcapstone.components.buttons.WrittingFloatingButton
 import com.example.frontcapstone.components.items.Line
 import com.example.frontcapstone.components.layout.BottomFiveMenu
+import com.example.frontcapstone.components.layout.TopMenuWithBack
 import com.example.frontcapstone.components.layout.TopMenuWithoutBack
 import com.example.frontcapstone.viemodel.MainViewModel
 
@@ -45,18 +46,25 @@ fun MyReviewPage(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopAppBar(
-            title = { Text("My Reviews") },
-            navigationIcon = {
-                IconButton(onClick = { onClickBack() }) {
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
-                }
-            },
-            colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = Color.White
+        topBar = {
+            TopMenuWithBack(
+                title = "My Review",
+                navigationBack = onClickBack
             )
-        ) },
+//            TopAppBar(
+//            title = { Text("My Reviews") },
+//            navigationIcon = {
+//                IconButton(onClick = { onClickBack() }) {
+//                    Icon(Icons.Default.ArrowBack, contentDescription = "Back", tint = Color.White)
+//                }
+//            },
+//            colors = TopAppBarDefaults.topAppBarColors(
+//                containerColor = MaterialTheme.colorScheme.primaryContainer,
+//                titleContentColor = Color.White
+//            )
+//        )
+                 },
+
 
 
     ) { innerPadding ->

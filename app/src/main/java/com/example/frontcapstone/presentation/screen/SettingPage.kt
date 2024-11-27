@@ -24,16 +24,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.frontcapstone.api.RetrofitManager
 import com.example.frontcapstone.components.layout.TopMenuWithBack
+import com.example.frontcapstone.viemodel.MainViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-@Preview
+
 @Composable
 fun SettingPage(
-//    navigationBack: () -> Unit
+   navigationBack: () -> Unit,
+   onLogoutClick:()->Unit,
+   mainViewModel: MainViewModel
 
 ) {
     var showError by rememberSaveable { mutableStateOf(false) }
     var showNicknameDialog by rememberSaveable { mutableStateOf(false) }
+    var nickname by rememberSaveable { mutableStateOf(mainViewModel.userState.value.nickname) }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -57,7 +65,7 @@ fun SettingPage(
                 text = "닉네임 변경",
                 modifier = Modifier
                     .padding(vertical = 4.dp)
-                    .clickable { }, //showNicknameDialog = true
+                    .clickable { showNicknameDialog = true}, //showNicknameDialog = true
                 style = LocalTextStyle.current.copy(color = Color.Gray)
             )
 
@@ -77,7 +85,7 @@ fun SettingPage(
                 text = "로그아웃",
                 modifier = Modifier
                     .padding(vertical = 4.dp)
-                    .clickable { }, //onLogoutClick()
+                    .clickable {onLogoutClick() }, //onLogoutClick()
                 style = LocalTextStyle.current.copy(color = Color.Gray)
             )
             Text(
@@ -105,8 +113,8 @@ fun SettingPage(
                             modifier = Modifier.padding(bottom = 8.dp)
                         )
                         OutlinedTextField(
-                            value = "",//userSettingData.nickname,
-                            onValueChange = { }, //userViewModel.updateNickname(it)
+                            value = nickname,//userSettingData.nickname,
+                            onValueChange = { nickname = it}, //userViewModel.updateNickname(it)
                             label = { Text("닉네임") },
                             modifier = Modifier.fillMaxWidth()
                         )
@@ -114,8 +122,28 @@ fun SettingPage(
                 },
                 confirmButton = {
                     TextButton(onClick = {
+                        CoroutineScope(Dispatchers.Main).launch {
+                            try {
+                                RetrofitManager.instance.updateUser(
+                                    id = mainViewModel.userState.value.id,
+                                    nickname = nickname,
+                                    onSuccess = {
+                                        mainViewModel.updateUserState(nickname = nickname)
+                                        // 성공 시 처리
+                                    },
+                                    onFailure = {
+                                        // 실패 시 처리
+                                    }
+                                )
+                                // userViewModel.updateNickname(userSettingData.nickname)
+                                // showNicknameDialog = false
+                            } catch (e: Exception) {
+                                // 에러 처리
+                                //println("Error: ${e.message}")
+                            }
+                        }
 //                        userViewModel.updateNickname(userSettingData.nickname)
-//                        showNicknameDialog = false
+                        showNicknameDialog = false
                     }) {
                         Text("저장")
                     }

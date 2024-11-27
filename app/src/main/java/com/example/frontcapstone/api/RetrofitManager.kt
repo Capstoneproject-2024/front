@@ -38,6 +38,27 @@ class RetrofitManager {
         .build()
     private val apiService = retrofit.create(ApiService::class.java)
 
+    suspend fun updateUser(
+        id:Int,
+        nickname: String,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+
+    ){
+        try {
+            val response = apiService.updateUser(ApiService.UpdateUserRequest(id,nickname))
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("userupdate-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("userupdate-Request", e.toString())
+//            onFailure()
+        }
+    }
+
     suspend fun createUser(
         nickname: String,
         email: String,
