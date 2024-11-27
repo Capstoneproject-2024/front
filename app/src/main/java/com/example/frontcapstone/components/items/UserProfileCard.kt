@@ -19,6 +19,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,11 +35,15 @@ import com.example.frontcapstone.R
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 import com.example.frontcapstone.ui.theme.UserTextPrupleColor
+import com.example.frontcapstone.viemodel.MainViewModel
 
 @Composable
 fun UserProfileCard(
     nickname: String,
+    mainViewModel: MainViewModel
 ) {
+    val friendsList by mainViewModel.friendsList.collectAsState()
+    // mainViewModel.getReviewList()
     Column(
         modifier = Modifier
             .padding(8.dp)
@@ -81,7 +87,7 @@ fun UserProfileCard(
                     color = UserTextPrupleColor
                 )
                 Text(
-                    text = "friends 13",
+                    text = "friends ${friendsList.size}",
                     fontSize = 12.sp,
                     color = UserTextPrupleColor
                 )
@@ -127,8 +133,8 @@ fun UserProfileCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             StatItem(title = "reviews", count = "84")
-            StatItem(title = "bookmarks", count = "84")
-            StatItem(title = "recommends", count = "84")
+            //StatItem(title = "bookmarks", count = "84")
+            //StatItem(title = "recommends", count = "84")
         }
     }
 }

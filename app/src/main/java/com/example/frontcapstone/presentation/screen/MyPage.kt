@@ -57,7 +57,7 @@ fun MyPage(
             horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-            UserProfileCard(nickname = userState.nickname)
+            UserProfileCard(nickname = userState.nickname, mainViewModel = mainViewModel)
             FriendRequestButton(
                 moveToFriendRequestPage = {
                     coroutineScope.launch {
