@@ -39,7 +39,7 @@ fun GroupArchivePage(
 
     LaunchedEffect(Unit) {
         mainViewModel.getPastQuestion()
-        mainViewModel.getPastQuestion()
+        mainViewModel.getPastQuestionAnswers()
     }
 
     Scaffold(

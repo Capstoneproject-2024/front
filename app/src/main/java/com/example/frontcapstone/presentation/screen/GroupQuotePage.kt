@@ -53,15 +53,14 @@ fun GroupQuotePage(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(10.dp) // 각 아이템 사이에 간격 추가
         ) {
-            if (!hasEverWrittenAnswer) {
-                item {
-                    QuestionButtonWithEdit(
-                        modifier = Modifier.padding(top = 20.dp),
-                        onQuoteQuestionClicked = onQuoteQuestionClicked,
-                        onEditButtonClicked = onEditButtonClicked,
-                        question = presentQuoteQuestion
-                    )
-                }
+            item {
+                QuestionButtonWithEdit(
+                    modifier = Modifier.padding(top = 20.dp),
+                    onQuoteQuestionClicked = onQuoteQuestionClicked,
+                    onEditButtonClicked = onEditButtonClicked,
+                    question = presentQuoteQuestion,
+                    hasEverWrittenAnswer = hasEverWrittenAnswer
+                )
             }
 
             // List items with ReviewFrame and Line

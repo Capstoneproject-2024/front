@@ -33,7 +33,8 @@ fun QuestionButtonWithEdit(
     modifier: Modifier = Modifier,
     onQuoteQuestionClicked: () -> Unit,
     onEditButtonClicked: () -> Unit,
-    question: GetQuoteQuestion
+    question: GetQuoteQuestion,
+    hasEverWrittenAnswer: Boolean = false
 ) {
     Row(
         modifier = modifier
@@ -77,20 +78,22 @@ fun QuestionButtonWithEdit(
         }
 
         // 오른쪽 아이콘
-        IconButton(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(QuoteQuestionMintTextColor)
-                .padding(4.dp),
-            onClick = onEditButtonClicked,
-        ) {
-            androidx.compose.material3.Icon(
-                imageVector = Icons.Outlined.Edit,
-                contentDescription = "Edit",
-            )
-        }
+        if (!hasEverWrittenAnswer) {
+            IconButton(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(QuoteQuestionMintTextColor)
+                    .padding(4.dp),
+                onClick = onEditButtonClicked,
+            ) {
+                androidx.compose.material3.Icon(
+                    imageVector = Icons.Outlined.Edit,
+                    contentDescription = "Edit",
+                )
+            }
 
+        }
         Spacer(modifier = Modifier.width(8.dp))
 
 

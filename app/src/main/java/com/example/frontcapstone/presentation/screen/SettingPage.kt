@@ -48,7 +48,7 @@ fun SettingPage(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "계정",
+                text = "계정 정보",
                 fontSize = 18.sp,
                 color = Color.White,
                 modifier = Modifier.padding(vertical = 8.dp)
