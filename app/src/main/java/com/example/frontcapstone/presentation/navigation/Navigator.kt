@@ -28,6 +28,7 @@ import com.example.frontcapstone.presentation.screen.GroupSettingPage
 import com.example.frontcapstone.presentation.screen.LoginPage
 import com.example.frontcapstone.presentation.screen.MainPage
 import com.example.frontcapstone.presentation.screen.MyPage
+import com.example.frontcapstone.presentation.screen.MyReviewPage
 import com.example.frontcapstone.presentation.screen.NoticePage
 import com.example.frontcapstone.presentation.screen.QuoteQuestionPage
 import com.example.frontcapstone.presentation.screen.QuoteReviewPage
@@ -150,6 +151,16 @@ fun Navigator(
                 )
             }
 
+            composable(route = "MyReviewPage"){
+                MyReviewPage(
+                    onClickBack = {
+                        navController.navigateUp()
+                    },
+                    onReviewClicked = navigateToReviewDetail,
+                    mainViewModel = mainViewModel
+                )
+            }
+
             //BottomBar navigation
 
             composable(route = "GroupPage") {
@@ -199,7 +210,10 @@ fun Navigator(
                     moveToFindFriendPage = { navController.navigate("FindFriendPage") },
                     moveToSettingPage = { navController.navigate("SettingPage") },
                     moveToFriendRequestPage = { navController.navigate("FriendRequestPage") },
-                    mainViewModel = mainViewModel
+                    mainViewModel = mainViewModel,
+                    onClickReview={
+                       navController.navigate("MyReviewPage")
+                    }
                 )
             }
 

@@ -2,6 +2,7 @@ package com.example.frontcapstone.components.items
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,9 +41,12 @@ import com.example.frontcapstone.viemodel.MainViewModel
 @Composable
 fun UserProfileCard(
     nickname: String,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    onClickReview: ()->Unit
 ) {
     val friendsList by mainViewModel.friendsList.collectAsState()
+    val reviewList by mainViewModel.myReviewList.collectAsState()
+
     // mainViewModel.getReviewList()
     Column(
         modifier = Modifier
@@ -129,10 +133,10 @@ fun UserProfileCard(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly,
+            horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            StatItem(title = "reviews", count = "84")
+            StatItem(title = "reviews", count = "${reviewList.size}",onClickReview = onClickReview)
             //StatItem(title = "bookmarks", count = "84")
             //StatItem(title = "recommends", count = "84")
         }
@@ -140,8 +144,11 @@ fun UserProfileCard(
 }
 
 @Composable
-fun StatItem(title: String, count: String) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+fun StatItem(title: String, count: String,onClickReview:()->Unit) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        //modifier = Modifier.clickable{onClickReview()}
+    ) {
         Text(text = count, fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.White)
         Text(text = title, fontSize = 12.sp, color = Color.White, textAlign = TextAlign.Center)
     }

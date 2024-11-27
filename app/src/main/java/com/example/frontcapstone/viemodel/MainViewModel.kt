@@ -72,6 +72,10 @@ class MainViewModel : ViewModel() {
     val mainTimelineReviewList: StateFlow<List<ReviewWithBook>> =
         _mainTimelineReviewList.asStateFlow()
 
+    private val _myReviewList = MutableStateFlow<List<ReviewWithBook>>(emptyList())
+    val myReviewList: StateFlow<List<ReviewWithBook>> =
+        _myReviewList.asStateFlow()
+
     private val _chosenReview = MutableStateFlow(ReviewWithBook())
     val chosenReview: StateFlow<ReviewWithBook> = _chosenReview.asStateFlow()
 
@@ -390,7 +394,15 @@ class MainViewModel : ViewModel() {
         _searchedUserList.update { emptyList() }
     }
 
-
+    suspend fun getMyReview(){
+        RetrofitManager.instance.getReviews(
+            id = userState.value.id,
+            onSuccess = { reviews: List<ReviewWithBook> ->
+                _mainTimelineReviewList.update { reviews }
+            },
+            onFailure = {}
+        )
+    }
     suspend fun getTimelineReview() {
         RetrofitManager.instance.getTimelineReview(
             userID = userState.value.id,

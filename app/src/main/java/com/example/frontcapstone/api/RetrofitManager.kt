@@ -108,6 +108,25 @@ class RetrofitManager {
         }
     }
 
+    suspend fun getReviews(id:Int, onSuccess: (List<ReviewWithBook>) -> Unit,onFailure: () -> Unit){
+        try {
+            val response = apiService.getMyReview(id)
+            if (response.isSuccessful) {
+                val reviews = response.body()
+                if (reviews != null) {
+                    onSuccess(reviews)
+                }
+
+            } else {
+                Log.e("ReviewAPI-getUserReviews-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("ReviewAPI-getUserReviews-Request", e.toString())
+//            onFailure()
+        }
+    }
+
     suspend fun getBookByName(
         bookName: String,
         onSuccess: (List<BookDataWithoutDesc>) -> Unit,

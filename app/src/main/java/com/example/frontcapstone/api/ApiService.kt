@@ -141,6 +141,11 @@ interface ApiService {
         @Query("userID") userID: Int,
     ): Response<List<ReviewWithBook>>
 
+    @GET("/review/get_my_review")
+    suspend fun getMyReview(
+        @Query("userID") userID: Int,
+    ): Response<List<ReviewWithBook>>
+
     @POST("/review/create_review/{visibilityLevel}")
     suspend fun createReview(
         @Path("visibilityLevel") visibilityLevel: String,
