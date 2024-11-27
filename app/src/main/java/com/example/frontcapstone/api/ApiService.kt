@@ -188,4 +188,16 @@ interface ApiService {
     suspend fun getPastQuestion(
         @Query("groupID") groupID: Int,
     ): Response<GetQuoteQuestion>
+
+    //Recommend 관련
+    @GET("/getRecommend/question_recommend")
+    suspend fun getQuestionRecommend(
+        @Query("questionID") questionID: Int,
+        @Query("userID") userID: Int,
+    ): Response<List<BookData>>
+
+    @GET("/getRecommend/review_recommend")
+    suspend fun getReviewRecommend(
+        @Query("reviewID") reviewID: Int,
+    ): Response<List<BookData>>
 }

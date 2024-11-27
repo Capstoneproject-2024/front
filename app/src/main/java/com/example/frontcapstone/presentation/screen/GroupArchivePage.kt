@@ -16,9 +16,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.components.buttons.PastQuestionButton
 import com.example.frontcapstone.components.buttons.QuoteReviewFrame
-import com.example.frontcapstone.components.items.BookRecomendationCard
+import com.example.frontcapstone.components.items.BookRecommendationCard
 import com.example.frontcapstone.components.items.Line
 import com.example.frontcapstone.components.layout.BottomThreeMenu
 import com.example.frontcapstone.components.layout.TopMenuWithBack
@@ -28,18 +29,21 @@ import com.example.frontcapstone.viemodel.MainViewModel
 fun GroupArchivePage(
     navigationBack: () -> Unit,
     bottomBaronClickedActions: List<() -> Unit>,
-    onReviewClicked: () -> Unit,
+    onRecommendBookClicked: (BookData) -> Unit,
     mainViewModel: MainViewModel
 
 ) {
     val pagerState = rememberPagerState(pageCount = { 3 })
     val pastQuoteQuestion by mainViewModel.pastQuoteQuestion.collectAsState()
     val pastQuoteAnswers by mainViewModel.pastQuoteAnswers.collectAsState()
+    val questionRecommendBooks by mainViewModel.questionRecommendBookList.collectAsState()
+
 
 
     LaunchedEffect(Unit) {
         mainViewModel.getPastQuestion()
         mainViewModel.getPastQuestionAnswers()
+        mainViewModel.getQuestionRecommend()
     }
 
     Scaffold(
@@ -75,7 +79,10 @@ fun GroupArchivePage(
                     state = pagerState,
                     modifier = Modifier.fillMaxWidth()
                 ) { page ->
-                    BookRecomendationCard()
+                    BookRecommendationCard(
+                        bookList = questionRecommendBooks,
+                        onRecommendBookClicked = onRecommendBookClicked
+                    )
                 }
             }
 

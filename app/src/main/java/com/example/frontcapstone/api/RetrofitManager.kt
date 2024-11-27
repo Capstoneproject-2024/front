@@ -670,4 +670,55 @@ class RetrofitManager {
 //            onFailure()
         }
     }
+
+
+    //recommend 관련
+    suspend fun getQuestionRecommend(
+        questionID: Int,
+        userID: Int,
+        onSuccess: (List<BookData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.getQuestionRecommend(questionID = questionID, userID = userID)
+            if (response.isSuccessful) {
+                val recommendBookList = response.body()
+                if (recommendBookList != null) {
+                    onSuccess(recommendBookList)
+                }
+
+            } else {
+                Log.e("QuestionRecommend-get", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("QuestionRecommend-get", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getReviewRecommend(
+        reviewID: Int,
+        onSuccess: (List<BookData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.getReviewRecommend(reviewID = reviewID)
+            if (response.isSuccessful) {
+                val recommendBookList = response.body()
+                if (recommendBookList != null) {
+                    onSuccess(recommendBookList)
+                }
+
+            } else {
+                Log.e("ReviewRecommend-get", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("ReviewRecommend-get", e.toString())
+//            onFailure()
+        }
+    }
 }
