@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontcapstone.api.RetrofitManager
+import com.example.frontcapstone.api.UserBookMap
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.Comment
@@ -101,8 +102,8 @@ class MainViewModel : ViewModel() {
 
 
     //recommend관련
-    private val _questionRecommendBookList = MutableStateFlow<List<BookData>>(emptyList())
-    val questionRecommendBookList: StateFlow<List<BookData>> =
+    private val _questionRecommendBookList = MutableStateFlow<UserBookMap>(emptyMap())
+    val questionRecommendBookList: StateFlow<UserBookMap> =
         _questionRecommendBookList.asStateFlow()
 
     private val _reviewRecommendBookList = MutableStateFlow<List<BookData>>(emptyList())
@@ -528,9 +529,8 @@ class MainViewModel : ViewModel() {
     //commend 관련
     suspend fun getQuestionRecommend() {
         RetrofitManager.instance.getQuestionRecommend(
-            userID = userState.value.id,
             questionID = pastQuoteQuestion.value.id,
-            onSuccess = { books: List<BookData> ->
+            onSuccess = { books: UserBookMap ->
                 _questionRecommendBookList.update { books }
             },
             onFailure = {}

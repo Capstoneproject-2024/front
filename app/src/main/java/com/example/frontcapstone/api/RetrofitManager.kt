@@ -675,13 +675,12 @@ class RetrofitManager {
     //recommend 관련
     suspend fun getQuestionRecommend(
         questionID: Int,
-        userID: Int,
-        onSuccess: (List<BookData>) -> Unit,
+        onSuccess: (UserBookMap) -> Unit,
         onFailure: () -> Unit
     ) {
         try {
             val response =
-                apiService.getQuestionRecommend(questionID = questionID, userID = userID)
+                apiService.getQuestionRecommend(questionID = questionID)
             if (response.isSuccessful) {
                 val recommendBookList = response.body()
                 if (recommendBookList != null) {
