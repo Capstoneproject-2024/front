@@ -102,7 +102,9 @@ fun Navigator(
                 reviewText = ""
             }
 
-            "QuoteReviewPage" -> quoteTextinQuote = ""
+            "QuoteReviewPage" -> {
+                quoteTextinQuote = ""
+            }
 
             "GroupNameSettingPage" -> groupNameText = ""
 
@@ -313,7 +315,8 @@ fun Navigator(
                         mainViewModel.updateChosenBook(it)
                         navController.navigate("BookDetailPage")
                     },
-                    mainViewModel = mainViewModel
+                    mainViewModel = mainViewModel,
+                    clearText = { commentText = "" }
                 )
             }
 

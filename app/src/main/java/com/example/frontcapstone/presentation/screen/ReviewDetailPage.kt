@@ -37,6 +37,7 @@ fun ReviewDetailPage(
     commentText: String,
     onCommentTextChanged: (String) -> Unit,
     onRecommendBookClicked: (BookData) -> Unit,
+    clearText: () -> Unit,
     mainViewModel: MainViewModel
 ) {
     val chosenReview by mainViewModel.chosenReview.collectAsState()
@@ -56,7 +57,7 @@ fun ReviewDetailPage(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopMenuWithBack(title = "Find Friend", navigationBack = navigationBack) },
+        topBar = { TopMenuWithBack(title = "Review Detail", navigationBack = navigationBack) },
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
@@ -89,6 +90,7 @@ fun ReviewDetailPage(
                                         comment = commentText
                                     )
                                 )
+                                clearText()
                             }
                         }
                     }
