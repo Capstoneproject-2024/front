@@ -103,7 +103,9 @@ fun Navigator(
                 reviewText = ""
             }
 
-            "QuoteReviewPage" -> quoteTextinQuote = ""
+            "QuoteReviewPage" -> {
+                quoteTextinQuote = ""
+            }
 
             "GroupNameSettingPage" -> groupNameText = ""
 
@@ -285,7 +287,10 @@ fun Navigator(
                 GroupArchivePage(
                     navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
-                    onReviewClicked = navigateToReviewDetail,
+                    onRecommendBookClicked = {
+                        mainViewModel.updateChosenBook(it)
+                        navController.navigate("BookDetailPage")
+                    },
                     mainViewModel = mainViewModel
                 )
             }
@@ -322,7 +327,12 @@ fun Navigator(
                     navigationBack = navigationBack,
                     commentText = commentText,
                     onCommentTextChanged = { commentText = it },
-                    mainViewModel = mainViewModel
+                    onRecommendBookClicked = {
+                        mainViewModel.updateChosenBook(it)
+                        navController.navigate("BookDetailPage")
+                    },
+                    mainViewModel = mainViewModel,
+                    clearText = { commentText = "" }
                 )
             }
 
