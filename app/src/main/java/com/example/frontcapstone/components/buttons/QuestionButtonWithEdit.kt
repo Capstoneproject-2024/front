@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.frontcapstone.api.data.GetQuoteQuestion
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 import com.example.frontcapstone.ui.theme.QuoteQuestionMintTextColor
 
@@ -31,7 +32,9 @@ import com.example.frontcapstone.ui.theme.QuoteQuestionMintTextColor
 fun QuestionButtonWithEdit(
     modifier: Modifier = Modifier,
     onQuoteQuestionClicked: () -> Unit,
-    onEditButtonClicked: () -> Unit
+    onEditButtonClicked: () -> Unit,
+    question: GetQuoteQuestion,
+    hasEverWrittenAnswer: Boolean = false
 ) {
     Row(
         modifier = modifier
@@ -68,27 +71,29 @@ fun QuestionButtonWithEdit(
                 fontSize = 24.sp,
             )
             Text(
-                text = "Lorem ipsum dolor sit amet  dfd consectetur.",
+                text = question.question,
                 color = Color.White,
                 fontSize = 16.sp
             )
         }
 
         // 오른쪽 아이콘
-        IconButton(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(QuoteQuestionMintTextColor)
-                .padding(4.dp),
-            onClick = onEditButtonClicked,
-        ) {
-            androidx.compose.material3.Icon(
-                imageVector = Icons.Outlined.Edit,
-                contentDescription = "Edit",
-            )
-        }
+        if (!hasEverWrittenAnswer) {
+            IconButton(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(QuoteQuestionMintTextColor)
+                    .padding(4.dp),
+                onClick = onEditButtonClicked,
+            ) {
+                androidx.compose.material3.Icon(
+                    imageVector = Icons.Outlined.Edit,
+                    contentDescription = "Edit",
+                )
+            }
 
+        }
         Spacer(modifier = Modifier.width(8.dp))
 
 

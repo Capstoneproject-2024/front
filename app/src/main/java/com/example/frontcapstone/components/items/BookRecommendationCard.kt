@@ -24,16 +24,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil3.compose.AsyncImage
 import com.example.frontcapstone.R
+import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 
-@Preview
 @Composable
-fun BookRecomendationCard(
-    // bookList: List<Book>
+fun BookRecommendationCard(
+    bookList: List<BookData>,
+    onRecommendBookClicked: (BookData) -> Unit,
 ) {
     Card(
         modifier = Modifier
@@ -85,9 +86,11 @@ fun BookRecomendationCard(
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             ) {
-                val temps: List<String> = List(3) { "$it" }
-                temps.forEach { temp ->
-                    BookItem()
+                bookList.forEach { book ->
+                    BookItem(
+                        book = book,
+                        onRecommendBookClicked = onRecommendBookClicked,
+                    )
                 }
             }
         }
@@ -96,30 +99,34 @@ fun BookRecomendationCard(
 
 @Composable
 fun BookItem(
-    // book: Book
+    book: BookData,
+    onRecommendBookClicked: (BookData) -> Unit,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clickable { }
-            .padding(vertical = 16.dp),
+            .padding(vertical = 16.dp)
+            .clickable { onRecommendBookClicked(book) },
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+        AsyncImage(
+            model = book.image,
             contentDescription = "Book Cover",
             modifier = Modifier
                 .size(50.dp)
                 .clip(CircleShape),
             contentScale = ContentScale.Crop
         )
+
         Spacer(modifier = Modifier.width(16.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "bookname  | 2024 | Author name",
+                text = "${book.name} | ${book.year} | ${book.author}",
                 fontSize = 16.sp,
                 color = Color.Black,
                 modifier = Modifier.fillMaxWidth(),

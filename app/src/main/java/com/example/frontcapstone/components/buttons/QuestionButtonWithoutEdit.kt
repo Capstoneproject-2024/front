@@ -20,22 +20,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
 import com.example.frontcapstone.ui.theme.QuoteQuestionMintTextColor
 
-@Preview
 @Composable
-fun QuestionButtonWithoutEdit(modifier: Modifier = Modifier) {
+fun QuestionButtonWithoutEdit(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp)
             .height(60.dp)
             .background(PrimaryContainerColor, shape = RoundedCornerShape(12.dp))
-            .clickable { },
+            .clickable { onClick() },
         verticalAlignment = Alignment.CenterVertically
     ) {
         // 왼쪽 컬러 블록

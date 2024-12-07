@@ -11,23 +11,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.example.frontcapstone.components.items.SearchedFriendCard
+import com.example.frontcapstone.api.data.GroupMemberData
+import com.example.frontcapstone.components.items.SearchGroupFriendCard
 import com.example.frontcapstone.components.layout.TopMenuWithBack
 import com.example.frontcapstone.components.textInput.SearchFriendTextInput
 import com.example.frontcapstone.viemodel.MainViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun FindFriendPage(
+fun GroupFindFriendPage(
     navigationBack: () -> Unit,
-    findFriendText: String,
-    onFindFriendTextChanged: (String) -> Unit,
+    groupFindFriendText: String,
+    onGroupFindFriendTextChanged: (String) -> Unit,
     mainViewModel: MainViewModel
 ) {
-    val searchedUserList by mainViewModel.searchedUserList.collectAsState()
-    val friendsList by mainViewModel.friendsList.collectAsState()
-    val friendCandidateList by mainViewModel.friendCandidateList.collectAsState()
-    val userState by mainViewModel.userState.collectAsState()
+
+    val searchedNonMemberList by mainViewModel.searchedNonMemberList.collectAsState()
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -42,27 +41,27 @@ fun FindFriendPage(
         ) {
             item {
                 SearchFriendTextInput(
-                    findFriendText = findFriendText,
-                    onFindFriendTextChanged = onFindFriendTextChanged,
+                    findFriendText = groupFindFriendText,
+                    onFindFriendTextChanged = onGroupFindFriendTextChanged,
                     onKeyboardDone = {
                         coroutineScope.launch {
-                            mainViewModel.getFriends()
-                            mainViewModel.getBothRequest()
-                            mainViewModel.getUsersByEmail(findFriendText)
+                            mainViewModel.getSearchedNonMemberFriends(groupFindFriendText)
                         }
                     }
                 )
             }
-            items(searchedUserList) { user ->
-                SearchedFriendCard(
-                    user = user,
-                    friendsList = friendsList,
-                    friendCandidateList = friendCandidateList,
-                    meID = userState.id,
-                    onSendRequestClicked = {
+            items(searchedNonMemberList) { nonMember ->
+                SearchGroupFriendCard(
+                    user = nonMember,
+                    onAddToGroupClicked = {
                         coroutineScope.launch {
-                            launch { mainViewModel.createFollowerRequest(receiverID = user.id) }.join()
-                            launch { mainViewModel.getBothRequest() }.join()
+                            mainViewModel.createMember(
+                                groupMemberData = GroupMemberData(
+                                    groupID = mainViewModel.chosenGroup.value.groupID,
+                                    memberID = nonMember.id
+                                )
+                            )
+                            mainViewModel.getSearchedNonMemberFriends(groupFindFriendText)
                         }
                     }
                 )

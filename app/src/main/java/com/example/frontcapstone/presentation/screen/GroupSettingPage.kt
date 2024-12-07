@@ -22,6 +22,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,12 +37,24 @@ import com.example.frontcapstone.components.items.GroupUserSlot
 import com.example.frontcapstone.components.layout.BottomThreeMenu
 import com.example.frontcapstone.components.layout.TopMenuWithBack
 import com.example.frontcapstone.ui.theme.TopAppbarBackgroundColor
+import com.example.frontcapstone.viemodel.MainViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun GroupSettingPage(
     navigationBack: () -> Unit,
+    moveToGroupFindFriendPage: () -> Unit,
     bottomBaronClickedActions: List<() -> Unit>,
+    mainViewModel: MainViewModel
 ) {
+    val coroutineScope = rememberCoroutineScope()
+    val memberList by mainViewModel.memberList.collectAsState()
+
+    LaunchedEffect(Unit) {
+        mainViewModel.getMembers(mainViewModel.chosenGroup.value.groupID)
+    }
+
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -83,7 +99,7 @@ fun GroupSettingPage(
                                 fontSize = 20.sp
                             )
                             IconButton(
-                                onClick = { },
+                                onClick = moveToGroupFindFriendPage, //add 친구 버튼으로 이동
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .size(33.dp)
@@ -97,22 +113,37 @@ fun GroupSettingPage(
                             }
                         }
                     }
-                    val temps: List<String> = List(40) { "$it" }
                     LazyColumn(
                         modifier = Modifier
                             .clip(RoundedCornerShape(12.dp))
                             .height(400.dp)
                             .padding(4.dp)
                     ) {
-                        items(temps) { temp ->
-                            GroupUserSlot()
+                        items(memberList) { member ->
+                            GroupUserSlot(
+                                user = member,
+                                onDeleteClicked = {
+                                    coroutineScope.launch {
+                                        mainViewModel.deleteMember(
+                                            deleteMemberID = member.id,
+                                            groupID = mainViewModel.chosenGroup.value.groupID
+                                        )
+                                        mainViewModel.getMembers(groupID = mainViewModel.chosenGroup.value.groupID)
+                                    }
+                                }
+                            )
                         }
                     }
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = {},
+                onClick = {
+                    coroutineScope.launch {
+                        mainViewModel.deleteGroup(mainViewModel.chosenGroup.value.groupID)
+                        navigationBack()
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(55.dp),

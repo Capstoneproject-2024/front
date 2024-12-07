@@ -2,9 +2,15 @@ package com.example.frontcapstone.api
 
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
+import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
+import com.example.frontcapstone.api.data.GetQuoteAnswer
+import com.example.frontcapstone.api.data.GetQuoteQuestion
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.GroupMemberData
+import com.example.frontcapstone.api.data.PostComment
+import com.example.frontcapstone.api.data.PostQuoteAnswer
 import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.SuccessResponse
@@ -14,6 +20,8 @@ import com.example.frontcapstone.api.data.UserUIState
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -27,6 +35,13 @@ interface ApiService {
         @Body userInput: UserInput
     ): Response<UserUIState>
 
+    data class UpdateUserRequest(
+        val id: Int,
+        val nickname: String
+    )
+
+    @POST("/user/update_user")
+    suspend fun updateUser(@Body userRequest: UpdateUserRequest): Response<UserUIState>
     @GET("/user/get_user")
     suspend fun getUser(
         @Query("id") id: Int
@@ -62,6 +77,33 @@ interface ApiService {
     suspend fun getUserGroups(
         @Query("userID") userID: Int,
     ): Response<List<GroupData>>
+
+    @DELETE("/group/delete_group")
+    suspend fun deleteGroup(
+        @Query("groupID") groupID: Int,
+    ): Response<SuccessResponse>
+
+    @POST("/group/create_member")
+    suspend fun createMember(
+        @Body groupMemberData: GroupMemberData
+    ): Response<SuccessResponse>
+
+    @GET("/group/get_members")
+    suspend fun getMembers(
+        @Query("groupID") groupID: Int
+    ): Response<List<UserData>>
+
+    @DELETE("/group/delete_member")
+    suspend fun deleteMember(
+        @Query("deleteMemberID") deleteMemberID: Int
+    ): Response<SuccessResponse>
+
+    @GET("/group/get_searched_nonMember_friends")
+    suspend fun getSearchedNonMemberFriends(
+        @Query("groupID") groupID: Int,
+        @Query("userID") userID: Int,
+        @Query("email") email: String,
+    ): Response<List<UserData>>
 
 
     //friend_router 관련
@@ -108,9 +150,70 @@ interface ApiService {
         @Query("userID") userID: Int,
     ): Response<List<ReviewWithBook>>
 
+    @GET("/review/get_my_review")
+    suspend fun getMyReview(
+        @Query("userID") userID: Int,
+    ): Response<List<ReviewWithBook>>
+
     @POST("/review/create_review/{visibilityLevel}")
     suspend fun createReview(
         @Path("visibilityLevel") visibilityLevel: String,
         @Body review: PostReview
     ): Response<SuccessResponse>
+
+    @GET("/review/get_group_timeline_reviews")
+    suspend fun getGroupTimelineReviews(
+        @Query("userID") userID: Int,
+        @Query("groupID") groupID: Int,
+    ): Response<List<ReviewWithBook>>
+
+
+    //comment 관련
+    @GET("/comment/get_comments")
+    suspend fun getComments(
+        @Query("reviewID") reviewID: Int,
+        @Query("userID") userID: Int,
+    ): Response<List<Comment>>
+
+    @POST("/comment/create_comment")
+    suspend fun createComment(
+        @Body postComment: PostComment
+    ): Response<SuccessResponse>
+
+
+    //quote; 관련
+    @GET("/quote/get_present_question")
+    suspend fun getPresentQuestion(
+        @Query("groupID") groupID: Int,
+    ): Response<GetQuoteQuestion>
+
+    @POST("/quote/create_quote_answer")
+    suspend fun createQuoteQuestion(
+        @Body postQuoteAnswer: PostQuoteAnswer
+    ): Response<SuccessResponse>
+
+    @GET("/quote/get_present_question_answers")
+    suspend fun getPresentQuestionAnswers(
+        @Query("questionID") questionID: Int,
+        @Query("userID") userID: Int,
+    ): Response<List<GetQuoteAnswer>>
+
+    @GET("/quote/get_past_question")
+    suspend fun getPastQuestion(
+        @Query("groupID") groupID: Int,
+    ): Response<GetQuoteQuestion>
+
+
+    //Recommend 관련
+    @GET("/getRecommend/question_recommend")
+    suspend fun getQuestionRecommend(
+        @Query("questionID") questionID: Int,
+    ): Response<UserBookMap>
+
+    @GET("/getRecommend/review_recommend")
+    suspend fun getReviewRecommend(
+        @Query("reviewID") reviewID: Int,
+    ): Response<List<BookData>>
 }
+
+typealias UserBookMap = Map<String, List<BookData>>

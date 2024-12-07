@@ -14,6 +14,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.components.buttons.FriendRequestButton
 import com.example.frontcapstone.components.items.UserProfileCard
 import com.example.frontcapstone.components.layout.BottomFiveMenu
@@ -27,7 +28,8 @@ fun MyPage(
     moveToFindFriendPage: () -> Unit,
     moveToSettingPage: () -> Unit,
     moveToFriendRequestPage: () -> Unit,
-    mainViewModel: MainViewModel
+    mainViewModel: MainViewModel,
+    onClickReview: ()->Unit
 ) {
     val userState by mainViewModel.userState.collectAsState()
     val requestSenderList by mainViewModel.requestSenderList.collectAsState()
@@ -35,6 +37,8 @@ fun MyPage(
 
     LaunchedEffect(Unit) {
         mainViewModel.getRequestSender()
+        mainViewModel.getFriends()
+        mainViewModel.getMyReview()
     }
 
     Scaffold(
@@ -57,7 +61,8 @@ fun MyPage(
             horizontalAlignment = Alignment.CenterHorizontally
         )
         {
-            UserProfileCard(nickname = userState.nickname)
+            UserProfileCard(nickname = userState.nickname, mainViewModel = mainViewModel,
+                onClickReview = onClickReview)
             FriendRequestButton(
                 moveToFriendRequestPage = {
                     coroutineScope.launch {

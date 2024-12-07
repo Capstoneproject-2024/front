@@ -4,16 +4,22 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.frontcapstone.api.RetrofitManager
+import com.example.frontcapstone.api.UserBookMap
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
+import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
+import com.example.frontcapstone.api.data.GetQuoteAnswer
+import com.example.frontcapstone.api.data.GetQuoteQuestion
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.GroupMemberData
+import com.example.frontcapstone.api.data.PostComment
+import com.example.frontcapstone.api.data.PostQuoteAnswer
 import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.UserData
 import com.example.frontcapstone.api.data.UserUIState
-import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -39,6 +45,16 @@ class MainViewModel : ViewModel() {
     private val _groupList = MutableStateFlow<List<GroupData>>(emptyList())
     val groupList: StateFlow<List<GroupData>> = _groupList.asStateFlow()
 
+    private val _chosenGroup = MutableStateFlow(GroupData())
+    val chosenGroup: StateFlow<GroupData> = _chosenGroup.asStateFlow()
+
+    private val _memberList = MutableStateFlow<List<UserData>>(emptyList())
+    val memberList: StateFlow<List<UserData>> = _memberList.asStateFlow()
+
+    private val _searchedNonMemberList = MutableStateFlow<List<UserData>>(emptyList())
+    val searchedNonMemberList: StateFlow<List<UserData>> = _searchedNonMemberList.asStateFlow()
+
+
     //friend  관련
     private val _requestSenderList = MutableStateFlow<List<UserData>>(emptyList())
     val requestSenderList: StateFlow<List<UserData>> = _requestSenderList.asStateFlow()
@@ -57,8 +73,46 @@ class MainViewModel : ViewModel() {
     val mainTimelineReviewList: StateFlow<List<ReviewWithBook>> =
         _mainTimelineReviewList.asStateFlow()
 
+    private val _myReviewList = MutableStateFlow<List<ReviewWithBook>>(emptyList())
+    val myReviewList: StateFlow<List<ReviewWithBook>> =
+        _myReviewList.asStateFlow()
+
     private val _chosenReview = MutableStateFlow(ReviewWithBook())
     val chosenReview: StateFlow<ReviewWithBook> = _chosenReview.asStateFlow()
+
+    private val _groupTimelineReviewList = MutableStateFlow<List<ReviewWithBook>>(emptyList())
+    val groupTimelineReviewList: StateFlow<List<ReviewWithBook>> =
+        _groupTimelineReviewList.asStateFlow()
+
+
+    //comment관련
+    private val _chosenReviewCommentList = MutableStateFlow<List<Comment>>(emptyList())
+    val chosenReviewCommentList: StateFlow<List<Comment>> = _chosenReviewCommentList.asStateFlow()
+
+
+    //quote 관련
+    private val _presentQuoteQuestion = MutableStateFlow(GetQuoteQuestion())
+    val presentQuoteQuestion: StateFlow<GetQuoteQuestion> =
+        _presentQuoteQuestion.asStateFlow()
+
+    private val _pastQuoteQuestion = MutableStateFlow(GetQuoteQuestion())
+    val pastQuoteQuestion: StateFlow<GetQuoteQuestion> = _pastQuoteQuestion.asStateFlow()
+
+    private val _presentQuoteAnswers = MutableStateFlow<List<GetQuoteAnswer>>(emptyList())
+    val presentQuoteAnswers: StateFlow<List<GetQuoteAnswer>> = _presentQuoteAnswers.asStateFlow()
+
+    private val _pastQuoteAnswers = MutableStateFlow<List<GetQuoteAnswer>>(emptyList())
+    val pastQuoteAnswers: StateFlow<List<GetQuoteAnswer>> = _pastQuoteAnswers.asStateFlow()
+
+
+    //recommend관련
+    private val _questionRecommendBookList = MutableStateFlow<UserBookMap>(emptyMap())
+    val questionRecommendBookList: StateFlow<UserBookMap> =
+        _questionRecommendBookList.asStateFlow()
+
+    private val _reviewRecommendBookList = MutableStateFlow<List<BookData>>(emptyList())
+    val reviewRecommendBookList: StateFlow<List<BookData>> =
+        _reviewRecommendBookList.asStateFlow()
 
 
     fun updateUserState(id: Int, nickname: String) {
@@ -149,18 +203,18 @@ class MainViewModel : ViewModel() {
         )
     }
 
-    suspend fun getBookByID(id: Int): BookData {
-        val returnBook = CompletableDeferred<BookData>()
-        RetrofitManager.instance.getBookByID(id = id,
-            onSuccess = { book: BookData ->
-                returnBook.complete(book)
-            },
-            onFailure = {
-                returnBook.completeExceptionally(RuntimeException("Failed to fetch book data"))
-            }
-        )
-        return returnBook.await()
-    }
+//    suspend fun getBookByID(id: Int): BookData {
+//        val returnBook = CompletableDeferred<BookData>()
+//        RetrofitManager.instance.getBookByID(id = id,
+//            onSuccess = { book: BookData ->
+//                returnBook.complete(book)
+//            },
+//            onFailure = {
+//                returnBook.completeExceptionally(RuntimeException("Failed to fetch book data"))
+//            }
+//        )
+//        return returnBook.await()
+//    }
 
     fun clearSearchThings() {
         _searchedBooks.update { emptyList() }
@@ -173,6 +227,12 @@ class MainViewModel : ViewModel() {
 
     fun clearChosenBook() {
         _chosenBook.update { BookData() }
+    }
+
+    fun updateChosenBook(bookData: BookData) {
+        _chosenBook.update {
+            bookData
+        }
     }
 
     suspend fun createGroup(groupName: String, groupDescription: String) {
@@ -201,6 +261,65 @@ class MainViewModel : ViewModel() {
             getUserGroups()
         }
     }
+
+    fun updateChosenGroup(groupData: GroupData) {
+        _chosenGroup.update {
+            groupData
+        }
+    }
+
+    suspend fun deleteGroup(groupID: Int) {
+        RetrofitManager.instance.deleteGroup(
+            groupID = groupID,
+            onSuccess = { },
+            onFailure = {}
+        )
+    }
+
+    suspend fun createMember(groupMemberData: GroupMemberData) {
+        RetrofitManager.instance.createMember(
+            groupMemberData = groupMemberData,
+            onSuccess = { },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getMembers(groupID: Int) {
+        RetrofitManager.instance.getMembers(
+            groupID = groupID,
+            onSuccess = { members: List<UserData> ->
+                _memberList.update { members }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun deleteMember(deleteMemberID: Int, groupID: Int) {
+        RetrofitManager.instance.deleteMember(
+            deleteMemberID = deleteMemberID,
+            onSuccess = {
+                viewModelScope.launch {
+                    getMembers(groupID)
+                }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getSearchedNonMemberFriends(
+        email: String,
+    ) {
+        RetrofitManager.instance.getSearchedNonMemberFriends(
+            groupID = chosenGroup.value.groupID,
+            userID = userState.value.id,
+            email = email,
+            onSuccess = { nonMembers: List<UserData> ->
+                _searchedNonMemberList.update { nonMembers }
+            },
+            onFailure = {}
+        )
+    }
+
 
     suspend fun createFollowerRequest(receiverID: Int) {
         RetrofitManager.instance.createFollowerRequest(
@@ -293,7 +412,15 @@ class MainViewModel : ViewModel() {
         _searchedUserList.update { emptyList() }
     }
 
-
+    suspend fun getMyReview(){
+        RetrofitManager.instance.getReviews(
+            id = userState.value.id,
+            onSuccess = { reviews: List<ReviewWithBook> ->
+                _myReviewList.update { reviews }
+            },
+            onFailure = {}
+        )
+    }
     suspend fun getTimelineReview() {
         RetrofitManager.instance.getTimelineReview(
             userID = userState.value.id,
@@ -319,4 +446,116 @@ class MainViewModel : ViewModel() {
         }
     }
 
+
+    suspend fun getGroupTimelineReviews() {
+        RetrofitManager.instance.getGroupTimelineReviews(
+            userID = userState.value.id,
+            groupID = chosenGroup.value.groupID,
+            onSuccess = { reviews: List<ReviewWithBook> ->
+                _groupTimelineReviewList.update { reviews }
+            },
+            onFailure = {}
+        )
+    }
+
+
+    //comment 관련
+    suspend fun getComments(reviewID: Int) {
+        RetrofitManager.instance.getComments(
+            userID = userState.value.id,
+            reviewID = reviewID,
+            onSuccess = { comments: List<Comment> ->
+                _chosenReviewCommentList.update { comments }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun createComment(postComment: PostComment) {
+        RetrofitManager.instance.createComment(
+            postComment = postComment,
+            onSuccess = {
+                viewModelScope.launch {
+                    getComments(postComment.reviewID)
+                }
+            },
+            onFailure = {}
+        )
+    }
+
+
+    //quote 관련
+    suspend fun getPresentQuestion() {
+        RetrofitManager.instance.getPresentQuestion(
+            groupID = chosenGroup.value.groupID,
+            onSuccess = { question: GetQuoteQuestion ->
+                _presentQuoteQuestion.update { question }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun createQuoteQuestion(
+        postQuoteAnswer: PostQuoteAnswer
+    ) {
+        RetrofitManager.instance.createQuoteQuestion(
+            postQuoteAnswer = postQuoteAnswer,
+            onSuccess = { },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getPresentQuestionAnswers() {
+        RetrofitManager.instance.getPresentQuestionAnswers(
+            userID = userState.value.id,
+            questionID = presentQuoteQuestion.value.id,
+            onSuccess = { quoteAnswers: List<GetQuoteAnswer> ->
+                _presentQuoteAnswers.update { quoteAnswers }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getPastQuestion() {
+        RetrofitManager.instance.getPastQuestion(
+            groupID = chosenGroup.value.groupID,
+            onSuccess = { question: GetQuoteQuestion ->
+                _pastQuoteQuestion.update { question }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getPastQuestionAnswers() {
+        RetrofitManager.instance.getPresentQuestionAnswers( // questionID를 달리 하면 그때 당시의 answer얻기 가능
+            userID = userState.value.id,
+            questionID = pastQuoteQuestion.value.id,
+            onSuccess = { quoteAnswers: List<GetQuoteAnswer> ->
+                _pastQuoteAnswers.update { quoteAnswers }
+            },
+            onFailure = {}
+        )
+    }
+
+
+    //commend 관련
+    suspend fun getQuestionRecommend() {
+        RetrofitManager.instance.getQuestionRecommend(
+            questionID = pastQuoteQuestion.value.id,
+            onSuccess = { books: UserBookMap ->
+                _questionRecommendBookList.update { books }
+            },
+            onFailure = {}
+        )
+    }
+
+    suspend fun getReviewRecommend() {
+        RetrofitManager.instance.getReviewRecommend(
+            reviewID = chosenReview.value.id,
+            onSuccess = { books: List<BookData> ->
+                _reviewRecommendBookList.update { books }
+            },
+            onFailure = {}
+        )
+    }
 }

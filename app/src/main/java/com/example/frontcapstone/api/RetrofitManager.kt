@@ -3,10 +3,16 @@ package com.example.frontcapstone.api
 import android.util.Log
 import com.example.frontcapstone.api.data.BookData
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
+import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
 import com.example.frontcapstone.api.data.FollowerRequestData
+import com.example.frontcapstone.api.data.GetQuoteAnswer
+import com.example.frontcapstone.api.data.GetQuoteQuestion
 import com.example.frontcapstone.api.data.GroupData
+import com.example.frontcapstone.api.data.GroupMemberData
 import com.example.frontcapstone.api.data.LocalDateTimeAdapter
+import com.example.frontcapstone.api.data.PostComment
+import com.example.frontcapstone.api.data.PostQuoteAnswer
 import com.example.frontcapstone.api.data.PostReview
 import com.example.frontcapstone.api.data.ReviewWithBook
 import com.example.frontcapstone.api.data.UserData
@@ -28,9 +34,30 @@ class RetrofitManager {
 
     private val retrofit = Retrofit.Builder()
         .baseUrl("http://34.64.247.136:8000")
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
     private val apiService = retrofit.create(ApiService::class.java)
+
+    suspend fun updateUser(
+        id:Int,
+        nickname: String,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+
+    ){
+        try {
+            val response = apiService.updateUser(ApiService.UpdateUserRequest(id,nickname))
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("userupdate-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("userupdate-Request", e.toString())
+//            onFailure()
+        }
+    }
 
     suspend fun createUser(
         nickname: String,
@@ -52,7 +79,7 @@ class RetrofitManager {
                 Log.e(
                     "API-Request 1",
                     "Error: ${response.errorBody()}"
-                ) // TODO 여기서  Error: okhttp3.ResponseBody$Companion$asResponseBody$1@564d011
+                ) // 여기서  Error: okhttp3.ResponseBody$Companion$asResponseBody$1@564d011
                 onFailure()
             }
         } catch (e: Exception) {
@@ -99,6 +126,25 @@ class RetrofitManager {
         } catch (e: Exception) {
             Log.e("API-Request", e.toString())
             onFailure()
+        }
+    }
+
+    suspend fun getReviews(id:Int, onSuccess: (List<ReviewWithBook>) -> Unit,onFailure: () -> Unit){
+        try {
+            val response = apiService.getMyReview(id)
+            if (response.isSuccessful) {
+                val reviews = response.body()
+                if (reviews != null) {
+                    onSuccess(reviews)
+                }
+
+            } else {
+                Log.e("ReviewAPI-getUserReviews-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("ReviewAPI-getUserReviews-Request", e.toString())
+//            onFailure()
         }
     }
 
@@ -196,6 +242,117 @@ class RetrofitManager {
 //            onFailure()
         }
     }
+
+    suspend fun deleteGroup(
+        groupID: Int,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.deleteGroup(groupID = groupID)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("Group-delete-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Group-delete-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun createMember(
+        groupMemberData: GroupMemberData,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.createMember(groupMemberData = groupMemberData)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("Group-memberCreate-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Group-memberCreate-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getMembers(
+        groupID: Int,
+        onSuccess: (List<UserData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getMembers(groupID)
+            if (response.isSuccessful) {
+                val memberList = response.body()
+                if (memberList != null) {
+                    onSuccess(memberList)
+                }
+
+            } else {
+                Log.e("GroupAPI-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("GroupAPI-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun deleteMember(
+        deleteMemberID: Int,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.deleteMember(deleteMemberID = deleteMemberID)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("Group-memberDelete-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Group-memberDelete-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getSearchedNonMemberFriends(
+        userID: Int,
+        groupID: Int,
+        email: String,
+        onSuccess: (List<UserData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getSearchedNonMemberFriends(
+                groupID = groupID,
+                userID = userID,
+                email = email,
+            )
+            Log.d("response", response.toString())
+            if (response.isSuccessful) {
+                val nonMemberList = response.body()
+                if (nonMemberList != null) {
+                    onSuccess(nonMemberList)
+                }
+
+            } else {
+                Log.e("member-getnon-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("member-non-Request", e.toString())
+//            onFailure()
+        }
+    }
+
 
     suspend fun getUsersByEmail(
         email: String,
@@ -388,6 +545,218 @@ class RetrofitManager {
             }
         } catch (e: Exception) {
             Log.e("Friend-create&autoDelete-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getGroupTimelineReviews(
+        userID: Int,
+        groupID: Int,
+        onSuccess: (List<ReviewWithBook>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getGroupTimelineReviews(userID = userID, groupID = groupID)
+            if (response.isSuccessful) {
+                val userGroupMainTimeline = response.body()
+                if (userGroupMainTimeline != null) {
+                    onSuccess(userGroupMainTimeline)
+                }
+
+            } else {
+                Log.e("ReviewAPI-getGroupTimeline", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("ReviewAPI-getGroupTimeline", e.toString())
+//            onFailure()
+        }
+    }
+
+
+    suspend fun getComments(
+        reviewID: Int,
+        userID: Int,
+        onSuccess: (List<Comment>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getComments(reviewID = reviewID, userID = userID)
+            if (response.isSuccessful) {
+                val commentList = response.body()
+                if (commentList != null) {
+                    onSuccess(commentList)
+                }
+
+            } else {
+                Log.e("Comment-getComments-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Comment-getComments-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun createComment(
+        postComment: PostComment,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.createComment(postComment = postComment)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("Comment-create-Request", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("Comment-create-Request", e.toString())
+//            onFailure()
+        }
+    }
+
+
+    //quote 관련
+    suspend fun getPresentQuestion(
+        groupID: Int,
+        onSuccess: (GetQuoteQuestion) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getPresentQuestion(groupID = groupID)
+            if (response.isSuccessful) {
+                val quoteQuestion = response.body()
+                if (quoteQuestion != null) {
+                    onSuccess(quoteQuestion)
+                }
+
+            } else {
+                Log.e("get-present-question", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("get-present-question", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun createQuoteQuestion(
+        postQuoteAnswer: PostQuoteAnswer,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.createQuoteQuestion(postQuoteAnswer = postQuoteAnswer)
+            if (response.isSuccessful) {
+                onSuccess()
+            } else {
+                Log.e("quoteanswer-create-", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("quoteanswer-create-", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getPresentQuestionAnswers(
+        questionID: Int,
+        userID: Int,
+        onSuccess: (List<GetQuoteAnswer>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.getPresentQuestionAnswers(questionID = questionID, userID = userID)
+            if (response.isSuccessful) {
+                val quoteAnswers = response.body()
+                if (quoteAnswers != null) {
+                    onSuccess(quoteAnswers)
+                }
+
+            } else {
+                Log.e("QuoteAnswers-get", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("QuoteAnswers-get", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getPastQuestion(
+        groupID: Int,
+        onSuccess: (GetQuoteQuestion) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response = apiService.getPastQuestion(groupID = groupID)
+            if (response.isSuccessful) {
+                val PastQuoteQuestion = response.body()
+                if (PastQuoteQuestion != null) {
+                    onSuccess(PastQuoteQuestion)
+                }
+
+            } else {
+                Log.e("get-past-question", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("get-past-question", e.toString())
+//            onFailure()
+        }
+    }
+
+
+    //recommend 관련
+    suspend fun getQuestionRecommend(
+        questionID: Int,
+        onSuccess: (UserBookMap) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.getQuestionRecommend(questionID = questionID)
+            if (response.isSuccessful) {
+                val recommendBookList = response.body()
+                if (recommendBookList != null) {
+                    onSuccess(recommendBookList)
+                }
+
+            } else {
+                Log.e("QuestionRecommend-get", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("QuestionRecommend-get", e.toString())
+//            onFailure()
+        }
+    }
+
+    suspend fun getReviewRecommend(
+        reviewID: Int,
+        onSuccess: (List<BookData>) -> Unit,
+        onFailure: () -> Unit
+    ) {
+        try {
+            val response =
+                apiService.getReviewRecommend(reviewID = reviewID)
+            if (response.isSuccessful) {
+                val recommendBookList = response.body()
+                if (recommendBookList != null) {
+                    onSuccess(recommendBookList)
+                }
+
+            } else {
+                Log.e("ReviewRecommend-get", "Error: ${response.errorBody()}")
+//                onFailure()
+            }
+        } catch (e: Exception) {
+            Log.e("ReviewRecommend-get", e.toString())
 //            onFailure()
         }
     }

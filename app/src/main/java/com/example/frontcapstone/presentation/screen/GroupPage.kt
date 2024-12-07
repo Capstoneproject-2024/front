@@ -47,8 +47,14 @@ fun GroupPage(
             items(groupList) { group ->
                 GroupCard(
                     mainColor = if (group.role == "admin") QuoteQuestionMintTextColor else SecondaryGroupGreenColor,
-                    onCardClicked = onCardClicked,
-                    onEditClicked = onEditClicked,
+                    onCardClicked = {
+                        mainViewModel.updateChosenGroup(group)
+                        onCardClicked()
+                    },
+                    onEditClicked = {
+                        mainViewModel.updateChosenGroup(group)
+                        onEditClicked()
+                    },
                     editPossible = group.role == "admin",
                     groupName = group.groupName,
                     groupDescription = group.groupDescription
