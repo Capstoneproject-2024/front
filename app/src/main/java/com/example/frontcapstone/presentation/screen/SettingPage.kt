@@ -45,7 +45,7 @@ fun SettingPage(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopMenuWithBack(title = "Settings", navigationBack = {}) }, //navigationBack
+        topBar = { TopMenuWithBack(title = "Settings", navigationBack = {navigationBack()}) }, //navigationBack
     ) { innerPadding ->
         Column(
             modifier = Modifier
