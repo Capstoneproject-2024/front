@@ -83,7 +83,7 @@ fun ReviewFrame(
 
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background), //사용자 이미지 리소스
+                        painter = painterResource(id = R.drawable.user_profile), //사용자 이미지 리소스
                         contentDescription = "user Cover",
                         modifier = Modifier
                             .clip(CircleShape)

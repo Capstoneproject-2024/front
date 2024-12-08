@@ -41,7 +41,7 @@ fun Comment(
     ) {
         // Profile Image
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background),
+            painter = painterResource(id = R.drawable.user_profile),
             contentDescription = "Profile Image",
             modifier = Modifier
                 .padding(start = 8.dp)

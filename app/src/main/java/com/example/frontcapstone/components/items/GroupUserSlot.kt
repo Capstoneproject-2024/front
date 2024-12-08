@@ -40,7 +40,7 @@ fun GroupUserSlot(
     ) {
         // User Image
         Image(
-            painter = painterResource(id = R.drawable.ic_launcher_background), // 실제 프로필 이미지 리소스를 넣으세요
+            painter = painterResource(id = R.drawable.user_profile), // 실제 프로필 이미지 리소스를 넣으세요
             contentDescription = "User Profile",
             modifier = Modifier
                 .size(50.dp)

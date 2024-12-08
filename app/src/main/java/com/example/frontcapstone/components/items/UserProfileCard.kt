@@ -43,10 +43,10 @@ import com.example.frontcapstone.viemodel.MainViewModel
 fun UserProfileCard(
     nickname: String,
     mainViewModel: MainViewModel,
-    onClickReview: ()->Unit
+    onClickReview: () -> Unit
 ) {
     val friendsList by mainViewModel.friendsList.collectAsState()
-    Log.d("friend",friendsList.size.toString())
+    Log.d("friend", friendsList.size.toString())
     val reviewList by mainViewModel.myReviewList.collectAsState()
 
     // mainViewModel.getReviewList()
@@ -73,7 +73,7 @@ fun UserProfileCard(
             ) {
                 // 실제 이미지가 있
                 Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background), // 여기에 프로필 이미지 리소스를 넣으세요
+                    painter = painterResource(id = R.drawable.user_profile), // 여기에 프로필 이미지 리소스를 넣으세요
                     contentDescription = "User Profile",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.clip(CircleShape)
@@ -138,7 +138,7 @@ fun UserProfileCard(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            StatItem(title = "reviews", count = "${reviewList.size}",onClickReview = onClickReview)
+            StatItem(title = "reviews", count = "${reviewList.size}", onClickReview = onClickReview)
             //StatItem(title = "bookmarks", count = "84")
             //StatItem(title = "recommends", count = "84")
         }
@@ -146,11 +146,11 @@ fun UserProfileCard(
 }
 
 @Composable
-fun StatItem(title: String, count: String,onClickReview:()->Unit) {
+fun StatItem(title: String, count: String, onClickReview: () -> Unit) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
 
-        modifier = Modifier.clickable{onClickReview()}
+        modifier = Modifier.clickable { onClickReview() }
     ) {
         Text(text = count, fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.White)
         Text(text = title, fontSize = 12.sp, color = Color.White, textAlign = TextAlign.Center)

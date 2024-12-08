@@ -70,7 +70,7 @@ fun BookRecommendationCard(
                     )
 
                     Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background),
+                        painter = painterResource(id = R.drawable.user_profile),
                         contentDescription = "User Avatar",
                         modifier = Modifier
                             .size(50.dp)

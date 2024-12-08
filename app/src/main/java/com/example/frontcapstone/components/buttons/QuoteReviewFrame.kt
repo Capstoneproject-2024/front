@@ -79,8 +79,8 @@ fun QuoteReviewFrame(
 
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_launcher_background), // 책 커버 이미지 리소스
-                        contentDescription = "Book Cover",
+                        painter = painterResource(id = R.drawable.user_profile), // 책 커버 이미지 리소스
+                        contentDescription = "User frame",
                         modifier = Modifier
                             .clip(CircleShape)
                             .size(30.dp),
