@@ -42,6 +42,7 @@ interface ApiService {
 
     @POST("/user/update_user")
     suspend fun updateUser(@Body userRequest: UpdateUserRequest): Response<UserUIState>
+
     @GET("/user/get_user")
     suspend fun getUser(
         @Query("id") id: Int

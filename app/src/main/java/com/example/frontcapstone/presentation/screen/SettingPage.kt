@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -102,7 +103,7 @@ fun SettingPage(
             AlertDialog(
                 onDismissRequest = { showNicknameDialog = false },
                 title = {
-                    Text(text = "닉네임 변경", fontSize = 20.sp)
+                    Text(text = "닉네임 변경", fontSize = 20.sp, color = Color.Black)
                 },
                 text = {
                     Column {
@@ -116,7 +117,9 @@ fun SettingPage(
                             value = nickname,//userSettingData.nickname,
                             onValueChange = { nickname = it}, //userViewModel.updateNickname(it)
                             label = { Text("닉네임") },
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = Modifier.fillMaxWidth(),
+                            textStyle = TextStyle(color = Color.Black)
+
                         )
                     }
                 },
