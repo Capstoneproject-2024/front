@@ -7,7 +7,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,8 +16,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -35,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.frontcapstone.R
 import com.example.frontcapstone.ui.theme.PrimaryContainerColor
-import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 import com.example.frontcapstone.ui.theme.UserTextPrupleColor
 import com.example.frontcapstone.viemodel.MainViewModel
 
@@ -60,7 +56,7 @@ fun UserProfileCard(
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.Start,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 4.dp)
@@ -97,35 +93,6 @@ fun UserProfileCard(
                     fontSize = 12.sp,
                     color = UserTextPrupleColor
                 )
-            }
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            // Edit button
-            Column(
-                modifier = Modifier
-                    .height(50.dp)
-                    .padding(top = 4.dp, end = 4.dp),
-                verticalArrangement = Arrangement.Top
-            ) {
-                Button(
-                    onClick = { /* TODO: Edit action */ },
-                    shape = RoundedCornerShape(16.dp),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = PrimaryPurpleColor,
-                        contentColor = Color.Black
-                    ),
-                    modifier = Modifier
-                        .height(24.dp)
-                        .fillMaxWidth(),
-                    contentPadding = PaddingValues(0.dp)
-                ) {
-                    Text(
-                        text = "edit",
-                        fontSize = 12.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
             }
 
 
