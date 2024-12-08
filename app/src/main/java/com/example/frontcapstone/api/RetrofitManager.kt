@@ -33,20 +33,20 @@ class RetrofitManager {
         .create()
 
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://34.64.247.136:8000")
+        .baseUrl("http://34.64.247.136:8001")
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
     private val apiService = retrofit.create(ApiService::class.java)
 
     suspend fun updateUser(
-        id:Int,
+        id: Int,
         nickname: String,
         onSuccess: () -> Unit,
         onFailure: () -> Unit
 
-    ){
+    ) {
         try {
-            val response = apiService.updateUser(ApiService.UpdateUserRequest(id,nickname))
+            val response = apiService.updateUser(ApiService.UpdateUserRequest(id, nickname))
             if (response.isSuccessful) {
                 onSuccess()
             } else {
@@ -129,7 +129,11 @@ class RetrofitManager {
         }
     }
 
-    suspend fun getReviews(id:Int, onSuccess: (List<ReviewWithBook>) -> Unit,onFailure: () -> Unit){
+    suspend fun getReviews(
+        id: Int,
+        onSuccess: (List<ReviewWithBook>) -> Unit,
+        onFailure: () -> Unit
+    ) {
         try {
             val response = apiService.getMyReview(id)
             if (response.isSuccessful) {

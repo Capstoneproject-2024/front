@@ -7,7 +7,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.Group
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.runtime.Composable
@@ -33,27 +32,31 @@ fun BottomFiveMenu(onClickedActions: List<() -> Unit>) {
                 IconWithText(
                     name = "Group",
                     icon = Icons.Outlined.Group,
-                    onClicked = onClickedActions[0]
+                    onClicked = onClickedActions[0],
+                    modifier = Modifier.weight(1f)
                 )
                 IconWithText(
                     name = "Search",
                     icon = Icons.Default.Search,
-                    onClicked = onClickedActions[1]
+                    onClicked = onClickedActions[1],
+                    modifier = Modifier.weight(1f)
                 )
                 IconWithText(
                     name = "Home",
                     icon = Icons.Outlined.Home,
-                    onClicked = onClickedActions[2]
+                    onClicked = onClickedActions[2],
+                    modifier = Modifier.weight(1f)
                 )
-                IconWithText(
-                    name = "Notice",
-                    icon = Icons.Outlined.Notifications,
-                    onClicked = onClickedActions[3]
-                )
+//                IconWithText(
+//                    name = "Notice",
+//                    icon = Icons.Outlined.Notifications,
+//                    onClicked = onClickedActions[3]
+//                )
                 IconWithText(
                     name = "My",
                     icon = Icons.Outlined.Person,
-                    onClicked = onClickedActions[4]
+                    onClicked = onClickedActions[4],
+                    modifier = Modifier.weight(1f)
                 )
             }
         },
