@@ -24,7 +24,7 @@ import com.example.frontcapstone.viemodel.MainViewModel
 fun GroupQuotePage(
     navigationBack: () -> Unit,
     bottomBaronClickedActions: List<() -> Unit>,
-    onQuoteQuestionClicked: () -> Unit,
+//    onQuoteQuestionClicked: () -> Unit,
     onEditButtonClicked: () -> Unit,
     mainViewModel: MainViewModel
 ) {
@@ -56,7 +56,7 @@ fun GroupQuotePage(
             item {
                 QuestionButtonWithEdit(
                     modifier = Modifier.padding(top = 20.dp),
-                    onQuoteQuestionClicked = onQuoteQuestionClicked,
+                    onQuoteQuestionClicked = { },
                     onEditButtonClicked = onEditButtonClicked,
                     question = presentQuoteQuestion,
                     hasEverWrittenAnswer = hasEverWrittenAnswer

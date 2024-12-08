@@ -153,7 +153,7 @@ fun Navigator(
                 )
             }
 
-            composable(route = "MyReviewPage"){
+            composable(route = "MyReviewPage") {
                 MyReviewPage(
                     onClickBack = {
                         navController.navigateUp()
@@ -213,8 +213,8 @@ fun Navigator(
                     moveToSettingPage = { navController.navigate("SettingPage") },
                     moveToFriendRequestPage = { navController.navigate("FriendRequestPage") },
                     mainViewModel = mainViewModel,
-                    onClickReview={
-                       navController.navigate("MyReviewPage")
+                    onClickReview = {
+                        navController.navigate("MyReviewPage")
                     }
                 )
             }
@@ -241,7 +241,10 @@ fun Navigator(
                     navigationBack = navigationBack,
                     onLogoutClick = {
                         authManager.signOut()
-                        mainViewModel.updateUserState(id = 0, nickname = "") //Todo 이때 어떻게 화면 바꾸는지 확인하기
+                        mainViewModel.updateUserState(
+                            id = 0,
+                            nickname = ""
+                        ) //Todo 이때 어떻게 화면 바꾸는지 확인하기
 
                     },
                     mainViewModel = mainViewModel
@@ -278,7 +281,7 @@ fun Navigator(
                 GroupQuotePage(
                     navigationBack = navigationBack,
                     bottomBaronClickedActions = bottomBar3onClickedActions,
-                    onQuoteQuestionClicked = { navController.navigate("QuoteQuestionPage") },
+//                    onQuoteQuestionClicked = { navController.navigate("QuoteQuestionPage") },
                     onEditButtonClicked = { navController.navigate("QuoteReviewPage") },
                     mainViewModel = mainViewModel
                 )
