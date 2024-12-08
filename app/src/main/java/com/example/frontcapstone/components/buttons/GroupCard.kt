@@ -76,7 +76,8 @@ fun GroupCard(
                         .padding(8.dp)
                         .padding(top = 8.dp)
                         .fillMaxWidth()
-                        .fillMaxHeight(0.3f),
+                        .fillMaxHeight(0.3f)
+                        .weight(1f),
                     color = mainColor,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold,
@@ -88,7 +89,8 @@ fun GroupCard(
                     modifier = Modifier
                         .padding(horizontal = 8.dp)
                         .fillMaxWidth()
-                        .fillMaxHeight(0.9f),
+                        .fillMaxHeight(0.9f)
+                        .weight(1f),
                     color = Color.White,
                 )
             }
