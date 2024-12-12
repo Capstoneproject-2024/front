@@ -39,7 +39,7 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun ReviewDetailFrame(
-    reviewWithBook: ReviewWithBook
+    reviewWithBook: ReviewWithBook,
 ) {
     Column(
         modifier = Modifier.fillMaxWidth()
@@ -82,14 +82,28 @@ fun ReviewDetailFrame(
                         verticalAlignment = Alignment.Bottom
 
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.user_profile), // 책 커버 이미지 리소스
-                            contentDescription = "user frame",
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .size(30.dp),
-                            contentScale = ContentScale.Crop
-                        )
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Start,
+                            //modifier = Modifier.padding(10.dp)
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.user_profile), //사용자 이미지 리소스
+                                contentDescription = "user Cover",
+                                modifier = Modifier
+                                    .clip(CircleShape)
+                                    .size(30.dp),
+                                contentScale = ContentScale.Crop
+                            )
+                            Spacer(
+                                modifier = Modifier.size(8.dp)
+                            )
+                            Text(
+                                text = reviewWithBook.nickname,
+                                color = Color.White,
+                                fontSize = 14.sp
+                            )
+                        }
 
                         FixedRatingBar(
                             rating = reviewWithBook.rating,
@@ -108,7 +122,7 @@ fun ReviewDetailFrame(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(65.dp)
-                            .padding(top = 8.dp, bottom = 0.dp, start = 8.dp, end = 8.dp)
+                            .padding(top = 8.dp, bottom = 0.dp, start = 0.dp, end = 0.dp)
                             .background(
                                 color = PrimaryPurpleColor,
                                 shape = RoundedCornerShape(12.dp)

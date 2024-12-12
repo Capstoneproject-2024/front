@@ -66,7 +66,7 @@ fun ReviewDetailPage(
         ) {
             item {
                 ReviewDetailFrame(
-                    reviewWithBook = chosenReview
+                    reviewWithBook = chosenReview,
                 )
             }
             items(chosenReviewCommentList) { comment ->
