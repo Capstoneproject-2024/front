@@ -91,11 +91,28 @@ fun GroupArchivePage(
                     state = pagerState,
                     modifier = Modifier.fillMaxWidth()
                 ) { page ->
+                    val userId = userIDList.value.getOrNull(page)?.toString()
+
+                    // questionRecommendBooks에서 해당 userID에 매핑된 List<BookDataWithNickname>을 가져옵니다.
+                    val bookDataWithNicknameList = questionRecommendBooks[userId] ?: emptyList()
+
+                    // List<BookDataWithNickname>을 List<BookData>로 변환합니다.
+                    val bookList = bookDataWithNicknameList.map { bookWithNickname ->
+                        BookData(
+                            id = bookWithNickname.id,
+                            name = bookWithNickname.name,
+                            author = bookWithNickname.author,
+                            publisher = bookWithNickname.publisher,
+                            year = bookWithNickname.year,
+                            desc = bookWithNickname.desc,
+                            image = bookWithNickname.image,
+                            ISBN = bookWithNickname.ISBN
+                        )
+                    }
                     BookRecommendationCard(
-                        bookList = questionRecommendBooks[userIDList.value.getOrNull(page)
-                            ?.toString()]
-                            ?: emptyList(),
-                        onRecommendBookClicked = onRecommendBookClicked
+                        bookList = bookList,
+                        onRecommendBookClicked = onRecommendBookClicked,
+                        nickName = bookDataWithNicknameList.firstOrNull()?.nickname ?: ""
                     )
                 }
             }

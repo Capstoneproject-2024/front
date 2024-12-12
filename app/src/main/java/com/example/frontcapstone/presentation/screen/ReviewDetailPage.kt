@@ -112,7 +112,8 @@ fun ReviewDetailPage(
                 ) { page ->
                     BookRecommendationCard(
                         bookList = reviewRecommendBooks,
-                        onRecommendBookClicked = onRecommendBookClicked
+                        onRecommendBookClicked = onRecommendBookClicked,
+                        nickName = chosenReview.nickname
                     )
                 }
             }

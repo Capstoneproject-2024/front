@@ -1,6 +1,7 @@
 package com.example.frontcapstone.api
 
 import com.example.frontcapstone.api.data.BookData
+import com.example.frontcapstone.api.data.BookDataWithNickname
 import com.example.frontcapstone.api.data.BookDataWithoutDesc
 import com.example.frontcapstone.api.data.Comment
 import com.example.frontcapstone.api.data.FollowerData
@@ -20,8 +21,6 @@ import com.example.frontcapstone.api.data.UserUIState
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
@@ -217,4 +216,4 @@ interface ApiService {
     ): Response<List<BookData>>
 }
 
-typealias UserBookMap = Map<String, List<BookData>>
+typealias UserBookMap = Map<String, List<BookDataWithNickname>>

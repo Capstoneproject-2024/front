@@ -78,14 +78,26 @@ fun QuoteReviewFrame(
                     verticalAlignment = Alignment.Bottom
 
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.user_profile), // 책 커버 이미지 리소스
-                        contentDescription = "User frame",
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .size(30.dp),
-                        contentScale = ContentScale.Crop
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Start,
+                        //modifier = Modifier.padding(10.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.user_profile), // 책 커버 이미지 리소스
+                            contentDescription = "User frame",
+                            modifier = Modifier
+                                .clip(CircleShape)
+                                .size(30.dp),
+                            contentScale = ContentScale.Crop
+                        )
+                        Text(
+                            text = quoteAnswer.nickname,
+                            color = Color.White,
+                            fontSize = 14.sp,
+                            modifier = Modifier.padding(start = 10.dp)
+                        )
+                    }
 
                 }
 

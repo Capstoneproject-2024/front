@@ -110,6 +110,9 @@ class MainViewModel : ViewModel() {
     val questionRecommendBookList: StateFlow<UserBookMap> =
         _questionRecommendBookList.asStateFlow()
 
+    private val _userNicknameList = MutableStateFlow<List<String>>(emptyList())
+    val userNicknameList: StateFlow<List<String>> = _userNicknameList.asStateFlow()
+
     private val _reviewRecommendBookList = MutableStateFlow<List<BookData>>(emptyList())
     val reviewRecommendBookList: StateFlow<List<BookData>> =
         _reviewRecommendBookList.asStateFlow()
@@ -412,7 +415,7 @@ class MainViewModel : ViewModel() {
         _searchedUserList.update { emptyList() }
     }
 
-    suspend fun getMyReview(){
+    suspend fun getMyReview() {
         RetrofitManager.instance.getReviews(
             id = userState.value.id,
             onSuccess = { reviews: List<ReviewWithBook> ->
@@ -421,6 +424,7 @@ class MainViewModel : ViewModel() {
             onFailure = {}
         )
     }
+
     suspend fun getTimelineReview() {
         RetrofitManager.instance.getTimelineReview(
             userID = userState.value.id,
@@ -536,7 +540,7 @@ class MainViewModel : ViewModel() {
             onFailure = {}
         )
     }
-
+    
 
     //commend 관련
     suspend fun getQuestionRecommend() {

@@ -35,6 +35,7 @@ import com.example.frontcapstone.ui.theme.PrimaryPurpleColor
 fun BookRecommendationCard(
     bookList: List<BookData>,
     onRecommendBookClicked: (BookData) -> Unit,
+    nickName: String
 ) {
     Card(
         modifier = Modifier
@@ -68,15 +69,28 @@ fun BookRecommendationCard(
                         fontSize = 24.sp,
                         color = Color.Black,
                     )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
 
-                    Image(
-                        painter = painterResource(id = R.drawable.user_profile),
-                        contentDescription = "User Avatar",
-                        modifier = Modifier
-                            .size(50.dp)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
+                        Text(
+                            text = nickName,
+                            fontSize = 16.sp,
+                            color = Color.DarkGray,
+                            modifier = Modifier.padding(end = 8.dp)
+                        )
+
+                        Image(
+                            painter = painterResource(id = R.drawable.user_profile),
+                            contentDescription = "User Avatar",
+                            modifier = Modifier
+                                .size(50.dp)
+                                .clip(CircleShape),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+
                 }
             }
 
@@ -88,7 +102,16 @@ fun BookRecommendationCard(
             ) {
                 bookList.forEach { book ->
                     BookItem(
-                        book = book,
+                        book = BookData(
+                            id = book.id,
+                            name = book.name,
+                            author = book.author,
+                            publisher = book.publisher,
+                            year = book.year,
+                            desc = book.desc,
+                            image = book.image,
+                            ISBN = book.ISBN
+                        ),
                         onRecommendBookClicked = onRecommendBookClicked,
                     )
                 }

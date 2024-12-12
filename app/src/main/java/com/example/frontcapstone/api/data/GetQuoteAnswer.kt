@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 data class GetQuoteAnswer(
     val questionID: Int = -1,
     val userID: Int = -1,
+    val nickname: String = "",
     val bookID: Int = -1,
     val quotation: String = "",
     val date: LocalDateTime = LocalDateTime.now(),
